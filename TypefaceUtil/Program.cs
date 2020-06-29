@@ -68,7 +68,33 @@ namespace TypefaceUtil
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
+            // https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
+
+            uint GetIntTag(string v)
+            {
+                return (UInt32)(v[0]) << 24 | (UInt32)(v[1]) << 16 | (UInt32)(v[2]) << 08 | (UInt32)(v[3]) << 00;
+            }
+
+            using var tf = SKTypeface.FromFamilyName("Segoe UI Symbol");
+            var cmap = tf.GetTableData(GetIntTag("cmap"));
+            using var ms = new MemoryStream(cmap);
+            using var reader = new BigEndianBinaryReader(ms);
+
+            // index
+            var version = reader.ReadUInt16();
+            var numTables = reader.ReadUInt16();
+
+            // encoding subtables
+            var encodingRecords = new EncodingRecord[numTables];
+
+            for (UInt16 i = 0; i < numTables; i++)
+            {
+                encodingRecords[i].platformID = reader.ReadUInt16();
+                encodingRecords[i].encodingID = reader.ReadUInt16();
+                encodingRecords[i].offset = reader.ReadUInt32();
+            }
+
         }
     }
 }
