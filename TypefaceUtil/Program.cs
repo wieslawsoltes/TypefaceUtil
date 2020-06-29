@@ -6,6 +6,11 @@ namespace TypefaceUtil
 {
     class Program
     {
+        static uint GetIntTag(string v)
+        {
+            return (UInt32)(v[0]) << 24 | (UInt32)(v[1]) << 16 | (UInt32)(v[2]) << 08 | (UInt32)(v[3]) << 00;
+        }
+
         class BigEndianBinaryReader : BinaryReader
         {
             private readonly byte[] _buffer = new byte[8];
@@ -71,11 +76,6 @@ namespace TypefaceUtil
             // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
             // https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
 
-            uint GetIntTag(string v)
-            {
-                return (UInt32)(v[0]) << 24 | (UInt32)(v[1]) << 16 | (UInt32)(v[2]) << 08 | (UInt32)(v[3]) << 00;
-            }
-
             using var tf = SKTypeface.FromFamilyName("Segoe UI Symbol");
             var cmap = tf.GetTableData(GetIntTag("cmap"));
             using var ms = new MemoryStream(cmap);
@@ -95,6 +95,7 @@ namespace TypefaceUtil
                 encodingRecords[i].offset = reader.ReadUInt32();
             }
 
+            // TODO:
         }
     }
 }
