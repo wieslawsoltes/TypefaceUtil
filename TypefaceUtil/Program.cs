@@ -205,10 +205,10 @@ namespace TypefaceUtil
                         {
                             var length = reader.ReadUInt16();
                             var language = reader.ReadUInt16();
-                            var segCountX2 = reader.ReadUInt16();
-                            var searchRange = reader.ReadUInt16();
-                            var entrySelector = reader.ReadUInt16();
-                            var rangeShift = reader.ReadUInt16();
+                            var segCountX2 = reader.ReadUInt16(); // 2 × segCount.
+                            var searchRange = reader.ReadUInt16(); // 2 × (2**floor(log2(segCount)))
+                            var entrySelector = reader.ReadUInt16(); // log2(searchRange/2)
+                            var rangeShift = reader.ReadUInt16(); // 2 × segCount - searchRange
 
                             Console.WriteLine($"length: {length}");
                             Console.WriteLine($"language: {language}");
@@ -216,6 +216,69 @@ namespace TypefaceUtil
                             Console.WriteLine($"searchRange: {searchRange}");
                             Console.WriteLine($"entrySelector: {entrySelector}");
                             Console.WriteLine($"rangeShift: {rangeShift}");
+
+                            var segCount = segCountX2 / 2;
+                            Console.WriteLine($"segCount: {segCount}");
+
+                            var endCodes = new UInt16[segCount];
+                            for (UInt16 j = 0; j < segCount; j++)
+                            {
+                                endCodes[j] = reader.ReadUInt16();
+                            }
+
+                            var	reservedPad = reader.ReadUInt16();
+
+                            var startCodes = new UInt16[segCount];
+                            for (UInt16 j = 0; j < segCount; j++)
+                            {
+                                startCodes[j] = reader.ReadUInt16();
+                            }
+
+                            var idDeltas = new Int16[segCount];
+                            for (UInt16 j = 0; j < segCount; j++)
+                            {
+                                idDeltas[j] = reader.ReadInt16();
+                            }
+
+                            var idRangeOffsets = new UInt16[segCount];
+                            for (UInt16 j = 0; j < segCount; j++)
+                            {
+                                idRangeOffsets[j] = reader.ReadUInt16();
+                            }
+
+                            Console.WriteLine($"segments:");
+                            Console.WriteLine($"endCode | startCode | idDelta | idRangeOffset");
+                            for (UInt32 j = 0; j < segCount; j++)
+                            {
+                                var endCode = endCodes[j];
+                                var startCode = startCodes[j];
+                                var idDelta = idDeltas[j];
+                                var idRangeOffset = idRangeOffsets[j];
+                                Console.WriteLine($"{endCode.ToString().PadRight(7)} | {startCode.ToString().PadRight(9)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
+                            }
+
+                            // header:
+                            // format 2 bytes
+                            // length 2 bytes
+                            // language 2 bytes
+                            // segCountX2 2 bytes
+                            // searchRange 2 bytes
+                            // entrySelector 2 bytes
+                            // rangeShift 2 bytes
+                            // endCodes segCount*2 bytes
+                            // reservedPad 2 bytes
+                            // startCodes segCount*2 bytes
+                            // idDeltas segCount*2 bytes
+                            // idRangeOffsets segCount*2 bytes
+                            var glyphIdArrayLength = (length / 2) - (8 * 2) + (4 * segCount * 2); //  length - header
+                            var glyphIdArray = new UInt16[glyphIdArrayLength];
+                            Console.WriteLine($"glyphIdArrayLength: {glyphIdArrayLength}");
+
+                            for (UInt32 j = 0; j < glyphIdArrayLength; j++)
+                            {
+                                glyphIdArray[j] = reader.ReadUInt16();
+                                Console.WriteLine($"glyphIdArray[{j}]: {glyphIdArray[j]}");
+                            }
 
                             // TODO:
                         }
