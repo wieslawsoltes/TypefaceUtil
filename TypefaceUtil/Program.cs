@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SkiaSharp;
 
@@ -253,70 +254,35 @@ namespace TypefaceUtil
                             Console.WriteLine($"groups:");
                             Console.WriteLine($"startCharCode | endCharCode | startGlyphID");
 
-                            UInt32 numCharCodes = 0;
-
                             for (UInt32 j = 0; j < numGroups; j++)
                             {
                                 groups[j].startCharCode = reader.ReadUInt32();
                                 groups[j].endCharCode = reader.ReadUInt32();
                                 groups[j].startGlyphID = reader.ReadUInt32();
 
-                                numCharCodes += groups[j].endCharCode - groups[j].startCharCode;
-
                                 Console.WriteLine($"{groups[j].startCharCode.ToString("X2").PadRight(13)} | {groups[j].endCharCode.ToString("X2").PadRight(11)} | {groups[j].startGlyphID.ToString("X2")}");
                             }
 
-                            // SkiaSharp debug
+                            // mapping of a Unicode code point to a glyph index 
 
-                            Console.WriteLine($"numCharCodes: {numCharCodes}");
+                            var characterToGlyphMap = new Dictionary<int, ushort>();
 
-                            float textSize = 20; // 14
-                            int size = 30; // 20
-                            int columns = 20;
-                            int rows = (int)Math.Ceiling((double)((double)numCharCodes / (double)columns));
-                            int width = (columns * size);
-                            int height = (rows * size) + (size / 2);
-                            var skImageInfo = new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul);
-                            var skBitmap = new SKBitmap(skImageInfo);
-                            using var skCanvas = new SKCanvas(skBitmap);
-
-                            //Console.WriteLine($"{columns}x{rows} ({width} {height})");
-
-                            skCanvas.Clear(new SKColor(0xFF, 0xFF, 0xFF));
-
-                            using var paint = new SKPaint();
-                            paint.IsAntialias = true;
-                            paint.Color = new SKColor(0x00, 0x00, 0x00);
-                            paint.StrokeWidth = 3;
-                            paint.Typeface  = typeface;
-                            paint.TextEncoding  = SKTextEncoding.Utf32;
-                            paint.TextSize = textSize;
-                            paint.TextAlign = SKTextAlign.Center;
-                            paint.LcdRenderText = true;
-                            paint.SubpixelText = true;
-
-                            UInt32 charCodeCount = 0;
                             for (UInt32 j = 0; j < numGroups; j++)
                             {
+                                var startCharCode = groups[j].startCharCode;
+                                var endCharCode = groups[j].endCharCode;
+                                var startGlyphID = groups[j].startGlyphID;
+
                                 for (UInt32 charCode = groups[j].startCharCode; charCode < groups[j].endCharCode; charCode++)
                                 {
-                                    var utf32 = Char.ConvertFromUtf32((int)charCode);
-                                    int row = (int)Math.Floor((double)((double)charCodeCount / (double)columns));
-                                    int column = (int)((((double)charCodeCount * (double)size) % (double)width) / (double)size);
-                                    float x = (float)(column * size) + (size / 2f);
-                                    float y = (float)(row * size) + size;
-                                    charCodeCount++;
-                                    //Console.WriteLine($"{charCodeCount} {row}x{column} ({x} {y})");
-                                    skCanvas.DrawText(utf32, x, y, paint);
+                                    characterToGlyphMap[(int)charCode] = (ushort)startGlyphID;
+                                    startGlyphID++;
                                 }
                             }
 
-                            using var stream = File.OpenWrite($"charmap_Format_12_({typeface.FamilyName}).png");
-                            using var skImage = SKImage.FromBitmap(skBitmap);
-                            using var skData = skImage.Encode(SKEncodedImageFormat.Png, 100);
-                            skData.SaveTo(stream);
+                            Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
 
-                            // TODO:
+                            SaveCharMapPng(characterToGlyphMap, typeface, $"charmap_Format_12_({typeface.FamilyName}).png");
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-13-many-to-one-range-mappings
@@ -333,6 +299,56 @@ namespace TypefaceUtil
                         break;
                 }
             }
+        }
+
+        static void SaveCharMapPng(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, string path)
+        {
+            var numCharCodes = characterToGlyphMap.Count;
+
+            float textSize = 20; // 14
+            int size = 30; // 20
+            int columns = 20;
+            int rows = (int)Math.Ceiling((double)((double)numCharCodes / (double)columns));
+            int width = (columns * size);
+            int height = (rows * size) + (size / 2);
+            var skImageInfo = new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul);
+            var skBitmap = new SKBitmap(skImageInfo);
+            using var skCanvas = new SKCanvas(skBitmap);
+
+            // Console.WriteLine($"{columns}x{rows} ({width} {height})");
+
+            skCanvas.Clear(new SKColor(0xFF, 0xFF, 0xFF));
+
+            using var paint = new SKPaint();
+            paint.IsAntialias = true;
+            paint.Color = new SKColor(0x00, 0x00, 0x00);
+            paint.StrokeWidth = 3;
+            paint.Typeface  = typeface;
+            paint.TextEncoding  = SKTextEncoding.Utf32;
+            paint.TextSize = textSize;
+            paint.TextAlign = SKTextAlign.Center;
+            paint.LcdRenderText = true;
+            paint.SubpixelText = true;
+
+            UInt32 charCodeCount = 0;
+
+            foreach (var kvp in characterToGlyphMap)
+            {
+                var charCode = kvp.Key;
+                var utf32 = Char.ConvertFromUtf32((int)charCode);
+                int row = (int)Math.Floor((double)((double)charCodeCount / (double)columns));
+                int column = (int)((((double)charCodeCount * (double)size) % (double)width) / (double)size);
+                float x = (float)(column * size) + (size / 2f);
+                float y = (float)(row * size) + size;
+                charCodeCount++;
+                // Console.WriteLine($"{charCodeCount} {row}x{column} ({x} {y})");
+                skCanvas.DrawText(utf32, x, y, paint);
+            }
+
+            using var stream = File.OpenWrite(path);
+            using var skImage = SKImage.FromBitmap(skBitmap);
+            using var skData = skImage.Encode(SKEncodedImageFormat.Png, 100);
+            skData.SaveTo(stream);
         }
 
         static void Main(string[] args)
