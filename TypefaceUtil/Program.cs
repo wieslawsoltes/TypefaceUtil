@@ -145,9 +145,6 @@ namespace TypefaceUtil
 
         static void ReadCmapTable(SKTypeface typeface)
         {
-            // mapping of a Unicode code point to a glyph index
-            var characterToGlyphMap = new Dictionary<int, ushort>();
-
             Console.WriteLine($"FamilyName: {typeface.FamilyName}");
 
             var cmap = typeface.GetTableData(GetIntTag("cmap"));
@@ -266,6 +263,9 @@ namespace TypefaceUtil
 
                                 Console.WriteLine($"{groups[j].startCharCode.ToString("X2").PadRight(13)} | {groups[j].endCharCode.ToString("X2").PadRight(11)} | {groups[j].startGlyphID.ToString("X2")}");
                             }
+
+                            // mapping of a Unicode code point to a glyph index
+                            var characterToGlyphMap = new Dictionary<int, ushort>();
 
                             for (UInt32 j = 0; j < numGroups; j++)
                             {
