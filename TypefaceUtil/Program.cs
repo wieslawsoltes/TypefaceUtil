@@ -2,6 +2,9 @@
 using System.IO;
 using SkiaSharp;
 
+// https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
+// https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
+
 namespace TypefaceUtil
 {
     class Program
@@ -73,9 +76,6 @@ namespace TypefaceUtil
 
         static void Main(string[] args)
         {
-            // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
-            // https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
-
             using var tf = SKTypeface.FromFamilyName("Segoe UI Symbol");
             var cmap = tf.GetTableData(GetIntTag("cmap"));
             using var ms = new MemoryStream(cmap);
