@@ -247,7 +247,7 @@ namespace TypefaceUtil
                 }
                 else
                 {
-                    using var typeface = SKTypeface.FromFamilyName(args[0]); // e.g. "Segoe UI Symbol"
+                    using var typeface = SKTypeface.FromFamilyName(args[0]);
                     ReadCmapTable(typeface);
                 }
             }
