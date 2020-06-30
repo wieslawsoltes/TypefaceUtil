@@ -270,8 +270,10 @@ namespace TypefaceUtil
                             // startCodes segCount*2 bytes
                             // idDeltas segCount*2 bytes
                             // idRangeOffsets segCount*2 bytes
-                            var glyphIdArrayLength = (length / 2) - (8 * 2) + (4 * segCount * 2); //  length - header
+                            var headerLength = (8 * 2) + (4 * segCount * 2);
+                            var glyphIdArrayLength = (length / 2) - headerLength; //  length - header
                             var glyphIdArray = new UInt16[glyphIdArrayLength];
+                            Console.WriteLine($"headerLength: {headerLength}");
                             Console.WriteLine($"glyphIdArrayLength: {glyphIdArrayLength}");
 
                             for (UInt32 j = 0; j < glyphIdArrayLength; j++)
