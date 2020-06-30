@@ -7,6 +7,7 @@ using SkiaSharp;
 // https://docs.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface?view=skiasharp-1.68.1
 
 // dotnet run -- ../../seguisym.ttf
+// dotnet run -- ../../seguisym.ttf > seguisym.txt
 // dotnet run -- "Segoe UI Symbol"
 
 namespace TypefaceUtil
@@ -71,6 +72,13 @@ namespace TypefaceUtil
             public UInt16 platformID;
             public UInt16 encodingID;
             public UInt32 offset;
+        }
+
+        struct SequentialMapGroup
+        {
+            public UInt32 startCharCode;
+            public UInt32 endCharCode;
+            public UInt32 startGlyphID;
         }
 
         static uint GetIntTag(string v)
@@ -193,6 +201,20 @@ namespace TypefaceUtil
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-4-segment-mapping-to-delta-values
                     case 4:
                         {
+                            var length = reader.ReadUInt16();
+                            var language = reader.ReadUInt16();
+                            var segCountX2 = reader.ReadUInt16();
+                            var searchRange = reader.ReadUInt16();
+                            var entrySelector = reader.ReadUInt16();
+                            var rangeShift = reader.ReadUInt16();
+
+                            Console.WriteLine($"length: {length}");
+                            Console.WriteLine($"language: {language}");
+                            Console.WriteLine($"segCountX2: {segCountX2}");
+                            Console.WriteLine($"searchRange: {searchRange}");
+                            Console.WriteLine($"entrySelector: {entrySelector}");
+                            Console.WriteLine($"rangeShift: {rangeShift}");
+                            
                             // TODO:
                         }
                         break;
@@ -217,6 +239,83 @@ namespace TypefaceUtil
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-12-segmented-coverage
                     case 12:
                         {
+                            var reserved = reader.ReadUInt16();
+                            var length = reader.ReadUInt32();
+                            var language = reader.ReadUInt32();
+                            var numGroups = reader.ReadUInt32();
+
+                            Console.WriteLine($"length: {length}");
+                            Console.WriteLine($"language: {language}");
+                            Console.WriteLine($"numGroups: {numGroups}");
+
+                            var groups = new SequentialMapGroup[numGroups];
+
+                            Console.WriteLine($"groups:");
+                            Console.WriteLine($"startCharCode | endCharCode | startGlyphID");
+
+                            UInt32 numCharCodes = 0;
+
+                            for (UInt32 j = 0; j < numGroups; j++)
+                            {
+                                groups[j].startCharCode = reader.ReadUInt32();
+                                groups[j].endCharCode = reader.ReadUInt32();
+                                groups[j].startGlyphID = reader.ReadUInt32();
+
+                                numCharCodes += groups[j].endCharCode - groups[j].startCharCode;
+
+                                Console.WriteLine($"{groups[j].startCharCode.ToString("X2").PadRight(13)} | {groups[j].endCharCode.ToString("X2").PadRight(11)} | {groups[j].startGlyphID.ToString("X2")}");
+                            }
+
+                            // SkiaSharp debug
+
+                            Console.WriteLine($"numCharCodes: {numCharCodes}");
+
+                            float textSize = 20; // 14
+                            int size = 30; // 20
+                            int columns = 20;
+                            int rows = (int)Math.Ceiling((double)((double)numCharCodes / (double)columns));
+                            int width = (columns * size);
+                            int height = (rows * size) + (size / 2);
+                            var skImageInfo = new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul);
+                            var skBitmap = new SKBitmap(skImageInfo);
+                            using var skCanvas = new SKCanvas(skBitmap);
+
+                            //Console.WriteLine($"{columns}x{rows} ({width} {height})");
+
+                            skCanvas.Clear(new SKColor(0xFF, 0xFF, 0xFF));
+
+                            using var paint = new SKPaint();
+                            paint.IsAntialias = true;
+                            paint.Color = new SKColor(0x00, 0x00, 0x00);
+                            paint.StrokeWidth = 3;
+                            paint.Typeface  = typeface;
+                            paint.TextEncoding  = SKTextEncoding.Utf32;
+                            paint.TextSize = textSize;
+                            paint.TextAlign = SKTextAlign.Center;
+                            paint.LcdRenderText = true;
+                            paint.SubpixelText = true;
+
+                            UInt32 charCodeCount = 0;
+                            for (UInt32 j = 0; j < numGroups; j++)
+                            {
+                                for (UInt32 charCode = groups[j].startCharCode; charCode < groups[j].endCharCode; charCode++)
+                                {
+                                    var utf32 = Char.ConvertFromUtf32((int)charCode);
+                                    int row = (int)Math.Floor((double)((double)charCodeCount / (double)columns));
+                                    int column = (int)((((double)charCodeCount * (double)size) % (double)width) / (double)size);
+                                    float x = (float)(column * size) + (size / 2f);
+                                    float y = (float)(row * size) + size;
+                                    charCodeCount++;
+                                    //Console.WriteLine($"{charCodeCount} {row}x{column} ({x} {y})");
+                                    skCanvas.DrawText(utf32, x, y, paint);
+                                }
+                            }
+
+                            using var stream = File.OpenWrite($"charmap_Format_12_({typeface.FamilyName}).png");
+                            using var skImage = SKImage.FromBitmap(skBitmap);
+                            using var skData = skImage.Encode(SKEncodedImageFormat.Png, 100);
+                            skData.SaveTo(stream);
+
                             // TODO:
                         }
                         break;
