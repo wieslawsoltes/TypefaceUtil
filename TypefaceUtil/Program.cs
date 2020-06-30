@@ -7,8 +7,9 @@ using SkiaSharp;
 // https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
 // https://docs.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface?view=skiasharp-1.68.1
 
-// dotnet run -- ../../seguisym.ttf
+// dotnet run -- ../../segoeui.ttf > segui.txt
 // dotnet run -- ../../seguisym.ttf > seguisym.txt
+// dotnet run -- "Segoe UI"
 // dotnet run -- "Segoe UI Symbol"
 
 namespace TypefaceUtil
@@ -144,6 +145,9 @@ namespace TypefaceUtil
 
         static void ReadCmapTable(SKTypeface typeface)
         {
+            // mapping of a Unicode code point to a glyph index
+            var characterToGlyphMap = new Dictionary<int, ushort>();
+
             Console.WriteLine($"FamilyName: {typeface.FamilyName}");
 
             var cmap = typeface.GetTableData(GetIntTag("cmap"));
@@ -215,7 +219,7 @@ namespace TypefaceUtil
                             Console.WriteLine($"searchRange: {searchRange}");
                             Console.WriteLine($"entrySelector: {entrySelector}");
                             Console.WriteLine($"rangeShift: {rangeShift}");
-                            
+
                             // TODO:
                         }
                         break;
@@ -262,10 +266,6 @@ namespace TypefaceUtil
 
                                 Console.WriteLine($"{groups[j].startCharCode.ToString("X2").PadRight(13)} | {groups[j].endCharCode.ToString("X2").PadRight(11)} | {groups[j].startGlyphID.ToString("X2")}");
                             }
-
-                            // mapping of a Unicode code point to a glyph index 
-
-                            var characterToGlyphMap = new Dictionary<int, ushort>();
 
                             for (UInt32 j = 0; j < numGroups; j++)
                             {
