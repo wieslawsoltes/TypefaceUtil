@@ -3,26 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using SkiaSharp;
 
-// https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
-// https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6cmap.html
-// https://docs.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface?view=skiasharp-1.68.1
-// https://opentype.js.org/glyph-inspector.html
-// https://opentype.js.org/font-inspector.html
-// https://fontdrop.info/
-// https://github.com/opentypejs/opentype.js/blob/master/src/tables/cmap.js
-// https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/Cmap.cs
-// https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/CharacterMap.cs
-
-// dotnet run -c Release -- ../../segoeui.ttf
-// dotnet run -c Release -- ../../seguisym.ttf
-// dotnet run -c Release -- ../../calibri.ttf
-// dotnet run -c Release -- ../../segoeui.ttf > segui.txt
-// dotnet run -c Release -- ../../seguisym.ttf > seguisym.txt
-// dotnet run -c Release -- ../../calibri.ttf > calibri.txt
-// dotnet run -c Release -- "Segoe UI"
-// dotnet run -c Release -- "Segoe UI Symbol"
-// dotnet run -c Release -- "Calibri"
-
 namespace TypefaceUtil
 {
     class Program
@@ -154,13 +134,21 @@ namespace TypefaceUtil
             }
         }
 
-        static void ReadCmapTable(SKTypeface typeface)
+        class CharacterMap
         {
-            // Console.WriteLine($"FamilyName: {typeface.FamilyName}");
+            public string Name;
+            public Dictionary<int, ushort> CharacterToGlyphMap;
+        }
 
-            var cmap = typeface.GetTableData(GetIntTag("cmap"));
+        static List<CharacterMap> ReadCmapTable(byte[] cmap)
+        {
+            var characterMaps = new List<CharacterMap>();
+
             using var ms = new MemoryStream(cmap);
             using var reader = new BigEndianBinaryReader(ms);
+
+            // cmap — Character to Glyph Index Mapping Table
+            // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
 
             // 'cmap' Header
             // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#cmap-header
@@ -342,16 +330,20 @@ namespace TypefaceUtil
                             // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
                             // Console.WriteLine($"charCode | glyphIndex");  
 
-                            foreach (var kvp in characterToGlyphMap)
+                            //foreach (var kvp in characterToGlyphMap)
+                            //{
+                            //    var charCode = kvp.Key;
+                            //    var glyphIndex = kvp.Value;
+                            //    Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+                            //}
+
+                            var characterMap = new CharacterMap()
                             {
-                                var charCode = kvp.Key;
-                                var glyphIndex = kvp.Value;
-                                // Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
-                            }
+                                Name = "Format_4",
+                                CharacterToGlyphMap = characterToGlyphMap
+                            };
 
-                            SaveCharMapPng(characterToGlyphMap, typeface, $"charmap_Format_4_({typeface.FamilyName}).png");
-
-                            // TODO:
+                            characterMaps.Add(characterMap);
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-6-trimmed-table-mapping
@@ -418,14 +410,20 @@ namespace TypefaceUtil
                             // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
                             // Console.WriteLine($"charCode | glyphIndex");  
 
-                            foreach (var kvp in characterToGlyphMap)
-                            {
-                                var charCode = kvp.Key;
-                                var glyphIndex = kvp.Value;
-                                // Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
-                            }
+                            //foreach (var kvp in characterToGlyphMap)
+                            //{
+                            //    var charCode = kvp.Key;
+                            //    var glyphIndex = kvp.Value;
+                            //    Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+                            //}
 
-                            SaveCharMapPng(characterToGlyphMap, typeface, $"charmap_Format_12_({typeface.FamilyName}).png");
+                            var characterMap = new CharacterMap()
+                            {
+                                Name = "Format_12",
+                                CharacterToGlyphMap = characterToGlyphMap
+                            };
+
+                            characterMaps.Add(characterMap);
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-13-many-to-one-range-mappings
@@ -442,9 +440,11 @@ namespace TypefaceUtil
                         break;
                 }
             }
+
+            return characterMaps;
         }
 
-        static void SaveCharMapPng(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, string path)
+        static void SaveCharacterMapAsPng(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, string path)
         {
             var numCharCodes = characterToGlyphMap.Count;
 
@@ -513,6 +513,43 @@ namespace TypefaceUtil
             skData.SaveTo(stream);
         }
 
+        static void SaveCharacterMapAsSvg(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, string path, float textSize, string fill)
+        {
+            using var skTextPaint = new SKPaint();
+            skTextPaint.IsAntialias = true;
+            skTextPaint.Color = new SKColor(0x00, 0x00, 0x00);
+            skTextPaint.Typeface  = typeface;
+            skTextPaint.TextEncoding  = SKTextEncoding.Utf32;
+            skTextPaint.TextSize = textSize;
+            skTextPaint.TextAlign = SKTextAlign.Center;
+            skTextPaint.LcdRenderText = true;
+            skTextPaint.SubpixelText = true;
+
+            var metrics = skTextPaint.FontMetrics;
+            var mAscent = metrics.Ascent;
+            var mDescent = metrics.Descent;
+
+            using var streamWriter = File.CreateText(path);
+
+            foreach (var kvp in characterToGlyphMap)
+            {
+                var charCode = kvp.Key;
+                var utf32 = Char.ConvertFromUtf32((int)charCode);
+                float x = 0;
+                float y = (mAscent / 2.0f) - mDescent / 2.0f;
+
+                using var outlinePath = skTextPaint.GetTextPath(utf32, x, y);
+                using var fillPath = skTextPaint.GetFillPath(outlinePath);
+                var bounds = fillPath.Bounds;
+                var svgPathData = fillPath.ToSvgPathData();
+
+                streamWriter.WriteLine($"[{utf32}]");
+                streamWriter.WriteLine($"<svg viewBox=\"{bounds.Left} {bounds.Top} {bounds.Width} {bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\">"); // width=\"{bounds.Width}\" height=\"{bounds.Height}\"
+                streamWriter.WriteLine($"  <path fill=\"{fill}\" d=\"{svgPathData}\"/>");
+                streamWriter.WriteLine($"</svg>");
+            }
+        }
+
         static void Main(string[] args)
         {
             if (args.Length == 1)
@@ -520,12 +557,30 @@ namespace TypefaceUtil
                 if (File.Exists(args[0]))
                 {
                     using var typeface = SKTypeface.FromFile(args[0]);
-                    ReadCmapTable(typeface);
+                    var cmap = typeface.GetTableData(GetIntTag("cmap"));
+                    var characterMaps = ReadCmapTable(cmap);
+                    if (characterMaps.Count > 0)
+                    {
+                        foreach (var characterMap in characterMaps)
+                        {
+                            SaveCharacterMapAsPng(characterMap.CharacterToGlyphMap, typeface, $"charmap_({typeface.FamilyName})_{characterMap.Name}.png");
+                            SaveCharacterMapAsSvg(characterMap.CharacterToGlyphMap, typeface, $"charmap_({typeface.FamilyName})_{characterMap.Name}.txt", 20f, "black");
+                        }
+                    }
                 }
                 else
                 {
                     using var typeface = SKTypeface.FromFamilyName(args[0]);
-                    ReadCmapTable(typeface);
+                    var cmap = typeface.GetTableData(GetIntTag("cmap"));
+                    var characterMaps = ReadCmapTable(cmap);
+                    if (characterMaps.Count > 0)
+                    {
+                        foreach (var characterMap in characterMaps)
+                        {
+                            SaveCharacterMapAsPng(characterMap.CharacterToGlyphMap, typeface, $"charmap_({typeface.FamilyName})_{characterMap.Name}.png");
+                            SaveCharacterMapAsSvg(characterMap.CharacterToGlyphMap, typeface, $"charmap_({typeface.FamilyName})_{characterMap.Name}.txt", 20f, "black");
+                        }
+                    }
                 }
             }
         }
