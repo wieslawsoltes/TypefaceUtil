@@ -7,13 +7,14 @@ namespace TypefaceUtil
 {
     public static class CharacterMapPngExporter
     {
-        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, Stream stream)
+        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, int size, int columns, Stream stream)
         {
+            var skBackgroundColor = new SKColor(0xFF, 0xFF, 0xFF);
+            var skLineColor = new SKColor(0x00, 0x00, 0x00);
+            var skTextColor = new SKColor(0x00, 0x00, 0x00);
+
             var numCharCodes = characterToGlyphMap.Count;
 
-            float textSize = 20;
-            int size = 40;
-            int columns = 20;
             int rows = (int)Math.Ceiling((double)((double)numCharCodes / (double)columns));
             int width = (columns * size);
             int height = (rows * size);
@@ -21,12 +22,12 @@ namespace TypefaceUtil
             var skBitmap = new SKBitmap(skImageInfo);
             using var skCanvas = new SKCanvas(skBitmap);
 
-            skCanvas.Clear(new SKColor(0xFF, 0xFF, 0xFF));
+            skCanvas.Clear(skBackgroundColor);
 
             using var skLinePaint = new SKPaint
             {
                 IsAntialias = false,
-                Color = new SKColor(0x00, 0x00, 0x00),
+                Color = skLineColor,
                 StrokeWidth = 1
             };
 
@@ -43,7 +44,7 @@ namespace TypefaceUtil
             using var skTextPaint = new SKPaint
             {
                 IsAntialias = true,
-                Color = new SKColor(0x00, 0x00, 0x00),
+                Color = skTextColor,
                 Typeface = typeface,
                 TextEncoding = SKTextEncoding.Utf32,
                 TextSize = textSize,
