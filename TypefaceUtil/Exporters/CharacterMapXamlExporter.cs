@@ -9,10 +9,12 @@ namespace TypefaceUtil
     {
         public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string brush, StreamWriter streamWriter)
         {
+            var skColor = new SKColor(0x00, 0x00, 0x00);
+
             using var skTextPaint = new SKPaint
             {
                 IsAntialias = true,
-                Color = new SKColor(0x00, 0x00, 0x00),
+                Color = skColor,
                 Typeface = typeface,
                 TextEncoding = SKTextEncoding.Utf32,
                 TextSize = textSize,
