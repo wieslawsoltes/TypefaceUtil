@@ -21,14 +21,14 @@ namespace TypefaceUtil
             var skBitmap = new SKBitmap(skImageInfo);
             using var skCanvas = new SKCanvas(skBitmap);
 
-            // Console.WriteLine($"{columns}x{rows} ({width} {height})");
-
             skCanvas.Clear(new SKColor(0xFF, 0xFF, 0xFF));
 
-            using var skLinePaint = new SKPaint();
-            skLinePaint.IsAntialias = false;
-            skLinePaint.Color = new SKColor(0x00, 0x00, 0x00);
-            skLinePaint.StrokeWidth = 1;
+            using var skLinePaint = new SKPaint
+            {
+                IsAntialias = false,
+                Color = new SKColor(0x00, 0x00, 0x00),
+                StrokeWidth = 1
+            };
 
             for (float x = size; x < (float)width; x += size)
             {
@@ -40,15 +40,17 @@ namespace TypefaceUtil
                 skCanvas.DrawLine(0f, y, (float)width, y, skLinePaint);
             }
 
-            using var skTextPaint = new SKPaint();
-            skTextPaint.IsAntialias = true;
-            skTextPaint.Color = new SKColor(0x00, 0x00, 0x00);
-            skTextPaint.Typeface = typeface;
-            skTextPaint.TextEncoding = SKTextEncoding.Utf32;
-            skTextPaint.TextSize = textSize;
-            skTextPaint.TextAlign = SKTextAlign.Center;
-            skTextPaint.LcdRenderText = true;
-            skTextPaint.SubpixelText = true;
+            using var skTextPaint = new SKPaint
+            {
+                IsAntialias = true,
+                Color = new SKColor(0x00, 0x00, 0x00),
+                Typeface = typeface,
+                TextEncoding = SKTextEncoding.Utf32,
+                TextSize = textSize,
+                TextAlign = SKTextAlign.Center,
+                LcdRenderText = true,
+                SubpixelText = true
+            };
 
             var metrics = skTextPaint.FontMetrics;
             var mAscent = metrics.Ascent;
@@ -66,7 +68,7 @@ namespace TypefaceUtil
                 float y = (row * size) + ((size / 2.0f) - (mAscent / 2.0f) - mDescent / 2.0f);
 
                 charCodeCount++;
-                // Console.WriteLine($"{charCodeCount} {row}x{column} ({x} {y})");
+
                 skCanvas.DrawText(utf32, x, y, skTextPaint);
             }
 
