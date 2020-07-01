@@ -13,26 +13,21 @@ namespace TypefaceUtil
             {
                 foreach (var characterMap in characterMaps)
                 {
-                    Export(typeface, characterMap);
+                    {
+                        using var stream = File.OpenWrite($"charmap_({typeface.FamilyName})_{characterMap.Name}.png");
+                        CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, stream);
+                    }
+
+                    {
+                        using var streamWriter = File.CreateText($"charmap_({typeface.FamilyName})_{characterMap.Name}.svg.txt");
+                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, 16f, "black", streamWriter);
+                    }
+
+                    {
+                        using var streamWriter = File.CreateText($"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml.txt");
+                        CharacterMapXamlExporter.Save(characterMap.CharacterToGlyphMap, typeface, 16f, "Black", streamWriter);
+                    }
                 }
-            }
-        }
-
-        static void Export(SKTypeface typeface, CharacterMap characterMap)
-        {
-            {
-                using var stream = File.OpenWrite($"charmap_({typeface.FamilyName})_{characterMap.Name}.png");
-                CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, stream);
-            }
-
-            {
-                using var streamWriter = File.CreateText($"charmap_({typeface.FamilyName})_{characterMap.Name}.svg.txt");
-                CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, 16f, "black", streamWriter);
-            }
-
-            {
-                using var streamWriter = File.CreateText($"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml.txt");
-                CharacterMapXamlExporter.Save(characterMap.CharacterToGlyphMap, typeface, 16f, "Black", );
             }
         }
 
