@@ -9,15 +9,17 @@ namespace TypefaceUtil
     {
         public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string brush, StreamWriter streamWriter)
         {
-            using var skTextPaint = new SKPaint();
-            skTextPaint.IsAntialias = true;
-            skTextPaint.Color = new SKColor(0x00, 0x00, 0x00);
-            skTextPaint.Typeface = typeface;
-            skTextPaint.TextEncoding = SKTextEncoding.Utf32;
-            skTextPaint.TextSize = textSize;
-            skTextPaint.TextAlign = SKTextAlign.Center;
-            skTextPaint.LcdRenderText = true;
-            skTextPaint.SubpixelText = true;
+            using var skTextPaint = new SKPaint
+            {
+                IsAntialias = true,
+                Color = new SKColor(0x00, 0x00, 0x00),
+                Typeface = typeface,
+                TextEncoding = SKTextEncoding.Utf32,
+                TextSize = textSize,
+                TextAlign = SKTextAlign.Center,
+                LcdRenderText = true,
+                SubpixelText = true
+            };
 
             var metrics = skTextPaint.FontMetrics;
             var mAscent = metrics.Ascent;
