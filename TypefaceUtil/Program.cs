@@ -151,7 +151,7 @@ namespace TypefaceUtil
 
         static void ReadCmapTable(SKTypeface typeface)
         {
-            Console.WriteLine($"FamilyName: {typeface.FamilyName}");
+            // Console.WriteLine($"FamilyName: {typeface.FamilyName}");
 
             var cmap = typeface.GetTableData(GetIntTag("cmap"));
             using var ms = new MemoryStream(cmap);
@@ -162,7 +162,7 @@ namespace TypefaceUtil
             var version = reader.ReadUInt16();
             var numTables = reader.ReadUInt16();
 
-            Console.WriteLine($"numTables: {numTables}");
+            // Console.WriteLine($"numTables: {numTables}");
 
             var encodingRecords = new EncodingRecord[numTables];
 
@@ -186,11 +186,11 @@ namespace TypefaceUtil
 
                 var format = reader.ReadUInt16();
 
-                Console.WriteLine($"---");
-                Console.WriteLine($"platformID: {platformID} ({GetPlatformID(platformID)})");
-                Console.WriteLine($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
-                Console.WriteLine($"offset: {offset}");
-                Console.WriteLine($"format: {format} ({GetFormat(format)})");
+                // Console.WriteLine($"---");
+                // Console.WriteLine($"platformID: {platformID} ({GetPlatformID(platformID)})");
+                // Console.WriteLine($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
+                // Console.WriteLine($"offset: {offset}");
+                // Console.WriteLine($"format: {format} ({GetFormat(format)})");
 
                 switch (format)
                 {
@@ -216,15 +216,15 @@ namespace TypefaceUtil
                             var entrySelector = reader.ReadUInt16(); // log2(searchRange/2)
                             var rangeShift = reader.ReadUInt16(); // 2 × segCount - searchRange
 
-                            Console.WriteLine($"length: {length}");
-                            Console.WriteLine($"language: {language}");
-                            Console.WriteLine($"segCountX2: {segCountX2}");
-                            Console.WriteLine($"searchRange: {searchRange}");
-                            Console.WriteLine($"entrySelector: {entrySelector}");
-                            Console.WriteLine($"rangeShift: {rangeShift}");
+                            // Console.WriteLine($"length: {length}");
+                            // Console.WriteLine($"language: {language}");
+                            // Console.WriteLine($"segCountX2: {segCountX2}");
+                            // Console.WriteLine($"searchRange: {searchRange}");
+                            // Console.WriteLine($"entrySelector: {entrySelector}");
+                            // Console.WriteLine($"rangeShift: {rangeShift}");
 
                             var segCount = segCountX2 / 2;
-                            Console.WriteLine($"segCount: {segCount}");
+                            // Console.WriteLine($"segCount: {segCount}");
 
                             var endCodes = new UInt16[segCount];
                             var startCodes = new UInt16[segCount];
@@ -253,15 +253,16 @@ namespace TypefaceUtil
                                 idRangeOffsets[j] = reader.ReadUInt16();
                             }
 
-                            Console.WriteLine($"segments:");
-                            Console.WriteLine($"startCode | endCode | idDelta | idRangeOffset");
+                            // Console.WriteLine($"segments:");
+                            // Console.WriteLine($"startCode | endCode | idDelta | idRangeOffset");
+
                             for (UInt32 j = 0; j < segCount; j++)
                             {
                                 var startCode = startCodes[j];
                                 var endCode = endCodes[j];
                                 var idDelta = idDeltas[j];
                                 var idRangeOffset = idRangeOffsets[j];
-                                Console.WriteLine($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
+                                // Console.WriteLine($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
                             }
 
                             // header:
@@ -280,13 +281,13 @@ namespace TypefaceUtil
                             var headerLength = (8 * 2) + (4 * segCount * 2);
                             var glyphIdArrayLength = (length - headerLength) / 2; // length - header
                             var glyphIdArray = new UInt16[glyphIdArrayLength];
-                            Console.WriteLine($"headerLength: {headerLength}");
-                            Console.WriteLine($"glyphIdArrayLength: {glyphIdArrayLength}");
+                            // Console.WriteLine($"headerLength: {headerLength}");
+                            // Console.WriteLine($"glyphIdArrayLength: {glyphIdArrayLength}");
 
                             for (UInt32 j = 0; j < glyphIdArrayLength; j++)
                             {
                                 glyphIdArray[j] = reader.ReadUInt16();
-                                Console.WriteLine($"glyphIdArray[{j}]: {glyphIdArray[j]} (position={ms.Position-2})");
+                                // Console.WriteLine($"glyphIdArray[{j}]: {glyphIdArray[j]} (position={ms.Position-2})");
                             }
 
                             // mapping of a Unicode code point to a glyph index
@@ -332,15 +333,15 @@ namespace TypefaceUtil
                                 }
                             }
 
-                            Console.WriteLine($"characterToGlyphMap:");
-                            Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-                            Console.WriteLine($"charCode | glyphIndex");  
+                            // Console.WriteLine($"characterToGlyphMap:");
+                            // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
+                            // Console.WriteLine($"charCode | glyphIndex");  
 
                             foreach (var kvp in characterToGlyphMap)
                             {
                                 var charCode = kvp.Key;
                                 var glyphIndex = kvp.Value;
-                                Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+                                // Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
                             }
 
                             SaveCharMapPng(characterToGlyphMap, typeface, $"charmap_Format_4_({typeface.FamilyName}).png");
@@ -374,14 +375,14 @@ namespace TypefaceUtil
                             var language = reader.ReadUInt32();
                             var numGroups = reader.ReadUInt32();
 
-                            Console.WriteLine($"length: {length}");
-                            Console.WriteLine($"language: {language}");
-                            Console.WriteLine($"numGroups: {numGroups}");
+                            // Console.WriteLine($"length: {length}");
+                            // Console.WriteLine($"language: {language}");
+                            // Console.WriteLine($"numGroups: {numGroups}");
 
                             var groups = new SequentialMapGroup[numGroups];
 
-                            Console.WriteLine($"groups:");
-                            Console.WriteLine($"startCharCode | endCharCode | startGlyphID");
+                            // Console.WriteLine($"groups:");
+                            // Console.WriteLine($"startCharCode | endCharCode | startGlyphID");
 
                             for (UInt32 j = 0; j < numGroups; j++)
                             {
@@ -389,7 +390,7 @@ namespace TypefaceUtil
                                 groups[j].endCharCode = reader.ReadUInt32();
                                 groups[j].startGlyphID = reader.ReadUInt32();
 
-                                Console.WriteLine($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
+                                // Console.WriteLine($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
                             }
 
                             // mapping of a Unicode code point to a glyph index
@@ -408,15 +409,15 @@ namespace TypefaceUtil
                                 }
                             }
 
-                            Console.WriteLine($"characterToGlyphMap:");
-                            Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-                            Console.WriteLine($"charCode | glyphIndex");  
+                            // Console.WriteLine($"characterToGlyphMap:");
+                            // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
+                            // Console.WriteLine($"charCode | glyphIndex");  
 
                             foreach (var kvp in characterToGlyphMap)
                             {
                                 var charCode = kvp.Key;
                                 var glyphIndex = kvp.Value;
-                                Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+                                // Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
                             }
 
                             SaveCharMapPng(characterToGlyphMap, typeface, $"charmap_Format_12_({typeface.FamilyName}).png");
