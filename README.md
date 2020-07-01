@@ -6,6 +6,9 @@
 dotnet run -c Release -- ../../segoeui.ttf
 dotnet run -c Release -- ../../seguisym.ttf
 dotnet run -c Release -- ../../calibri.ttf
+dotnet run -c Release -- ../../fa-brands-400.ttf
+dotnet run -c Release -- ../../fa-regular-400.ttf
+dotnet run -c Release -- ../../fa-solid-900.ttf
 ```
 
 ```
@@ -31,3 +34,4 @@ dotnet run -c Release -- "Calibri"
 * https://github.com/opentypejs/opentype.js/blob/master/src/tables/cmap.js
 * https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/Cmap.cs
 * https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/CharacterMap.cs
+* https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
