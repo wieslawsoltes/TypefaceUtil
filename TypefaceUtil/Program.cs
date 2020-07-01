@@ -13,10 +13,15 @@ using SkiaSharp;
 // https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/Cmap.cs
 // https://github.com/LayoutFarm/Typography/blob/master/Typography.OpenFont/Tables/CharacterMap.cs
 
-// dotnet run -- ../../segoeui.ttf > segui.txt
-// dotnet run -- ../../seguisym.ttf > seguisym.txt
-// dotnet run -- "Segoe UI"
-// dotnet run -- "Segoe UI Symbol"
+// dotnet run -c Release -- ../../segoeui.ttf
+// dotnet run -c Release -- ../../seguisym.ttf
+// dotnet run -c Release -- ../../calibri.ttf
+// dotnet run -c Release -- ../../segoeui.ttf > segui.txt
+// dotnet run -c Release -- ../../seguisym.ttf > seguisym.txt
+// dotnet run -c Release -- ../../calibri.ttf > calibri.txt
+// dotnet run -c Release -- "Segoe UI"
+// dotnet run -c Release -- "Segoe UI Symbol"
+// dotnet run -c Release -- "Calibri"
 
 namespace TypefaceUtil
 {
