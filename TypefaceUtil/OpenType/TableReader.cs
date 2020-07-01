@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TypefaceUtil
 {
-    public class TableReader
+    public static class TableReader
     {
         public static uint GetIntTag(string tag)
         {
