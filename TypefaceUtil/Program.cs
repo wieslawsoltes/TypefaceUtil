@@ -14,7 +14,7 @@ namespace TypefaceUtil
             {
                 {
                     using var stream = File.OpenWrite($"charmap_({typeface.FamilyName})_{characterMap.Name}.png");
-                    CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, stream);
+                    CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, textSize: 20, size: 40, columns: 20, stream);
                 }
 
                 {
