@@ -20,18 +20,17 @@ Usage:
 Options:
   -f, --inputFiles <inputfiles>              The relative or absolute path to the input files
   -d, --inputDirectory <inputdirectory>      The relative or absolute path to the input directory
-  -p, --pattern <pattern>                    The search string to match against the names of files in the input directory
-                                             [default: *.ttf]
-  -ff, --fontFamily <fontfamily>             The input font family
+  -p, --pattern <pattern>                    The search string to match against the names of files in the input directory [default: *.ttf]
+  --fontFamily <fontfamily>                  The input font family
   -o, --outputDirectory <outputdirectory>    The relative or absolute path to the output directory
-  -png, --pngExport                          Export text as Png
+  --png, --pngExport                         Export text as Png
   --pngTextSize <pngtextsize>                Png text size [default: 20]
   --pngCellSize <pngcellsize>                Png cell size [default: 40]
   --pngColumns <pngcolumns>                  Png number of columns [default: 20]
-  -svg, --svgExport                          Export text as Svg
+  --svg, --svgExport                         Export text as Svg
   --svgTextSize <svgtextsize>                Svg text size [default: 16]
   --svgPathFill <svgpathfill>                Svg path fill [default: black]
-  -xaml, --xamlExport                        Export text as Xaml
+  --xaml, --xamlExport                       Export text as Xaml
   --xamlTextSize <xamltextsize>              Xaml text size [default: 16]
   --xamlBrush <xamlbrush>                    Xaml brush [default: Black]
   --quiet                                    Set verbosity level to quiet
@@ -44,21 +43,29 @@ TypefaceUtil -h
 ```
 ```
 TypefaceUtil --pngExport -f segoeui.ttf
-TypefaceUtil --pngExport -ff "Segoe UI"
+TypefaceUtil --pngExport --fontFamily "Segoe UI"
 ```
 ```
 TypefaceUtil --svgExport -f seguisym.ttf
-TypefaceUtil --svgExport -ff "Segoe UI Symbol"
+TypefaceUtil --svgExport --fontFamily "Segoe UI Symbol"
 ```
 ```
 TypefaceUtil --xamlExport -f calibri.ttf
-TypefaceUtil --xamlExport -ff "Calibri"
+TypefaceUtil --xamlExport --fontFamily "Calibri"
 ```
 
 ## Testing
 
 ```
 dotnet run -c Release -- --help
+```
+
+```
+dotnet run -c Release -- --pngExport --svgExport --xamlExport -d ../../../ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
+```
+
+```
+dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "system"
 ```
 
 ```
@@ -72,9 +79,9 @@ dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../segoeu
 ```
 
 ```
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -ff "Segoe UI"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -ff "Segoe UI Symbol"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -ff "Calibri"
+dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI"
+dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI Symbol"
+dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Calibri"
 ```
 
 ## References

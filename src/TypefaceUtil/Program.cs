@@ -182,7 +182,7 @@ namespace TypefaceUtil
                 Argument = new Argument<string?>(getDefaultValue: () => "*.ttf")
             };
 
-            var optionFontFamily = new Option(new[] { "--fontFamily", "-ff" }, "The input font family")
+            var optionFontFamily = new Option(new[] { "--fontFamily" }, "The input font family")
             {
                 Argument = new Argument<string?>()
             };
@@ -196,7 +196,7 @@ namespace TypefaceUtil
 
             // Png Export
 
-            var optionPngExport = new Option(new[] { "--pngExport", "-png" }, "Export text as Png")
+            var optionPngExport = new Option(new[] { "--pngExport", "--png" }, "Export text as Png")
             {
                 Argument = new Argument<bool>()
             };
@@ -218,7 +218,7 @@ namespace TypefaceUtil
 
             // Svg Export
 
-            var optionSvgExport = new Option(new[] { "--svgExport", "-svg" }, "Export text as Svg")
+            var optionSvgExport = new Option(new[] { "--svgExport", "--svg" }, "Export text as Svg")
             {
                 Argument = new Argument<bool>()
             };
@@ -235,7 +235,7 @@ namespace TypefaceUtil
 
             // Xaml Export
 
-            var optionXamlExport = new Option(new[] { "--xamlExport", "-xaml" }, "Export text as Xaml")
+            var optionXamlExport = new Option(new[] { "--xamlExport", "--xaml" }, "Export text as Xaml")
             {
                 Argument = new Argument<bool>()
             };
