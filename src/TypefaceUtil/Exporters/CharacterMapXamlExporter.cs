@@ -46,7 +46,7 @@ namespace TypefaceUtil
 
                 var svgPathData = fillPath.ToSvgPathData();
 
-                streamWriter.WriteLine($"            <GeometryDrawing x:Key=\"{charCode:X2}\" Brush=\"{brush}\" Geometry=\"{svgPathData}\"/>"); //  x:Key=\"{key}\"
+                streamWriter.WriteLine($"            <GeometryDrawing x:Key=\"{charCode.ToString("X2").PadLeft(5, '0')}\" Brush=\"{brush}\" Geometry=\"{svgPathData}\"/>"); //  x:Key=\"{key}\"
             }
 
             streamWriter.WriteLine("        </Style.Resources>");
