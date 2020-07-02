@@ -63,6 +63,10 @@ TypefaceUtil --xamlExport -f calibri.ttf
 TypefaceUtil --xamlExport --fontFamily "Calibri"
 ```
 
+```
+TypefaceUtil -d C:\Windows\Fonts -o export --png --svg --xaml
+```
+
 ## Testing
 
 ```
