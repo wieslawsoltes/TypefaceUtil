@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using SkiaSharp;
+using TypefaceUtil.OpenType;
 
 namespace TypefaceUtil
 {
-    public static class CharacterMapSvgExporter
+    public static class CharacterMapXamlExporter
     {
-        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string fill, StreamWriter streamWriter)
+        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string brush, StreamWriter streamWriter)
         {
             var skColor = new SKColor(0x00, 0x00, 0x00);
 
@@ -39,13 +40,10 @@ namespace TypefaceUtil
 
                 fillPath.Transform(SKMatrix.MakeTranslation(-fillPath.Bounds.Left, -fillPath.Bounds.Top));
 
-                var bounds = fillPath.Bounds;
                 var svgPathData = fillPath.ToSvgPathData();
 
                 streamWriter.WriteLine($"[{utf32}]");
-                streamWriter.WriteLine($"<svg viewBox=\"{bounds.Left} {bounds.Top} {bounds.Width} {bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\">"); // width=\"{bounds.Width}\" height=\"{bounds.Height}\"
-                streamWriter.WriteLine($"  <path fill=\"{fill}\" d=\"{svgPathData}\"/>");
-                streamWriter.WriteLine($"</svg>");
+                streamWriter.WriteLine($"<GeometryDrawing Brush=\"{brush}\" Geometry=\"{svgPathData}\"/>"); //  x:Key=\"{key}\"
             }
         }
     }

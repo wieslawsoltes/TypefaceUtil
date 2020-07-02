@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using SkiaSharp;
+using TypefaceUtil.OpenType;
 
 namespace TypefaceUtil
 {

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <LangVersion>8.0</LangVersion>
+    <IsPackable>True</IsPackable>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <Authors>Wiesław Šoltés</Authors>
+    <Company>Wiesław Šoltés</Company>
+    <Copyright>Copyright © Wiesław Šoltés 2020</Copyright>
+    <PackageProjectUrl>https://github.com/wieslawsoltes/TypefaceUtil</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>An OpenType typeface utilities.</Description>
+    <PackageId>TypefaceUtil.OpenType</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>opentype;ttf;fonts;cmap;unicode;skiasharp;text;converter;png;svg;xaml;avaloniaui;avalonia;typeface;codepoint</PackageTags>
+  </PropertyGroup>
+
+</Project>

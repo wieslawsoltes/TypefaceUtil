@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TypefaceUtil
+namespace TypefaceUtil.OpenType
 {
     public static class TableReader
     {

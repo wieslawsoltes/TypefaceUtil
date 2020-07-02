@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TypefaceUtil
+namespace TypefaceUtil.OpenType
 {
     internal struct SequentialMapGroup
     {
