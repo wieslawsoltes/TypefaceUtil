@@ -7,7 +7,7 @@ namespace TypefaceUtil
 {
     public static class CharacterMapSvgExporter
     {
-        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string fill, StreamWriter streamWriter)
+        public static void Save(Dictionary<int, ushort> characterToGlyphMap, SKTypeface typeface, float textSize, string fill, string outputDirectory, string characterMapName)
         {
             var skColor = new SKColor(0x00, 0x00, 0x00);
 
@@ -42,7 +42,10 @@ namespace TypefaceUtil
                 var bounds = fillPath.Bounds;
                 var svgPathData = fillPath.ToSvgPathData();
 
-                streamWriter.WriteLine($"[{utf32}]");
+                var outputPath = Path.Combine(outputDirectory, $"{charCode.ToString("X2").PadLeft(5, '0')}_{typeface.FamilyName}_{characterMapName}.svg");
+
+                using var streamWriter = File.CreateText(outputPath);
+
                 streamWriter.WriteLine($"<svg viewBox=\"{bounds.Left} {bounds.Top} {bounds.Width} {bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\">"); // width=\"{bounds.Width}\" height=\"{bounds.Height}\"
                 streamWriter.WriteLine($"  <path fill=\"{fill}\" d=\"{svgPathData}\"/>");
                 streamWriter.WriteLine($"</svg>");
