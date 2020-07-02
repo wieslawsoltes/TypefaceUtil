@@ -66,6 +66,11 @@ namespace TypefaceUtil.OpenType
             };
         }
 
+        //private static void Log(string message)
+        //{
+        //    Console.WriteLine(message);
+        //}
+
         private static Dictionary<int, ushort> ReadCmapFormat4(BigEndianBinaryReader reader)
         {
             var length = reader.ReadUInt16();
@@ -75,15 +80,15 @@ namespace TypefaceUtil.OpenType
             var entrySelector = reader.ReadUInt16(); // log2(searchRange/2)
             var rangeShift = reader.ReadUInt16(); // 2 × segCount - searchRange
 
-            // Console.WriteLine($"length: {length}");
-            // Console.WriteLine($"language: {language}");
-            // Console.WriteLine($"segCountX2: {segCountX2}");
-            // Console.WriteLine($"searchRange: {searchRange}");
-            // Console.WriteLine($"entrySelector: {entrySelector}");
-            // Console.WriteLine($"rangeShift: {rangeShift}");
+            // Log($"length: {length}");
+            // Log($"language: {language}");
+            // Log($"segCountX2: {segCountX2}");
+            // Log($"searchRange: {searchRange}");
+            // Log($"entrySelector: {entrySelector}");
+            // Log($"rangeShift: {rangeShift}");
 
             var segCount = segCountX2 / 2;
-            // Console.WriteLine($"segCount: {segCount}");
+            // Log($"segCount: {segCount}");
 
             var endCodes = new UInt16[segCount];
             var startCodes = new UInt16[segCount];
@@ -112,8 +117,8 @@ namespace TypefaceUtil.OpenType
                 idRangeOffsets[j] = reader.ReadUInt16();
             }
 
-            // Console.WriteLine($"segments:");
-            // Console.WriteLine($"startCode | endCode | idDelta | idRangeOffset");
+            // Log($"segments:");
+            // Log($"startCode | endCode | idDelta | idRangeOffset");
 
             for (UInt32 j = 0; j < segCount; j++)
             {
@@ -121,7 +126,7 @@ namespace TypefaceUtil.OpenType
                 var endCode = endCodes[j];
                 var idDelta = idDeltas[j];
                 var idRangeOffset = idRangeOffsets[j];
-                // Console.WriteLine($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
+                // Log($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
             }
 
             // header:
@@ -140,13 +145,13 @@ namespace TypefaceUtil.OpenType
             var headerLength = (8 * 2) + (4 * segCount * 2);
             var glyphIdArrayLength = (length - headerLength) / 2; // length - header
             var glyphIdArray = new UInt16[glyphIdArrayLength];
-            // Console.WriteLine($"headerLength: {headerLength}");
-            // Console.WriteLine($"glyphIdArrayLength: {glyphIdArrayLength}");
+            // Log($"headerLength: {headerLength}");
+            // Log($"glyphIdArrayLength: {glyphIdArrayLength}");
 
             for (UInt32 j = 0; j < glyphIdArrayLength; j++)
             {
                 glyphIdArray[j] = reader.ReadUInt16();
-                // Console.WriteLine($"glyphIdArray[{j}]: {glyphIdArray[j]} (position={ms.Position-2})");
+                // Log($"glyphIdArray[{j}]: {glyphIdArray[j]} (position={ms.Position-2})");
             }
 
             // mapping of a Unicode code point to a glyph index
@@ -171,7 +176,7 @@ namespace TypefaceUtil.OpenType
                     {
                         int glyphIndexOffset = (idRangeOffset / 2) + (charCode - startCode) - idRangeOffsets.Length + (int)j;
 
-                        // Console.WriteLine($"glyphIndexOffset={glyphIndexOffset} (idRangeOffset/2)={idRangeOffset/2}, (charCode - startCode)={(charCode - startCode)}, idRangeOffsets.Length={idRangeOffsets.Length}, j={j}");
+                        // Log($"glyphIndexOffset={glyphIndexOffset} (idRangeOffset/2)={idRangeOffset/2}, (charCode - startCode)={(charCode - startCode)}, idRangeOffsets.Length={idRangeOffsets.Length}, j={j}");
 
                         UInt16 glyphIndex = glyphIdArray[glyphIndexOffset];
 
@@ -180,7 +185,7 @@ namespace TypefaceUtil.OpenType
                             glyphIndex = (UInt16)((glyphIndex + idDelta) % 0xFFFF);
                         }
 
-                        // Console.WriteLine($"charCode={charCode} : glyphIdArray[{glyphIndexOffset}]={glyphIndex} => {charCode} - {startCode} (idRangeOffset={idRangeOffset}, idDelta={idDelta}, j={j})");
+                        // Log($"charCode={charCode} : glyphIdArray[{glyphIndexOffset}]={glyphIndex} => {charCode} - {startCode} (idRangeOffset={idRangeOffset}, idDelta={idDelta}, j={j})");
 
                         characterToGlyphMap[(int)charCode] = (ushort)glyphIndex;
                     }
@@ -192,15 +197,15 @@ namespace TypefaceUtil.OpenType
                 }
             }
 
-            // Console.WriteLine($"characterToGlyphMap:");
-            // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-            // Console.WriteLine($"charCode | glyphIndex");  
+            // Log($"characterToGlyphMap:");
+            // Log($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
+            // Log($"charCode | glyphIndex");  
 
             //foreach (var kvp in characterToGlyphMap)
             //{
             //    var charCode = kvp.Key;
             //    var glyphIndex = kvp.Value;
-            //    Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+            //    Log($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
             //}
 
             return characterToGlyphMap;
@@ -213,14 +218,14 @@ namespace TypefaceUtil.OpenType
             var language = reader.ReadUInt32();
             var numGroups = reader.ReadUInt32();
 
-            // Console.WriteLine($"length: {length}");
-            // Console.WriteLine($"language: {language}");
-            // Console.WriteLine($"numGroups: {numGroups}");
+            // Log($"length: {length}");
+            // Log($"language: {language}");
+            // Log($"numGroups: {numGroups}");
 
             var groups = new SequentialMapGroup[numGroups];
 
-            // Console.WriteLine($"groups:");
-            // Console.WriteLine($"startCharCode | endCharCode | startGlyphID");
+            // Log($"groups:");
+            // Log($"startCharCode | endCharCode | startGlyphID");
 
             for (UInt32 j = 0; j < numGroups; j++)
             {
@@ -228,7 +233,7 @@ namespace TypefaceUtil.OpenType
                 groups[j].endCharCode = reader.ReadUInt32();
                 groups[j].startGlyphID = reader.ReadUInt32();
 
-                // Console.WriteLine($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
+                // Log($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
             }
 
             // mapping of a Unicode code point to a glyph index
@@ -247,15 +252,15 @@ namespace TypefaceUtil.OpenType
                 }
             }
 
-            // Console.WriteLine($"characterToGlyphMap:");
-            // Console.WriteLine($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-            // Console.WriteLine($"charCode | glyphIndex");  
+            // Log($"characterToGlyphMap:");
+            // Log($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
+            // Log($"charCode | glyphIndex");  
 
             //foreach (var kvp in characterToGlyphMap)
             //{
             //    var charCode = kvp.Key;
             //    var glyphIndex = kvp.Value;
-            //    Console.WriteLine($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
+            //    Log($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
             //}
 
             return characterToGlyphMap;
@@ -300,11 +305,11 @@ namespace TypefaceUtil.OpenType
 
                 var format = reader.ReadUInt16();
 
-                // Console.WriteLine($"---");
-                // Console.WriteLine($"platformID: {platformID} ({GetPlatformID(platformID)})");
-                // Console.WriteLine($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
-                // Console.WriteLine($"offset: {offset}");
-                // Console.WriteLine($"format: {format} ({GetFormat(format)})");
+                // Log($"---");
+                // Log($"platformID: {platformID} ({GetPlatformID(platformID)})");
+                // Log($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
+                // Log($"offset: {offset}");
+                // Log($"format: {format} ({GetFormat(format)})");
 
                 switch (format)
                 {
@@ -323,7 +328,7 @@ namespace TypefaceUtil.OpenType
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-4-segment-mapping-to-delta-values
                     case 4:
                         {
-                           var characterToGlyphMap = ReadCmapFormat4(reader);
+                            var characterToGlyphMap = ReadCmapFormat4(reader);
 
                             var characterMap = new CharacterMap()
                             {
