@@ -1,5 +1,14 @@
 # TypefaceUtil
 
+![CI](https://github.com/wieslawsoltes/TypefaceUtil/workflows/CI/badge.svg)
+
+[![NuGet](https://img.shields.io/nuget/v/TypefaceUtil.OpenType.svg)](https://www.nuget.org/packages/TypefaceUtil.OpenType)
+[![NuGet](https://img.shields.io/nuget/dt/TypefaceUtil.OpenType.svg)](https://www.nuget.org/packages/TypefaceUtil.OpenType)
+
+[![GitHub release](https://img.shields.io/github/release/wieslawsoltes/TypefaceUtil.svg)](https://github.com/wieslawsoltes/TypefaceUtil)
+[![Github All Releases](https://img.shields.io/github/downloads/wieslawsoltes/TypefaceUtil/total.svg)](https://github.com/wieslawsoltes/TypefaceUtil)
+[![Github Releases](https://img.shields.io/github/downloads/wieslawsoltes/TypefaceUtil/latest/total.svg)](https://github.com/wieslawsoltes/TypefaceUtil)
+
 An OpenType typeface utilities.
 
 ## About
