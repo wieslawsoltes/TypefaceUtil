@@ -167,7 +167,7 @@ namespace TypefaceUtil
         {
             foreach (var characterMap in characterMaps)
             {
-                if (characterMap.CharacterToGlyphMap != null)
+                if (characterMap != null && characterMap.CharacterToGlyphMap != null)
                 {
                     if (settings.PngExport)
                     {
@@ -190,13 +190,22 @@ namespace TypefaceUtil
                         {
                             Log($"[Svg] {typeface.FamilyName}, {characterMap.Name}");
                         }
-                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}.svg.txt";
+
+                        var outputDirectory = "";
+
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
-                            outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
+                            outputDirectory = settings.OutputDirectory.FullName;
                         }
-                        using var streamWriter = File.CreateText(outputPath);
-                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, streamWriter);
+
+                        outputDirectory = Path.Combine(outputDirectory, $"{typeface.FamilyName}_{characterMap.Name ?? "unknown"}");
+
+                        if (!Directory.Exists(outputDirectory))
+                        {
+                            Directory.CreateDirectory(outputDirectory);
+                        }
+
+                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory, characterMap.Name ?? "unknown");
                     }
 
                     if (settings.XamlExport)
@@ -227,6 +236,9 @@ namespace TypefaceUtil
         static void PrintFontFamilies()
         {
             var fontFamilies = SKFontManager.Default.GetFontFamilies();
+
+            Array.Sort(fontFamilies, StringComparer.InvariantCulture);
+
             foreach (var fontFamily in fontFamilies)
             {
                 Log($"{fontFamily}");
