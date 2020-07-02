@@ -190,7 +190,7 @@ namespace TypefaceUtil
                         {
                             Log($"[Svg] {typeface.FamilyName}, {characterMap.Name}");
                         }
-                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.svg.txt";
+                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}.svg.txt";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
@@ -205,7 +205,7 @@ namespace TypefaceUtil
                         {
                             Log($"[Xaml] {typeface.FamilyName}, {characterMap.Name}");
                         }
-                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml";
+                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}.xaml";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
