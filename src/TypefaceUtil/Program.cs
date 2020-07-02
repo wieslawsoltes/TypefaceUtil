@@ -19,6 +19,7 @@ namespace TypefaceUtil
         // Output
         public DirectoryInfo? OutputDirectory { get; set; }
         // Info
+        public bool PrintFontFamilies { get; set; } = false;
         public bool PrintCharacterMaps { get; set; } = false;
         // Png Export
         public bool PngExport { get; set; } = false;
@@ -223,6 +224,15 @@ namespace TypefaceUtil
             return characterMaps;
         }
 
+        static void PrintFontFamilies()
+        {
+            var fontFamilies = SKFontManager.Default.GetFontFamilies();
+            foreach (var fontFamily in fontFamilies)
+            {
+                Log($"{fontFamily}");
+            }
+        }
+
         static async Task<int> Main(string[] args)
         {
             // Input
@@ -255,6 +265,11 @@ namespace TypefaceUtil
             };
 
             // Info
+
+            var optionPrintFontFamilies = new Option(new[] { "--printFontFamilies" }, "Print available font families")
+            {
+                Argument = new Argument<bool>()
+            };
 
             var optionPrintCharacterMaps = new Option(new[] { "--printCharacterMaps" }, "Print character maps info")
             {
@@ -337,6 +352,7 @@ namespace TypefaceUtil
             // Output
             rootCommand.AddOption(optionOutputDirectory);
             // Info
+            rootCommand.AddOption(optionPrintFontFamilies);
             rootCommand.AddOption(optionPrintCharacterMaps);
             // Png Export
             rootCommand.AddOption(optionPngExport);
@@ -358,6 +374,11 @@ namespace TypefaceUtil
             {
                 try
                 {
+                    if (settings.PrintFontFamilies)
+                    {
+                        PrintFontFamilies();
+                    }
+
                     Run(settings);
                 }
                 catch (Exception ex)

@@ -32,6 +32,7 @@ Options:
   -p, --pattern <pattern>                    The search string to match against the names of files in the input directory [default: *.ttf]
   --fontFamily <fontfamily>                  The input font family
   -o, --outputDirectory <outputdirectory>    The relative or absolute path to the output directory
+  --printFontFamilies                        Print available font families
   --printCharacterMaps                       Print character maps info
   --png, --pngExport                         Export text as Png
   --pngTextSize <pngtextsize>                Png text size [default: 20]
