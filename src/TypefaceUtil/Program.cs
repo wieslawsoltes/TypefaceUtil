@@ -18,6 +18,8 @@ namespace TypefaceUtil
         public string? FontFamily { get; set; }
         // Output
         public DirectoryInfo? OutputDirectory { get; set; }
+        // Info
+        public bool PrintCharacterMaps { get; set; } = false;
         // Png Export
         public bool PngExport { get; set; } = false;
         public float PngTextSize { get; set; } = 20f;
@@ -98,7 +100,20 @@ namespace TypefaceUtil
                 if (typeface != null)
                 {
                     var characterMaps = Read(typeface);
+
+                    if (settings.PrintCharacterMaps)
+                    {
+                        Print(settings, characterMaps, typeface);
+                    }
+
                     Export(settings, characterMaps, typeface);
+                }
+                else
+                {
+                    if (!settings.Quiet)
+                    {
+                        Log($"Failed to load typeface from file: {inputPath.FullName}");
+                    }
                 }
             }
 
@@ -109,7 +124,40 @@ namespace TypefaceUtil
                 if (typeface != null)
                 {
                     var characterMaps = Read(typeface);
+
+                    if (settings.PrintCharacterMaps)
+                    {
+                        Print(settings, characterMaps, typeface);
+                    }
+
                     Export(settings, characterMaps, typeface);
+                }
+                else
+                {
+                    if (!settings.Quiet)
+                    {
+                        Log($"Failed to load typeface from family name: {fontFamily}");
+                    }
+                }
+            }
+        }
+
+        static void Print(Settings settings, List<CharacterMap> characterMaps, SKTypeface typeface)
+        {
+            foreach (var characterMap in characterMaps)
+            {
+                if (characterMap.CharacterToGlyphMap != null)
+                {
+                    var characterToGlyphMap = characterMap.CharacterToGlyphMap;
+                    Log($"[charmap] {typeface.FamilyName}, {characterMap.Name} ({characterToGlyphMap.Count})");
+                    Log($"| CharCode | GlyphIndex |");
+                    Log($"|----------|------------|");
+                    foreach (var kvp in characterToGlyphMap)
+                    {
+                        var charCode = kvp.Key;
+                        var glyphIndex = kvp.Value;
+                        Log($"| {charCode.ToString().PadRight(8)} | {glyphIndex.ToString()} |");
+                    }
                 }
             }
         }
@@ -122,6 +170,10 @@ namespace TypefaceUtil
                 {
                     if (settings.PngExport)
                     {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Png] {typeface.FamilyName}, {characterMap.Name}");
+                        }
                         var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.png";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
@@ -133,6 +185,10 @@ namespace TypefaceUtil
 
                     if (settings.SvgExport)
                     {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Svg] {typeface.FamilyName}, {characterMap.Name}");
+                        }
                         var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.svg.txt";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
@@ -144,6 +200,10 @@ namespace TypefaceUtil
 
                     if (settings.XamlExport)
                     {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Xaml] {typeface.FamilyName}, {characterMap.Name}");
+                        }
                         var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml.txt";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
@@ -192,6 +252,13 @@ namespace TypefaceUtil
             var optionOutputDirectory = new Option(new[] { "--outputDirectory", "-o" }, "The relative or absolute path to the output directory")
             {
                 Argument = new Argument<DirectoryInfo?>()
+            };
+
+            // Info
+
+            var optionPrintCharacterMaps = new Option(new[] { "--printCharacterMaps" }, "Print character maps info")
+            {
+                Argument = new Argument<bool>()
             };
 
             // Png Export
@@ -269,6 +336,8 @@ namespace TypefaceUtil
             rootCommand.AddOption(optionFontFamily);
             // Output
             rootCommand.AddOption(optionOutputDirectory);
+            // Info
+            rootCommand.AddOption(optionPrintCharacterMaps);
             // Png Export
             rootCommand.AddOption(optionPngExport);
             rootCommand.AddOption(optionPngTextSize);
