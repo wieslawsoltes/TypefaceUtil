@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtil", "src\TypefaceUtil\TypefaceUtil.csproj", "{35DC5579-5E51-458F-BFFC-65133AE83F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil", "src\TypefaceUtil\TypefaceUtil.csproj", "{35DC5579-5E51-458F-BFFC-65133AE83F50}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{282435D5-F0E7-4230-B354-E4EFD638DA3E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtil.OpenType", "src\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj", "{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil.OpenType", "src\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj", "{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +27,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D7D93DB-65A8-4680-ADDD-EE67EEC2C975}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE} = {282435D5-F0E7-4230-B354-E4EFD638DA3E}
 	EndGlobalSection
 EndGlobal
