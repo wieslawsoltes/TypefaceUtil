@@ -104,7 +104,7 @@ namespace TypefaceUtil
 
                     if (settings.PrintCharacterMaps)
                     {
-                        Print(settings, characterMaps, typeface);
+                        Print(characterMaps, typeface);
                     }
 
                     Export(settings, characterMaps, typeface);
@@ -128,7 +128,7 @@ namespace TypefaceUtil
 
                     if (settings.PrintCharacterMaps)
                     {
-                        Print(settings, characterMaps, typeface);
+                        Print(characterMaps, typeface);
                     }
 
                     Export(settings, characterMaps, typeface);
@@ -143,7 +143,7 @@ namespace TypefaceUtil
             }
         }
 
-        static void Print(Settings settings, List<CharacterMap> characterMaps, SKTypeface typeface)
+        static void Print(List<CharacterMap> characterMaps, SKTypeface typeface)
         {
             foreach (var characterMap in characterMaps)
             {
@@ -157,7 +157,7 @@ namespace TypefaceUtil
                     {
                         var charCode = kvp.Key;
                         var glyphIndex = kvp.Value;
-                        Log($"| {charCode.ToString().PadRight(8)} | {glyphIndex.ToString().PadRight(10)} |");
+                        Log($"| {charCode,8} | {glyphIndex,10} |");
                     }
                 }
             }
@@ -205,7 +205,7 @@ namespace TypefaceUtil
                         {
                             Log($"[Xaml] {typeface.FamilyName}, {characterMap.Name}");
                         }
-                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml.txt";
+                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.xaml";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
