@@ -156,7 +156,7 @@ namespace TypefaceUtil
                     {
                         var charCode = kvp.Key;
                         var glyphIndex = kvp.Value;
-                        Log($"| {charCode.ToString().PadRight(8)} | {glyphIndex.ToString()} |");
+                        Log($"| {charCode.ToString().PadRight(8)} | {glyphIndex.ToString().PadRight(10)} |");
                     }
                 }
             }
