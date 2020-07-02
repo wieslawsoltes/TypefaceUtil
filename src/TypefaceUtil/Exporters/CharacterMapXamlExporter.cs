@@ -28,10 +28,15 @@ namespace TypefaceUtil
             var mAscent = metrics.Ascent;
             var mDescent = metrics.Descent;
 
+            streamWriter.WriteLine("<Styles xmlns=\"https://github.com/avaloniaui\"");
+            streamWriter.WriteLine("        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
+            streamWriter.WriteLine("    <Style>");
+            streamWriter.WriteLine("        <Style.Resources>");
+
             foreach (var kvp in characterToGlyphMap)
             {
                 var charCode = kvp.Key;
-                var utf32 = Char.ConvertFromUtf32((int)charCode);
+                var utf32 = Char.ConvertFromUtf32(charCode);
                 float x = 0;
                 float y = (mAscent / 2.0f) - mDescent / 2.0f;
 
@@ -42,9 +47,12 @@ namespace TypefaceUtil
 
                 var svgPathData = fillPath.ToSvgPathData();
 
-                streamWriter.WriteLine($"[{utf32}]");
-                streamWriter.WriteLine($"<GeometryDrawing Brush=\"{brush}\" Geometry=\"{svgPathData}\"/>"); //  x:Key=\"{key}\"
+                streamWriter.WriteLine($"            <GeometryDrawing x:Key=\"{charCode:X2}\" Brush=\"{brush}\" Geometry=\"{svgPathData}\"/>"); //  x:Key=\"{key}\"
             }
+
+            streamWriter.WriteLine("        </Style.Resources>");
+            streamWriter.WriteLine("    </Style>");
+            streamWriter.WriteLine("</Styles>");
         }
     }
 }
