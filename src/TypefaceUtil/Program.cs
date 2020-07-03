@@ -107,7 +107,7 @@ namespace TypefaceUtil
                 }
     
                 using var zipStream = File.Create(outputPathZip);
-                using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Update);
+                using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create);
 
                 for (int i = 0; i < paths.Count; i++)
                 {
