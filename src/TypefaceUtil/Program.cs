@@ -98,7 +98,6 @@ namespace TypefaceUtil
                 }
             }
 
-
             if (settings.Zip)
             {
                 var outputPathZip = settings.ZipFile == null ? "export.zip" : settings.ZipFile.FullName;
