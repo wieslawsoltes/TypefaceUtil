@@ -32,6 +32,8 @@ Options:
   -p, --pattern <pattern>                    The search string to match against the names of files in the input directory [default: *.ttf]
   --fontFamily <fontfamily>                  The input font family
   -o, --outputDirectory <outputdirectory>    The relative or absolute path to the output directory
+  --zip                                      Create zip archive from exported files
+  --zipFile <zipfile>                        The relative or absolute path to the zip file [default: export.zip]
   --printFontFamilies                        Print available font families
   --printCharacterMaps                       Print character maps info
   --png, --pngExport                         Export text as Png
@@ -67,7 +69,8 @@ TypefaceUtil --xamlExport --fontFamily "Calibri"
 ```
 
 ```
-TypefaceUtil -d C:\Windows\Fonts -o export --png --svg --xaml
+TypefaceUtil -d C:\Windows\Fonts --png --svg --xaml -o export
+TypefaceUtil -d C:\Windows\Fonts --png --svg --xaml --zip --zipFile "Windows-Fonts-IconPack.zip"
 ```
 
 ## Testing
@@ -80,6 +83,8 @@ dotnet run -c Release -- --debug --fontFamily "system"
 dotnet run -c Release -- -d ../../../ttf/ --svg -o export
 dotnet run -c Release -- -d ../../../ttf/ --xaml -o export
 dotnet run -c Release -- -d ../../../ttf/ --png -o export
+dotnet run -c Release -- -d ../../../ttf/ --png --xaml --svg -o export
+dotnet run -c Release -- -d ../../../ttf/ --png --xaml --svg --zip --zipFile "ttf-export.zip"
 dotnet run -c Release -- --png --svg --xaml -d ../../../ttf/ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
 dotnet run -c Release -- --png --svg --xaml --fontFamily "system"
 dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/segoeui.ttf

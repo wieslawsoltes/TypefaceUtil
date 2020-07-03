@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using SkiaSharp;
 using TypefaceUtil.OpenType;
@@ -18,6 +19,8 @@ namespace TypefaceUtil
         public string? FontFamily { get; set; }
         // Output
         public DirectoryInfo? OutputDirectory { get; set; }
+        public bool Zip { get; set; } = false;
+        public FileInfo? ZipFile { get; set; }
         // Info
         public bool PrintFontFamilies { get; set; } = false;
         public bool PrintCharacterMaps { get; set; } = false;
@@ -95,50 +98,105 @@ namespace TypefaceUtil
                 }
             }
 
-            for (int i = 0; i < paths.Count; i++)
+
+            if (settings.Zip)
             {
-                var inputPath = paths[i];
-                using var typeface = SKTypeface.FromFile(inputPath.FullName);
-                if (typeface != null)
+                var outputPathZip = settings.ZipFile == null ? "export.zip" : settings.ZipFile.FullName;
+                if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                 {
-                    var characterMaps = Read(typeface, settings.Debug);
-
-                    if (settings.PrintCharacterMaps)
-                    {
-                        Print(characterMaps, typeface);
-                    }
-
-                    Export(settings, characterMaps, typeface);
+                    outputPathZip = Path.Combine(settings.OutputDirectory.FullName, outputPathZip);
                 }
-                else
+    
+                using var zipStream = File.Create(outputPathZip);
+                using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Update);
+
+                for (int i = 0; i < paths.Count; i++)
                 {
-                    if (!settings.Quiet)
+                    var inputPath = paths[i];
+                    using var typeface = SKTypeface.FromFile(inputPath.FullName);
+                    if (typeface != null)
                     {
-                        Log($"Failed to load typeface from file: {inputPath.FullName}");
+                        var characterMaps = Read(typeface, settings.Debug);
+                        if (settings.PrintCharacterMaps)
+                        {
+                            Print(characterMaps, typeface);
+                        }
+                        Export(settings, characterMaps, typeface, zipArchive);
+                    }
+                    else
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"Failed to load typeface from file: {inputPath.FullName}");
+                        }
+                    }
+                }
+
+                var fontFamily = settings.FontFamily;
+                if (!string.IsNullOrEmpty(fontFamily))
+                {
+                    using var typeface = SKTypeface.FromFamilyName(fontFamily);
+                    if (typeface != null)
+                    {
+                        var characterMaps = Read(typeface, settings.Debug);
+                        if (settings.PrintCharacterMaps)
+                        {
+                            Print(characterMaps, typeface);
+                        }
+                        Export(settings, characterMaps, typeface, zipArchive);
+                    }
+                    else
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"Failed to load typeface from family name: {fontFamily}");
+                        }
                     }
                 }
             }
-
-            var fontFamily = settings.FontFamily;
-            if (!string.IsNullOrEmpty(fontFamily))
+            else
             {
-                using var typeface = SKTypeface.FromFamilyName(fontFamily);
-                if (typeface != null)
+                for (int i = 0; i < paths.Count; i++)
                 {
-                    var characterMaps = Read(typeface, settings.Debug);
-
-                    if (settings.PrintCharacterMaps)
+                    var inputPath = paths[i];
+                    using var typeface = SKTypeface.FromFile(inputPath.FullName);
+                    if (typeface != null)
                     {
-                        Print(characterMaps, typeface);
+                        var characterMaps = Read(typeface, settings.Debug);
+                        if (settings.PrintCharacterMaps)
+                        {
+                            Print(characterMaps, typeface);
+                        }
+                        Export(settings, characterMaps, typeface);
                     }
-
-                    Export(settings, characterMaps, typeface);
-                }
-                else
-                {
-                    if (!settings.Quiet)
+                    else
                     {
-                        Log($"Failed to load typeface from family name: {fontFamily}");
+                        if (!settings.Quiet)
+                        {
+                            Log($"Failed to load typeface from file: {inputPath.FullName}");
+                        }
+                    }
+                }
+
+                var fontFamily = settings.FontFamily;
+                if (!string.IsNullOrEmpty(fontFamily))
+                {
+                    using var typeface = SKTypeface.FromFamilyName(fontFamily);
+                    if (typeface != null)
+                    {
+                        var characterMaps = Read(typeface, settings.Debug);
+                        if (settings.PrintCharacterMaps)
+                        {
+                            Print(characterMaps, typeface);
+                        }
+                        Export(settings, characterMaps, typeface);
+                    }
+                    else
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"Failed to load typeface from family name: {fontFamily}");
+                        }
                     }
                 }
             }
@@ -181,6 +239,7 @@ namespace TypefaceUtil
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
                         }
+
                         using var stream = File.OpenWrite(outputPath);
                         CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.PngTextSize, settings.PngCellSize, settings.PngColumns, stream);
                     }
@@ -206,7 +265,7 @@ namespace TypefaceUtil
                             Directory.CreateDirectory(outputDirectory);
                         }
 
-                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory);
+                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory, null);
                     }
 
                     if (settings.XamlExport)
@@ -221,6 +280,55 @@ namespace TypefaceUtil
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
                         }
                         using var streamWriter = File.CreateText(outputPath);
+                        CharacterMapXamlExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.XamlTextSize, settings.XamlBrush, streamWriter);
+                    }
+                }
+            }
+        }
+
+        static void Export(Settings settings, List<CharacterMap> characterMaps, SKTypeface typeface, ZipArchive zipArchive)
+        {
+            foreach (var characterMap in characterMaps)
+            {
+                if (characterMap != null && characterMap.CharacterToGlyphMap != null)
+                {
+                    if (settings.PngExport)
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Png] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
+                        }
+
+                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}).png";
+                        var zipArchiveEntry = zipArchive.CreateEntry(outputPath);
+                        using var stream = zipArchiveEntry.Open();
+ 
+                        CharacterMapPngExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.PngTextSize, settings.PngCellSize, settings.PngColumns, stream);
+                    }
+
+                    if (settings.SvgExport)
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Svg] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
+                        }
+
+                        var outputDirectory = $"{typeface.FamilyName}_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)})";
+
+                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory, zipArchive);
+                    }
+
+                    if (settings.XamlExport)
+                    {
+                        if (!settings.Quiet)
+                        {
+                            Log($"[Xaml] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
+                        }
+
+                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}).xaml";
+                        var zipArchiveEntry = zipArchive.CreateEntry(outputPath);
+                        using var streamWriter = new StreamWriter(zipArchiveEntry.Open());
+
                         CharacterMapXamlExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.XamlTextSize, settings.XamlBrush, streamWriter);
                     }
                 }
@@ -275,6 +383,16 @@ namespace TypefaceUtil
             var optionOutputDirectory = new Option(new[] { "--outputDirectory", "-o" }, "The relative or absolute path to the output directory")
             {
                 Argument = new Argument<DirectoryInfo?>()
+            };
+
+            var optionZip = new Option(new[] { "--zip" }, "Create zip archive from exported files")
+            {
+                Argument = new Argument<bool>()
+            };
+
+            var optionZipFile = new Option(new[] { "--zipFile" }, "The relative or absolute path to the zip file")
+            {
+                Argument = new Argument<FileInfo?>(getDefaultValue: () => new FileInfo("export.zip"))
             };
 
             // Info
@@ -369,6 +487,8 @@ namespace TypefaceUtil
             rootCommand.AddOption(optionFontFamily);
             // Output
             rootCommand.AddOption(optionOutputDirectory);
+            rootCommand.AddOption(optionZip);
+            rootCommand.AddOption(optionZipFile);
             // Info
             rootCommand.AddOption(optionPrintFontFamilies);
             rootCommand.AddOption(optionPrintCharacterMaps);
