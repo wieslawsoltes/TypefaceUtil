@@ -24,13 +24,30 @@
     <PackageTags>opentype;ttf;fonts;cmap;unicode;skiasharp;text;converter;png;svg;xaml;avaloniaui;avalonia;typeface;codepoint</PackageTags>
   </PropertyGroup>
 
+  <!--
   <PropertyGroup>
     <PublishTrimmed>True</PublishTrimmed>
     <PublishSingleFile>False</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
+  -->
+
+  <PropertyGroup>
+    <IlcInvariantGlobalization>true</IlcInvariantGlobalization>
+    <!--
+    <RootAllApplicationAssemblies>false</RootAllApplicationAssemblies>
+    <IlcGenerateCompleteTypeMetadata>false</IlcGenerateCompleteTypeMetadata>
+    <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
+    <IlcDisableReflection>true</IlcDisableReflection>
+    <IlcOptimizationPreference>Speed</IlcOptimizationPreference>
+    <IlcFoldIdenticalMethodBodies>true</IlcFoldIdenticalMethodBodies>
+    <IlcDisableUnhandledExceptionExperience>true</IlcDisableUnhandledExceptionExperience>
+    -->
+  </PropertyGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20303.1" />
     <PackageReference Include="SkiaSharp" Version="1.68.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="1.68.3" />

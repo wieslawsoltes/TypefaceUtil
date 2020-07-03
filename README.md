@@ -73,6 +73,51 @@ TypefaceUtil -d C:\Windows\Fonts --png --svg --xaml -o export
 TypefaceUtil -d C:\Windows\Fonts --png --svg --xaml --zip --zipFile "Windows-Fonts-IconPack.zip"
 ```
 
+## Build
+
+```
+dotnet build
+```
+
+## Publish
+
+```
+dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r win7-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-win7-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+```
+
+```
+dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r debian.8-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-debian.8-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+```
+
+```
+dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r ubuntu.14.04-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-ubuntu.14.04-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+```
+
+```
+dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r osx.10.12-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+```
+
+```
+dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r win-x64 -o ./artifacts/TypefaceUtil-win-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+del artifacts\TypefaceUtil-win-x64\*.pdb
+del artifacts\TypefaceUtil-win-x64\*.json
+```
+
+```
+sudo apt-get install clang zlib1g-dev libkrb5-dev libtinfo5
+dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r linux-x64 -o ./artifacts/TypefaceUtil-linux-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+strip ./artifacts/TypefaceUtil-linux-x64/TypefaceUtil
+rm ./artifacts/TypefaceUtil-linux-x64/*.pdb
+rm ./artifacts/TypefaceUtil-linux-x64/*.json
+```
+
+```
+dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r osx-x64 -o ./artifacts/TypefaceUtil-osx-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+strip ./artifacts/TypefaceUtil-osx-x64/TypefaceUtil
+rm ./artifacts/TypefaceUtil-osx-x64/*.pdb
+rm ./artifacts/TypefaceUtil-osx-x64/*.json
+```
+
 ## Testing
 
 ```
