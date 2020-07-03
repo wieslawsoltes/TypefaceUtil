@@ -66,12 +66,12 @@ namespace TypefaceUtil.OpenType
             };
         }
 
-        //private static void Log(string message)
-        //{
-        //    Console.WriteLine(message);
-        //}
+        private static void Log(string message)
+        {
+            Console.WriteLine(message);
+        }
 
-        private static Dictionary<int, ushort> ReadCmapFormat4(BigEndianBinaryReader reader)
+        private static Dictionary<int, ushort> ReadCmapFormat4(BigEndianBinaryReader reader, bool debug)
         {
             var length = reader.ReadUInt16();
             var language = reader.ReadUInt16();
@@ -80,15 +80,22 @@ namespace TypefaceUtil.OpenType
             var entrySelector = reader.ReadUInt16(); // log2(searchRange/2)
             var rangeShift = reader.ReadUInt16(); // 2 × segCount - searchRange
 
-            // Log($"length: {length}");
-            // Log($"language: {language}");
-            // Log($"segCountX2: {segCountX2}");
-            // Log($"searchRange: {searchRange}");
-            // Log($"entrySelector: {entrySelector}");
-            // Log($"rangeShift: {rangeShift}");
+            if (debug)
+            {
+                Log($"length: {length}");
+                Log($"language: {language}");
+                Log($"segCountX2: {segCountX2}");
+                Log($"searchRange: {searchRange}");
+                Log($"entrySelector: {entrySelector}");
+                Log($"rangeShift: {rangeShift}");
+            }
 
             var segCount = segCountX2 / 2;
-            // Log($"segCount: {segCount}");
+
+            if (debug)
+            {
+                Log($"segCount: {segCount}");
+            }
 
             var endCodes = new UInt16[segCount];
             var startCodes = new UInt16[segCount];
@@ -117,8 +124,11 @@ namespace TypefaceUtil.OpenType
                 idRangeOffsets[j] = reader.ReadUInt16();
             }
 
-            // Log($"segments:");
-            // Log($"startCode | endCode | idDelta | idRangeOffset");
+            if (debug)
+            {
+                Log($"segments:");
+                Log($"startCode | endCode | idDelta | idRangeOffset");
+            }
 
             for (UInt32 j = 0; j < segCount; j++)
             {
@@ -126,7 +136,10 @@ namespace TypefaceUtil.OpenType
                 var endCode = endCodes[j];
                 var idDelta = idDeltas[j];
                 var idRangeOffset = idRangeOffsets[j];
-                // Log($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
+                if (debug)
+                {
+                    Log($"{startCode.ToString().PadRight(9)} | {endCode.ToString().PadRight(7)} | {idDelta.ToString().PadRight(7)} | {idRangeOffset.ToString()}");
+                }
             }
 
             // header:
@@ -145,13 +158,21 @@ namespace TypefaceUtil.OpenType
             var headerLength = (8 * 2) + (4 * segCount * 2);
             var glyphIdArrayLength = (length - headerLength) / 2; // length - header
             var glyphIdArray = new UInt16[glyphIdArrayLength];
-            // Log($"headerLength: {headerLength}");
-            // Log($"glyphIdArrayLength: {glyphIdArrayLength}");
+
+            if (debug)
+            {
+                Log($"headerLength: {headerLength}");
+                Log($"glyphIdArrayLength: {glyphIdArrayLength}");
+            }
 
             for (UInt32 j = 0; j < glyphIdArrayLength; j++)
             {
                 glyphIdArray[j] = reader.ReadUInt16();
-                // Log($"glyphIdArray[{j}]: {glyphIdArray[j]} (position={ms.Position-2})");
+
+                if (debug)
+                {
+                    Log($"glyphIdArray[{j}]: {glyphIdArray[j]}");
+                }
             }
 
             // mapping of a Unicode code point to a glyph index
@@ -175,18 +196,11 @@ namespace TypefaceUtil.OpenType
                     if (idRangeOffset != 0)
                     {
                         int glyphIndexOffset = (idRangeOffset / 2) + (charCode - startCode) - idRangeOffsets.Length + (int)j;
-
-                        // Log($"glyphIndexOffset={glyphIndexOffset} (idRangeOffset/2)={idRangeOffset/2}, (charCode - startCode)={(charCode - startCode)}, idRangeOffsets.Length={idRangeOffsets.Length}, j={j}");
-
                         UInt16 glyphIndex = glyphIdArray[glyphIndexOffset];
-
                         if (glyphIndex != 0)
                         {
                             glyphIndex = (UInt16)((glyphIndex + idDelta) % 0xFFFF);
                         }
-
-                        // Log($"charCode={charCode} : glyphIdArray[{glyphIndexOffset}]={glyphIndex} => {charCode} - {startCode} (idRangeOffset={idRangeOffset}, idDelta={idDelta}, j={j})");
-
                         characterToGlyphMap[(int)charCode] = (ushort)glyphIndex;
                     }
                     else
@@ -197,35 +211,30 @@ namespace TypefaceUtil.OpenType
                 }
             }
 
-            // Log($"characterToGlyphMap:");
-            // Log($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-            // Log($"charCode | glyphIndex");  
-
-            //foreach (var kvp in characterToGlyphMap)
-            //{
-            //    var charCode = kvp.Key;
-            //    var glyphIndex = kvp.Value;
-            //    Log($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
-            //}
-
             return characterToGlyphMap;
         }
 
-        private static Dictionary<int, ushort> ReadCmapFormat12(BigEndianBinaryReader reader)
+        private static Dictionary<int, ushort> ReadCmapFormat12(BigEndianBinaryReader reader, bool debug)
         {
             var reserved = reader.ReadUInt16();
             var length = reader.ReadUInt32();
             var language = reader.ReadUInt32();
             var numGroups = reader.ReadUInt32();
 
-            // Log($"length: {length}");
-            // Log($"language: {language}");
-            // Log($"numGroups: {numGroups}");
+            if (debug)
+            {
+                Log($"length: {length}");
+                Log($"language: {language}");
+                Log($"numGroups: {numGroups}");
+            }
 
             var groups = new SequentialMapGroup[numGroups];
 
-            // Log($"groups:");
-            // Log($"startCharCode | endCharCode | startGlyphID");
+            if (debug)
+            {
+                Log($"groups:");
+                Log($"startCharCode | endCharCode | startGlyphID");
+            }
 
             for (UInt32 j = 0; j < numGroups; j++)
             {
@@ -233,7 +242,10 @@ namespace TypefaceUtil.OpenType
                 groups[j].endCharCode = reader.ReadUInt32();
                 groups[j].startGlyphID = reader.ReadUInt32();
 
-                // Log($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
+                if (debug)
+                {
+                    Log($"{groups[j].startCharCode.ToString().PadRight(13)} | {groups[j].endCharCode.ToString().PadRight(11)} | {groups[j].startGlyphID.ToString()}");
+                }
             }
 
             // mapping of a Unicode code point to a glyph index
@@ -252,21 +264,10 @@ namespace TypefaceUtil.OpenType
                 }
             }
 
-            // Log($"characterToGlyphMap:");
-            // Log($"characterToGlyphMap.Count: {characterToGlyphMap.Count}");
-            // Log($"charCode | glyphIndex");  
-
-            //foreach (var kvp in characterToGlyphMap)
-            //{
-            //    var charCode = kvp.Key;
-            //    var glyphIndex = kvp.Value;
-            //    Log($"{charCode.ToString().PadRight(8)} | {glyphIndex.ToString()}");
-            //}
-
             return characterToGlyphMap;
         }
 
-        public static List<CharacterMap> ReadCmapTable(byte[] cmap)
+        public static List<CharacterMap> ReadCmapTable(byte[] cmap, bool debug)
         {
             var characterMaps = new List<CharacterMap>();
 
@@ -281,7 +282,11 @@ namespace TypefaceUtil.OpenType
             var version = reader.ReadUInt16();
             var numTables = reader.ReadUInt16();
 
-            // Console.WriteLine($"numTables: {numTables}");
+            if (debug)
+            {
+                Log($"version: {version}");
+                Log($"numTables: {numTables}");
+            }
 
             var encodingRecords = new EncodingRecord[numTables];
 
@@ -305,30 +310,40 @@ namespace TypefaceUtil.OpenType
 
                 var format = reader.ReadUInt16();
 
-                // Log($"---");
-                // Log($"platformID: {platformID} ({GetPlatformID(platformID)})");
-                // Log($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
-                // Log($"offset: {offset}");
-                // Log($"format: {format} ({GetFormat(format)})");
+                if (debug)
+                {
+                    Log($"platformID: {platformID} ({GetPlatformID(platformID)})");
+                    Log($"encodingID: {encodingID} ({GetEncodingID(platformID, encodingID)})");
+                    Log($"offset: {offset}");
+                    Log($"format: {format} ({GetFormat(format)})");
+                }
 
                 switch (format)
                 {
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-0-byte-encoding-table
                     case 0:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-2-high-byte-mapping-through-table
                     case 2:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-4-segment-mapping-to-delta-values
                     case 4:
                         {
-                            var characterToGlyphMap = ReadCmapFormat4(reader);
+                            var characterToGlyphMap = ReadCmapFormat4(reader, debug);
 
                             var characterMap = new CharacterMap()
                             {
@@ -342,25 +357,37 @@ namespace TypefaceUtil.OpenType
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-6-trimmed-table-mapping
                     case 6:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-8-mixed-16-bit-and-32-bit-coverage
                     case 8:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-10-trimmed-array
                     case 10:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-12-segmented-coverage
                     case 12:
                         {
-                            var characterToGlyphMap = ReadCmapFormat12(reader);
+                            var characterToGlyphMap = ReadCmapFormat12(reader, debug);
 
                             var characterMap = new CharacterMap()
                             {
@@ -374,13 +401,29 @@ namespace TypefaceUtil.OpenType
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-13-many-to-one-range-mappings
                     case 13:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
                         }
                         break;
                     // https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-14-unicode-variation-sequences
                     case 14:
                         {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                             // TODO:
+                        }
+                        break;
+                    default:
+                        {
+                            if (debug)
+                            {
+                                Log($"Format {format} is not supported.");
+                            }
                         }
                         break;
                 }

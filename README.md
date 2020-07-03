@@ -45,6 +45,7 @@ Options:
   --xamlTextSize <xamltextsize>              Xaml text size [default: 16]
   --xamlBrush <xamlbrush>                    Xaml brush [default: Black]
   --quiet                                    Set verbosity level to quiet
+  --debug                                    Set verbosity level to debug
   --version                                  Show version information
   -?, -h, --help                             Show help and usage information
 ```
@@ -73,27 +74,17 @@ TypefaceUtil -d C:\Windows\Fonts -o export --png --svg --xaml
 
 ```
 dotnet run -c Release -- --help
-```
-
-```
+dotnet run -c Release -- --debug -f ../../../segoeui.ttf
+dotnet run -c Release -- --debug --fontFamily "system"
+dotnet run -c Release -- -d ../../../ --svg -o export
+dotnet run -c Release -- -d ../../../ --xaml -o export
+dotnet run -c Release -- -d ../../../ --png -o export
 dotnet run -c Release -- --pngExport --svgExport --xamlExport -d ../../../ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
-```
-
-```
 dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "system"
-```
-
-```
 dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../segoeui.ttf
 dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../seguisym.ttf
 dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../calibri.ttf
-```
-
-```
 dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../segoeui.ttf --pngColumns 20 --pngTextSize 50 --pngCellSize 70
-```
-
-```
 dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI"
 dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI Symbol"
 dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Calibri"

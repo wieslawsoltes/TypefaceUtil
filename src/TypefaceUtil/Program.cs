@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -36,6 +36,7 @@ namespace TypefaceUtil
         public string XamlBrush { get; set; } = "Black";
         // Other
         public bool Quiet { get; set; }
+        public bool Debug { get; set; }
     }
 
     class Program
@@ -100,7 +101,7 @@ namespace TypefaceUtil
                 using var typeface = SKTypeface.FromFile(inputPath.FullName);
                 if (typeface != null)
                 {
-                    var characterMaps = Read(typeface);
+                    var characterMaps = Read(typeface, settings.Debug);
 
                     if (settings.PrintCharacterMaps)
                     {
@@ -124,7 +125,7 @@ namespace TypefaceUtil
                 using var typeface = SKTypeface.FromFamilyName(fontFamily);
                 if (typeface != null)
                 {
-                    var characterMaps = Read(typeface);
+                    var characterMaps = Read(typeface, settings.Debug);
 
                     if (settings.PrintCharacterMaps)
                     {
@@ -226,10 +227,10 @@ namespace TypefaceUtil
             }
         }
 
-        static List<CharacterMap> Read(SKTypeface typeface)
+        static List<CharacterMap> Read(SKTypeface typeface, bool debug)
         {
             var cmap = typeface.GetTableData(TableReader.GetIntTag("cmap"));
-            var characterMaps = TableReader.ReadCmapTable(cmap);
+            var characterMaps = TableReader.ReadCmapTable(cmap, debug);
             return characterMaps;
         }
 
@@ -351,6 +352,11 @@ namespace TypefaceUtil
                 Argument = new Argument<bool>()
             };
 
+            var optionDebug = new Option(new[] { "--debug" }, "Set verbosity level to debug")
+            {
+                Argument = new Argument<bool>()
+            };
+
             var rootCommand = new RootCommand()
             {
                 Description = "An OpenType typeface utilities."
@@ -381,6 +387,7 @@ namespace TypefaceUtil
             rootCommand.AddOption(optionXamlBrush);
             // Other
             rootCommand.AddOption(optionQuiet);
+            rootCommand.AddOption(optionDebug);
 
             rootCommand.Handler = CommandHandler.Create((Settings settings) =>
             {
