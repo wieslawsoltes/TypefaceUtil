@@ -74,6 +74,7 @@ TypefaceUtil -d C:\Windows\Fonts -o export --png --svg --xaml
 
 ```
 dotnet run -c Release -- --help
+dotnet run -c Release -- --printFontFamilies
 dotnet run -c Release -- --debug -f ../../../ttf/segoeui.ttf
 dotnet run -c Release -- --debug --fontFamily "system"
 dotnet run -c Release -- -d ../../../ttf/ --svg -o export
