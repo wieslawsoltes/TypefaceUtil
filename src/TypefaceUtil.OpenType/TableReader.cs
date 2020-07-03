@@ -348,6 +348,8 @@ namespace TypefaceUtil.OpenType
                             var characterMap = new CharacterMap()
                             {
                                 Name = "Format_4",
+                                PlatformID = platformID,
+                                EncodingID = encodingID,
                                 CharacterToGlyphMap = characterToGlyphMap
                             };
 
@@ -392,6 +394,8 @@ namespace TypefaceUtil.OpenType
                             var characterMap = new CharacterMap()
                             {
                                 Name = "Format_12",
+                                PlatformID = platformID,
+                                EncodingID = encodingID,
                                 CharacterToGlyphMap = characterToGlyphMap
                             };
 
