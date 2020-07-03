@@ -174,9 +174,9 @@ namespace TypefaceUtil
                     {
                         if (!settings.Quiet)
                         {
-                            Log($"[Png] {typeface.FamilyName}, {characterMap.Name}");
+                            Log($"[Png] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
                         }
-                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}.png";
+                        var outputPath = $"charmap_({typeface.FamilyName})_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}).png";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
@@ -189,7 +189,7 @@ namespace TypefaceUtil
                     {
                         if (!settings.Quiet)
                         {
-                            Log($"[Svg] {typeface.FamilyName}, {characterMap.Name}");
+                            Log($"[Svg] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
                         }
 
                         var outputDirectory = "";
@@ -199,23 +199,23 @@ namespace TypefaceUtil
                             outputDirectory = settings.OutputDirectory.FullName;
                         }
 
-                        outputDirectory = Path.Combine(outputDirectory, $"{typeface.FamilyName}_{characterMap.Name ?? "unknown"}");
+                        outputDirectory = Path.Combine(outputDirectory, $"{typeface.FamilyName}_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)})");
 
                         if (!Directory.Exists(outputDirectory))
                         {
                             Directory.CreateDirectory(outputDirectory);
                         }
 
-                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory, characterMap.Name ?? "unknown");
+                        CharacterMapSvgExporter.Save(characterMap.CharacterToGlyphMap, typeface, settings.SvgTextSize, settings.SvgPathFill, outputDirectory);
                     }
 
                     if (settings.XamlExport)
                     {
                         if (!settings.Quiet)
                         {
-                            Log($"[Xaml] {typeface.FamilyName}, {characterMap.Name}");
+                            Log($"[Xaml] {typeface.FamilyName}, Name: {characterMap.Name}, PlatformID: {TableReader.GetPlatformID(characterMap.PlatformID)}, EncodingID: {TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}");
                         }
-                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}.xaml";
+                        var outputPath = $"{typeface.FamilyName}_{characterMap.Name}_({TableReader.GetPlatformID(characterMap.PlatformID)}-{TableReader.GetEncodingID(characterMap.PlatformID, characterMap.EncodingID)}).xaml";
                         if (settings.OutputDirectory != null && !string.IsNullOrEmpty(settings.OutputDirectory.FullName))
                         {
                             outputPath = Path.Combine(settings.OutputDirectory.FullName, outputPath);
