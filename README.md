@@ -74,20 +74,20 @@ TypefaceUtil -d C:\Windows\Fonts -o export --png --svg --xaml
 
 ```
 dotnet run -c Release -- --help
-dotnet run -c Release -- --debug -f ../../../segoeui.ttf
+dotnet run -c Release -- --debug -f ../../../ttf/segoeui.ttf
 dotnet run -c Release -- --debug --fontFamily "system"
-dotnet run -c Release -- -d ../../../ --svg -o export
-dotnet run -c Release -- -d ../../../ --xaml -o export
-dotnet run -c Release -- -d ../../../ --png -o export
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -d ../../../ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "system"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../segoeui.ttf
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../seguisym.ttf
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../calibri.ttf
-dotnet run -c Release -- --pngExport --svgExport --xamlExport -f ../../../segoeui.ttf --pngColumns 20 --pngTextSize 50 --pngCellSize 70
-dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Segoe UI Symbol"
-dotnet run -c Release -- --pngExport --svgExport --xamlExport --fontFamily "Calibri"
+dotnet run -c Release -- -d ../../../ttf/ --svg -o export
+dotnet run -c Release -- -d ../../../ttf/ --xaml -o export
+dotnet run -c Release -- -d ../../../ttf/ --png -o export
+dotnet run -c Release -- --png --svg --xaml -d ../../../ttf/ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
+dotnet run -c Release -- --png --svg --xaml --fontFamily "system"
+dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/segoeui.ttf
+dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/seguisym.ttf
+dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/calibri.ttf
+dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/segoeui.ttf --pngColumns 20 --pngTextSize 50 --pngCellSize 70
+dotnet run -c Release -- --png --svg --xaml --fontFamily "Segoe UI"
+dotnet run -c Release -- --png --svg --xaml --fontFamily "Segoe UI Symbol"
+dotnet run -c Release -- --png --svg --xaml --fontFamily "Calibri"
 ```
 
 ## References
