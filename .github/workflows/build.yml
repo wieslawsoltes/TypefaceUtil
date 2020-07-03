@@ -87,11 +87,11 @@ jobs:
       run: |
         dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r debian.8-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-debian.8-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
         dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r ubuntu.14.04-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-ubuntu.14.04-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-        sudo apt-get install clang zlib1g-dev libkrb5-dev libtinfo5
-        dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r linux-x64 -o ./artifacts/TypefaceUtil-linux-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-        strip ./artifacts/TypefaceUtil-linux-x64/TypefaceUtil
-        rm ./artifacts/TypefaceUtil-linux-x64/*.pdb
-        rm ./artifacts/TypefaceUtil-linux-x64/*.json
+#       sudo apt-get install clang zlib1g-dev libkrb5-dev libtinfo5
+#       dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r linux-x64 -o ./artifacts/TypefaceUtil-linux-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+#       strip ./artifacts/TypefaceUtil-linux-x64/TypefaceUtil
+#       rm ./artifacts/TypefaceUtil-linux-x64/*.pdb
+#       rm ./artifacts/TypefaceUtil-linux-x64/*.json
     - name: Artifacts
       if: github.event_name != 'pull_request'
       uses: actions/upload-artifact@master
@@ -104,12 +104,12 @@ jobs:
       with:
         name: TypefaceUtil-netcoreapp3.1-ubuntu.14.04-x64
         path: ./artifacts/TypefaceUtil-netcoreapp3.1-ubuntu.14.04-x64
-    - name: Artifacts
-      if: github.event_name != 'pull_request'
-      uses: actions/upload-artifact@master
-      with:
-        name: TypefaceUtil-linux-x64
-        path: ./artifacts/TypefaceUtil-linux-x64
+#    - name: Artifacts
+#      if: github.event_name != 'pull_request'
+#      uses: actions/upload-artifact@master
+#      with:
+#        name: TypefaceUtil-linux-x64
+#        path: ./artifacts/TypefaceUtil-linux-x64
 
   publish-macOS:
     name: Publish macOS-latest
@@ -126,19 +126,19 @@ jobs:
       if: github.event_name != 'pull_request'
       run: |
         dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r osx.10.12-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-        dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r osx-x64 -o ./artifacts/TypefaceUtil-osx-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-        strip ./artifacts/TypefaceUtil-osx-x64/TypefaceUtil
-        rm ./artifacts/TypefaceUtil-osx-x64/*.pdb
-        rm ./artifacts/TypefaceUtil-osx-x64/*.json
+#        dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False -f netcoreapp3.1 -r osx-x64 -o ./artifacts/TypefaceUtil-osx-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
+#        strip ./artifacts/TypefaceUtil-osx-x64/TypefaceUtil
+#        rm ./artifacts/TypefaceUtil-osx-x64/*.pdb
+#        rm ./artifacts/TypefaceUtil-osx-x64/*.json
     - name: Artifacts
       if: github.event_name != 'pull_request'
       uses: actions/upload-artifact@master
       with:
         name: TypefaceUtil-netcoreapp3.1-osx.10.12-x64
         path: ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64
-    - name: Artifacts
-      if: github.event_name != 'pull_request'
-      uses: actions/upload-artifact@master
-      with:
-        name: TypefaceUtil-netcoreapp3.1-osx.10.12-x64
-        path: ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64
+#    - name: Artifacts
+#      if: github.event_name != 'pull_request'
+#      uses: actions/upload-artifact@master
+#      with:
+#        name: TypefaceUtil-netcoreapp3.1-osx.10.12-x64
+#        path: ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64
