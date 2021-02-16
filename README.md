@@ -79,68 +79,6 @@ TypefaceUtil -d C:\Windows\Fonts --png --svg --xaml --zip --zipFile "Windows-Fon
 dotnet build
 ```
 
-## Publish
-
-```
-dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r win7-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-win7-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-```
-
-```
-dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r debian.8-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-debian.8-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-```
-
-```
-dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r ubuntu.14.04-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-ubuntu.14.04-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-```
-
-```
-dotnet publish -c Release /p:PublishTrimmed=True /p:PublishReadyToRun=True -f netcoreapp3.1 -r osx.10.12-x64 -o ./artifacts/TypefaceUtil-netcoreapp3.1-osx.10.12-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-```
-
-```
-dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False /p:CoreRT=True -f netcoreapp3.1 -r win-x64 -o ./artifacts/TypefaceUtil-win-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-del artifacts\TypefaceUtil-win-x64\*.pdb
-del artifacts\TypefaceUtil-win-x64\*.json
-```
-
-```
-sudo apt-get install clang zlib1g-dev libkrb5-dev libtinfo5
-dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False /p:CoreRT=True -f netcoreapp3.1 -r linux-x64 -o ./artifacts/TypefaceUtil-linux-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-strip ./artifacts/TypefaceUtil-linux-x64/TypefaceUtil
-rm ./artifacts/TypefaceUtil-linux-x64/*.pdb
-rm ./artifacts/TypefaceUtil-linux-x64/*.json
-```
-
-```
-dotnet publish -c Release /p:PublishTrimmed=False /p:PublishReadyToRun=False /p:CoreRT=True -f netcoreapp3.1 -r osx-x64 -o ./artifacts/TypefaceUtil-osx-x64 ./src/TypefaceUtil/TypefaceUtil.csproj
-strip ./artifacts/TypefaceUtil-osx-x64/TypefaceUtil
-rm ./artifacts/TypefaceUtil-osx-x64/*.pdb
-rm ./artifacts/TypefaceUtil-osx-x64/*.json
-```
-
-## Testing
-
-```
-dotnet run -c Release -- --help
-dotnet run -c Release -- --printFontFamilies
-dotnet run -c Release -- --debug -f ../../../ttf/segoeui.ttf
-dotnet run -c Release -- --debug --fontFamily "system"
-dotnet run -c Release -- -d ../../../ttf/ --svg -o export
-dotnet run -c Release -- -d ../../../ttf/ --xaml -o export
-dotnet run -c Release -- -d ../../../ttf/ --png -o export
-dotnet run -c Release -- -d ../../../ttf/ --png --xaml --svg -o export
-dotnet run -c Release -- -d ../../../ttf/ --png --xaml --svg --zip --zipFile "ttf-export.zip"
-dotnet run -c Release -- --png --svg --xaml -d ../../../ttf/ --pngColumns 20 --pngTextSize 50 --pngCellSize 70 --svgTextSize 22 --svgPathFill "#000000" --xamlTextSize 22 --xamlBrush "#FF000000"
-dotnet run -c Release -- --png --svg --xaml --fontFamily "system"
-dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/segoeui.ttf
-dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/seguisym.ttf
-dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/calibri.ttf
-dotnet run -c Release -- --png --svg --xaml -f ../../../ttf/segoeui.ttf --pngColumns 20 --pngTextSize 50 --pngCellSize 70
-dotnet run -c Release -- --png --svg --xaml --fontFamily "Segoe UI"
-dotnet run -c Release -- --png --svg --xaml --fontFamily "Segoe UI Symbol"
-dotnet run -c Release -- --png --svg --xaml --fontFamily "Calibri"
-```
-
 ## References
 
 * https://docs.microsoft.com/en-us/typography/opentype/spec/cmap
