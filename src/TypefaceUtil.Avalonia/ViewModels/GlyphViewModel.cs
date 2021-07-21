@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -14,6 +13,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         private ushort _glyphIndex;
         private SKPath? _path;
         private SKPaint? _paint;
+        private string? _brush;
         private string? _svgPathData;
 
         public int CharCode
@@ -40,6 +40,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
             set => this.RaiseAndSetIfChanged(ref _paint, value);
         }
 
+        public string? Brush
+        {
+            get => _brush;
+            set => this.RaiseAndSetIfChanged(ref _brush, value);
+        }
+
         public string? SvgPathData
         {
             get => _svgPathData;
@@ -52,13 +58,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
         {
             CopyAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
             {
-                await CopyAs(format);
+                await CopyAs(format, _brush ?? "#000000");
             });
         }
 
-        private async Task CopyAs(string format)
+        public string? Export(string format, string brush)
         {
-            var brush = "#000000";
             var indent = "  ";
             var text = format switch
             {
@@ -75,7 +80,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 "Svg" => $"<svg viewBox=\"{Path?.Bounds.Left.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Top.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" xmlns=\"http://www.w3.org/2000/svg\">\r\n{indent}<path fill=\"{brush}\" d=\"{SvgPathData}\"/>\r\n</svg>",
                 _ => default
             };
+            return text;
+        }
 
+        public async Task CopyAs(string format, string brush)
+        {
+            var text = Export(format, _brush ?? "#000000");
             if (!string.IsNullOrWhiteSpace(text))
             {
                 try
