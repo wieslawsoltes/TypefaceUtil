@@ -95,6 +95,12 @@
                   <MenuItem Header="Copy as Xaml (DrawingGroup)" 
                             Command="{Binding CopyAsCommand}" 
                             CommandParameter="XamlDrawingGroup" />
+                  <MenuItem Header="Copy as Xaml (DrawingImage)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlDrawingImage" />
+                  <MenuItem Header="Copy as Xaml (Image)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlImage" />
                   <MenuItem Header="Copy as Svg (Path Data)"
                             Command="{Binding CopyAsCommand}" 
                             CommandParameter="SvgPathData" />
