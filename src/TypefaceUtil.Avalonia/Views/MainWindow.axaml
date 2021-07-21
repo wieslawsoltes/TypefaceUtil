@@ -23,16 +23,6 @@
 
   <Panel Margin="{Binding #MainWindow.OffScreenMargin}">
 
-    <ExperimentalAcrylicBorder DockPanel.Dock="Left" IsHitTestVisible="False">
-      <ExperimentalAcrylicBorder.Material>
-        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
-                                     TintColor="White"
-                                     TintOpacity="1"
-                                     FallbackColor="White"
-                                     MaterialOpacity="0.3" />
-      </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>
-
     <Panel.Styles>
       <Style Selector=":is(Control).transition">
         <Setter Property="Transitions">
@@ -52,6 +42,18 @@
         <Setter Property="Opacity" Value="0"/>
       </Style>
     </Panel.Styles>
+
+    <Panel>
+
+      <ExperimentalAcrylicBorder DockPanel.Dock="Left" IsHitTestVisible="False">
+        <ExperimentalAcrylicBorder.Material>
+          <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                       TintColor="White"
+                                       TintOpacity="1"
+                                       FallbackColor="White"
+                                       MaterialOpacity="0.3" />
+        </ExperimentalAcrylicBorder.Material>
+      </ExperimentalAcrylicBorder>
 
     <StackPanel MaxWidth="680" 
                 MinWidth="680"
@@ -227,6 +229,8 @@
         </ScrollViewer>
       </Panel>
     </DockPanel>
+
+    </Panel>
 
   </Panel>
   
