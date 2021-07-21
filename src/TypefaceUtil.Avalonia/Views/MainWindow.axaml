@@ -6,6 +6,14 @@
         xmlns:controls="clr-namespace:Avalonia.Controls.Skia;assembly=Avalonia.Controls.Skia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
+        x:Name="MainWindow"
+        MinWidth="735"
+        MinHeight="438"
+        WindowStartupLocation="CenterScreen"
+        Background="{x:Null}"
+        TransparencyLevelHint="AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
         UseLayoutRounding="True"
         Icon="/Assets/avalonia-logo.ico"
         Title="TypefaceUtil">
@@ -13,8 +21,18 @@
     <vm:MainWindowViewModel/>
   </Design.DataContext>
 
-  <Panel>
-    
+  <Panel Margin="{Binding #MainWindow.OffScreenMargin}">
+
+    <ExperimentalAcrylicBorder DockPanel.Dock="Left" IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                     TintColor="White"
+                                     TintOpacity="1"
+                                     FallbackColor="White"
+                                     MaterialOpacity="0.3" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
     <Panel.Styles>
       <Style Selector=":is(Control).transition">
         <Setter Property="Transitions">
@@ -35,15 +53,16 @@
       </Style>
     </Panel.Styles>
 
-    <StackPanel MaxWidth="640" 
-                MinWidth="640"
+    <StackPanel MaxWidth="680" 
+                MinWidth="680"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center"
+                Margin="0,36,0,0"
                 IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNull}}">
       <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
         <Label Content="Font size:"
                VerticalAlignment="Center"
-               Width="100"
+               Width="140"
                DockPanel.Dock="Left"/>
         <TextBox Text="{Binding FontSize}" 
                  Watermark="Font size"
@@ -54,7 +73,7 @@
       <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
         <Label Content="Font size:"
                VerticalAlignment="Center"
-               Width="100"
+               Width="140"
                DockPanel.Dock="Left"/>
         <TextBox Text="{Binding Brush}" 
                  Watermark="Brush"
@@ -64,7 +83,7 @@
       <DockPanel Margin="12,6,6,12" DockPanel.Dock="Top">
         <Label Content="Input file:"
                VerticalAlignment="Center"
-               Width="100"
+               Width="140"
                DockPanel.Dock="Left"/>
         <Button Content="Load" 
                 Command="{Binding LoadInputFileCommand}"
@@ -87,7 +106,7 @@
       <DockPanel Margin="12,12,12,12" DockPanel.Dock="Top">
         <Label Content="Input family name:"
                VerticalAlignment="Center"
-               Width="100"
+               Width="140"
                DockPanel.Dock="Left"/>
         <Button Content="Load" 
                 Command="{Binding LoadFamilyNameCommand}"
@@ -112,6 +131,7 @@
     </StackPanel>
 
     <DockPanel Classes="transition"
+               Margin="0,36,0,0"
                IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNotNull}}">
       <DockPanel DockPanel.Dock="Top">
         <Button Command="{Binding CloseCommand}"
