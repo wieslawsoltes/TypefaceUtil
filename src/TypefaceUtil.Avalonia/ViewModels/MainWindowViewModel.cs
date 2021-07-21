@@ -17,7 +17,8 @@ namespace TypefaceUtil.Avalonia.ViewModels
         private string? _inputFile;
         private string? _familyName;
         private ObservableCollection<string>? _fontFamilies;
-        private float _fontSize = 32f;
+        private float _fontSize;
+        private string? _brush;
         private TypefaceViewModel? _typeface;
 
         public string? InputFile
@@ -44,6 +45,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
             set => this.RaiseAndSetIfChanged(ref _fontSize, value);
         }
 
+        public string? Brush
+        {
+            get => _brush;
+            set => this.RaiseAndSetIfChanged(ref _brush, value);
+        }
+
         public TypefaceViewModel? Typeface
         {
             get => _typeface;
@@ -56,9 +63,15 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
         public ICommand LoadFamilyNameCommand { get; }
 
+        public ICommand CloseCommand { get; }
+
         public MainWindowViewModel()
         {
-            SetGetFontFamilies();
+            FontFamilies = new ObservableCollection<string>(SetGetFontFamilies());
+            FamilyName = "Segoe MDL2 Assets";
+
+            FontSize = 32f;
+            Brush = "#000000";
 
             InputFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -83,22 +96,27 @@ namespace TypefaceUtil.Avalonia.ViewModels
             {
                 await Task.Run(LoadFamilyName);
             });
+
+            CloseCommand = ReactiveCommand.Create(() =>
+            {
+                Typeface = null;
+            });
         }
 
-        private void SetGetFontFamilies()
+        private string[] SetGetFontFamilies()
         {
             var fontFamilies = SKFontManager.Default.GetFontFamilies();
 
             Array.Sort(fontFamilies, StringComparer.InvariantCulture);
 
-            _familyName = "Segoe MDL2 Assets";
-            _fontFamilies = new ObservableCollection<string>(fontFamilies);
+            return fontFamilies;
         }
 
         private void LoadInputFile()
         {
             var inputFile = InputFile;
             var fontSize = FontSize;
+            var brush = Brush ?? "#000000";
             if (string.IsNullOrEmpty(inputFile))
             {
                 return;
@@ -110,7 +128,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize);
+            Process(typefaceViewModel, fontSize, brush);
             Typeface = typefaceViewModel;
         }
 
@@ -118,6 +136,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         {
             var familyName = FamilyName;
             var fontSize = FontSize;
+            var brush = Brush ?? "#000000";
             if (string.IsNullOrEmpty(familyName))
             {
                 return;
@@ -129,11 +148,11 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize);
+            Process(typefaceViewModel, fontSize, brush);
             Typeface = typefaceViewModel;
         }
 
-        private void Process(TypefaceViewModel? typefaceViewModel, float fontSize)
+        private void Process(TypefaceViewModel? typefaceViewModel, float fontSize, string brush)
         {                    
             if (typefaceViewModel?.Typeface is null || typefaceViewModel?.CharacterMaps is null || typefaceViewModel?.Glyphs is null)
             {
@@ -167,9 +186,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
                             Paint = new SKPaint
                             {
                                 IsAntialias = true,
-                                Color = SKColors.Black,
+                                Color = SKColor.Parse(brush),
                                 Style = SKPaintStyle.Fill
                             },
+                            Brush = brush,
                             SvgPathData = svgPathData
                         };
 
