@@ -15,12 +15,19 @@ namespace TypefaceUtil.Avalonia.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private bool _isLoading;
         private string? _inputFile;
         private string? _familyName;
         private ObservableCollection<string>? _fontFamilies;
         private float _fontSize;
         private string? _brush;
         private TypefaceViewModel? _typeface;
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => this.RaiseAndSetIfChanged(ref _isLoading, value);
+        }
 
         public string? InputFile
         {
@@ -66,7 +73,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
         public ICommand CloseCommand { get; }
 
-        public ICommand CopyAllAsCommand { get; }
+        public ICommand CopyAsCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -92,12 +99,16 @@ namespace TypefaceUtil.Avalonia.ViewModels
             
             LoadInputFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
+                IsLoading = true;
                 await Task.Run(LoadInputFile);
+                IsLoading = false;
             });
 
             LoadFamilyNameCommand = ReactiveCommand.CreateFromTask(async () =>
             {
+                IsLoading = true;
                 await Task.Run(LoadFamilyName);
+                IsLoading = false;
             });
 
             CloseCommand = ReactiveCommand.Create(() =>
@@ -105,7 +116,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 Typeface = null;
             });
 
-            CopyAllAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
+            CopyAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
             {
                 if (Typeface?.Glyphs is { })
                 {
