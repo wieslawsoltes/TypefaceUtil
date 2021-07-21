@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TypefaceUtil.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="clr-namespace:TypefaceUtil.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
+        UseLayoutRounding="True"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TypefaceUtil">
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  <DockPanel>
+    <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
+      <Label Content="Input file:"
+             VerticalAlignment="Center"
+             Width="100"
+             DockPanel.Dock="Left"/>
+      <Button Content="Load" 
+              Command="{Binding LoadInputFileCommand}"
+              MinWidth="60"
+              HorizontalContentAlignment="Center"
+              Margin="12,0,12,0"
+              DockPanel.Dock="Right"/>
+      <Button Content="..." 
+              Command="{Binding InputFileCommand}"
+              MinWidth="60"
+              HorizontalContentAlignment="Center"
+              DockPanel.Dock="Right"/>
+      <TextBox Text="{Binding InputFile}" 
+               Watermark="Input file path"
+               Margin="6,0,12,0"/>
+    </DockPanel>
+    <DockPanel Margin="12,6,12,12" DockPanel.Dock="Top">
+      <Label Content="Family name:"
+             VerticalAlignment="Center"
+             Width="100"
+             DockPanel.Dock="Left"/>
+      <Button Content="Load" 
+              Command="{Binding LoadFamilyNameCommand}"
+              MinWidth="60"
+              HorizontalContentAlignment="Center"
+              Margin="12,0,6,0"
+              DockPanel.Dock="Right"/>
+      <ComboBox Items="{Binding FontFamilies}"
+                SelectedItem="{Binding FamilyName, Mode=TwoWay}"
+                MinWidth="200"
+                HorizontalContentAlignment="Center"
+                Margin="12,0,0,0"
+                DockPanel.Dock="Right"/>
+      <TextBox Text="{Binding FamilyName}" 
+               Watermark="Input family name"
+               Margin="6,0,0,0"/>
+    </DockPanel>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <ItemsRepeater DataContext="{Binding Typeface}" 
+                     Items="{Binding Glyphs}">
+        <ItemsRepeater.Layout>
+          <UniformGridLayout Orientation="Horizontal"
+                             ItemsJustification="Start"
+                             MinColumnSpacing="6"
+                             MinRowSpacing="6"
+                             MinItemWidth="64"
+                             MinItemHeight="64"/>
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate DataType="vm:GlyphViewModel">
+            <Button Background="Transparent"
+                    BorderBrush="Black" 
+                    BorderThickness="1"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+              <Button.Flyout>
+                <MenuFlyout ShowMode="Standard"
+                            Placement="BottomEdgeAlignedLeft">
+                  <MenuItem Header="Copy as Xaml (StreamGeometry)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlStreamGeometry" />
+                  <MenuItem Header="Copy as Xaml (PathIcon)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlPathIcon" />
+                  <MenuItem Header="Copy as Xaml (Path)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlPath" />
+                  <MenuItem Header="Copy as Xaml (Canvas)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlCanvas" />
+                  <MenuItem Header="Copy as Xaml (GeometryDrawing)"
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlGeometryDrawing" />
+                  <MenuItem Header="Copy as Xaml (DrawingGroup)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="XamlDrawingGroup" />
+                  <MenuItem Header="Copy as Svg (Path Data)"
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="SvgPathData" />
+                  <MenuItem Header="Copy as Svg (Path)"
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="SvgPath" />
+                  <MenuItem Header="Copy as Svg (Svg)" 
+                            Command="{Binding CopyAsCommand}" 
+                            CommandParameter="Svg" />
+                </MenuFlyout>
+              </Button.Flyout>
+              <avalonia:SKPathControl Path="{Binding Path}"
+                                      Paint="{Binding Paint}"
+                                      Stretch="None"
+                                      StretchDirection="Both"/>
+            </Button>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+    </ScrollViewer>
+  </DockPanel>
+</Window>
