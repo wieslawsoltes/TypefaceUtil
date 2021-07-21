@@ -68,6 +68,8 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 "XamlCanvas" => $"<Canvas Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\">\r\n{indent}<Path Fill=\"{brush}\" Data=\"{SvgPathData}\"/>\r\n</Canvas>",
                 "XamlGeometryDrawing" => $"<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>",
                 "XamlDrawingGroup" => $"<DrawingGroup>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingGroup>",
+                "XamlDrawingImage" => $"<DrawingImage>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>",
+                "XamlImage" => $"<Image>\r\n{indent}<DrawingImage>\r\n{indent}{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>\r\n</Image>",
                 "SvgPathData" => $"{SvgPathData}",
                 "SvgPath" => $"<path fill=\"{brush}\" d=\"{SvgPathData}\"/>",
                 "Svg" => $"<svg viewBox=\"{Path?.Bounds.Left.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Top.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" xmlns=\"http://www.w3.org/2000/svg\">>\r\n{indent}<path fill=\"{brush}\" d=\"{SvgPathData}\"/>\r\n</svg>",
