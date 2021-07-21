@@ -62,19 +62,25 @@ namespace TypefaceUtil.Avalonia.ViewModels
             });
         }
 
-        public string? Export(string format, string brush)
+        public string? Export(string format, string brush, bool addXamlKey)
         {
+            if (Path is null || Path.Bounds.IsEmpty)
+            {
+                return default;
+            }
+
             var indent = "  ";
+            var xamlKey = addXamlKey ? $" x:Key=\"{CharCode}\"" : "";
             var text = format switch
             {
-                "XamlStreamGeometry" => $"<StreamGeometry>{SvgPathData}</StreamGeometry>",
-                "XamlPathIcon" => $"<PathIcon Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Foreground=\"{brush}\" Data=\"{SvgPathData}\"/>",
-                "XamlPath" => $"<Path Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Fill=\"{brush}\" Data=\"{SvgPathData}\"/>",
-                "XamlCanvas" => $"<Canvas Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\">\r\n{indent}<Path Fill=\"{brush}\" Data=\"{SvgPathData}\"/>\r\n</Canvas>",
-                "XamlGeometryDrawing" => $"<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>",
-                "XamlDrawingGroup" => $"<DrawingGroup>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingGroup>",
-                "XamlDrawingImage" => $"<DrawingImage>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>",
-                "XamlImage" => $"<Image>\r\n{indent}<DrawingImage>\r\n{indent}{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>\r\n</Image>",
+                "XamlStreamGeometry" => $"<StreamGeometry{xamlKey}>{SvgPathData}</StreamGeometry>",
+                "XamlPathIcon" => $"<PathIcon{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Foreground=\"{brush}\" Data=\"{SvgPathData}\"/>",
+                "XamlPath" => $"<Path{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Fill=\"{brush}\" Data=\"{SvgPathData}\"/>",
+                "XamlCanvas" => $"<Canvas{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\">\r\n{indent}<Path Fill=\"{brush}\" Data=\"{SvgPathData}\"/>\r\n</Canvas>",
+                "XamlGeometryDrawing" => $"<GeometryDrawing{xamlKey} Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>",
+                "XamlDrawingGroup" => $"<DrawingGroup{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingGroup>",
+                "XamlDrawingImage" => $"<DrawingImage{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>",
+                "XamlImage" => $"<Image{xamlKey}>\r\n{indent}<DrawingImage>\r\n{indent}{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>\r\n</Image>",
                 "SvgPathData" => $"{SvgPathData}",
                 "SvgPath" => $"<path fill=\"{brush}\" d=\"{SvgPathData}\"/>",
                 "Svg" => $"<svg viewBox=\"{Path?.Bounds.Left.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Top.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" xmlns=\"http://www.w3.org/2000/svg\">\r\n{indent}<path fill=\"{brush}\" d=\"{SvgPathData}\"/>\r\n</svg>",
@@ -85,7 +91,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
         public async Task CopyAs(string format, string brush)
         {
-            var text = Export(format, _brush ?? "#000000");
+            var text = Export(format, _brush ?? "#000000", false);
             if (!string.IsNullOrWhiteSpace(text))
             {
                 try
