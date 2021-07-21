@@ -17,6 +17,10 @@ TypefaceUtil is a set of OpenType typeface utilities.
 Currently supported are `cmap` table format parser for `character to glyph index mapping`, 
 generation of character `png` map, `svg` and `xaml` export for glyphs.
 
+![4dsZT5hb3a](https://user-images.githubusercontent.com/2297442/126555807-1acf614d-a44e-40fc-bd60-5b0d6df4a10d.jpg)
+
+![mehzNi5G2T](https://user-images.githubusercontent.com/2297442/126555801-c63a3c0a-1092-451b-9c79-a964f4d7dfe7.jpg)
+
 ## Usage
 
 ```
