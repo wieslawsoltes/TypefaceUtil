@@ -13,7 +13,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         private ushort _glyphIndex;
         private SKPath? _path;
         private SKPaint? _paint;
-        private string? _brush;
+        private string? _color;
         private string? _svgPathData;
 
         public int CharCode
@@ -40,10 +40,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
             set => this.RaiseAndSetIfChanged(ref _paint, value);
         }
 
-        public string? Brush
+        public string? Color
         {
-            get => _brush;
-            set => this.RaiseAndSetIfChanged(ref _brush, value);
+            get => _color;
+            set => this.RaiseAndSetIfChanged(ref _color, value);
         }
 
         public string? SvgPathData
@@ -58,11 +58,11 @@ namespace TypefaceUtil.Avalonia.ViewModels
         {
             CopyAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
             {
-                await CopyAs(format, _brush ?? "#000000");
+                await CopyAs(format, _color ?? "#000000");
             });
         }
 
-        public string? Export(string format, string brush, bool addXamlKey)
+        public string? Export(string format, string color, bool addXamlKey)
         {
             if (Path is null || Path.Bounds.IsEmpty)
             {
@@ -74,24 +74,24 @@ namespace TypefaceUtil.Avalonia.ViewModels
             var text = format switch
             {
                 "XamlStreamGeometry" => $"<StreamGeometry{xamlKey}>{SvgPathData}</StreamGeometry>",
-                "XamlPathIcon" => $"<PathIcon{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Foreground=\"{brush}\" Data=\"{SvgPathData}\"/>",
-                "XamlPath" => $"<Path{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Fill=\"{brush}\" Data=\"{SvgPathData}\"/>",
-                "XamlCanvas" => $"<Canvas{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\">\r\n{indent}<Path Fill=\"{brush}\" Data=\"{SvgPathData}\"/>\r\n</Canvas>",
-                "XamlGeometryDrawing" => $"<GeometryDrawing{xamlKey} Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>",
-                "XamlDrawingGroup" => $"<DrawingGroup{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingGroup>",
-                "XamlDrawingImage" => $"<DrawingImage{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>",
-                "XamlImage" => $"<Image{xamlKey}>\r\n{indent}<DrawingImage>\r\n{indent}{indent}<GeometryDrawing Brush=\"{brush}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>\r\n</Image>",
+                "XamlPathIcon" => $"<PathIcon{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Foreground=\"{color}\" Data=\"{SvgPathData}\"/>",
+                "XamlPath" => $"<Path{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" Fill=\"{color}\" Data=\"{SvgPathData}\"/>",
+                "XamlCanvas" => $"<Canvas{xamlKey} Width=\"{Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)}\" Height=\"{Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\">\r\n{indent}<Path Fill=\"{color}\" Data=\"{SvgPathData}\"/>\r\n</Canvas>",
+                "XamlGeometryDrawing" => $"<GeometryDrawing{xamlKey} Brush=\"{color}\" Geometry=\"{SvgPathData}\"/>",
+                "XamlDrawingGroup" => $"<DrawingGroup{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{color}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingGroup>",
+                "XamlDrawingImage" => $"<DrawingImage{xamlKey}>\r\n{indent}<GeometryDrawing Brush=\"{color}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>",
+                "XamlImage" => $"<Image{xamlKey}>\r\n{indent}<DrawingImage>\r\n{indent}{indent}<GeometryDrawing Brush=\"{color}\" Geometry=\"{SvgPathData}\"/>\r\n</DrawingImage>\r\n</Image>",
                 "SvgPathData" => $"{SvgPathData}",
-                "SvgPath" => $"<path fill=\"{brush}\" d=\"{SvgPathData}\"/>",
-                "Svg" => $"<svg viewBox=\"{Path?.Bounds.Left.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Top.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" xmlns=\"http://www.w3.org/2000/svg\">\r\n{indent}<path fill=\"{brush}\" d=\"{SvgPathData}\"/>\r\n</svg>",
+                "SvgPath" => $"<path fill=\"{color}\" d=\"{SvgPathData}\"/>",
+                "Svg" => $"<svg viewBox=\"{Path?.Bounds.Left.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Top.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Width.ToString(CultureInfo.InvariantCulture)} {Path?.Bounds.Height.ToString(CultureInfo.InvariantCulture)}\" xmlns=\"http://www.w3.org/2000/svg\">\r\n{indent}<path fill=\"{color}\" d=\"{SvgPathData}\"/>\r\n</svg>",
                 _ => default
             };
             return text;
         }
 
-        public async Task CopyAs(string format, string brush)
+        public async Task CopyAs(string format, string color)
         {
-            var text = Export(format, _brush ?? "#000000", false);
+            var text = Export(format, color, false);
             if (!string.IsNullOrWhiteSpace(text))
             {
                 try

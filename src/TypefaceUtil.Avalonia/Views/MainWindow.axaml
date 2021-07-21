@@ -69,12 +69,34 @@
                    DockPanel.Dock="Left"/>
         </DockPanel>
         <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
-          <Label Content="Font size:"
+          <Label Content="Item width:"
                  VerticalAlignment="Center"
                  Width="140"
                  DockPanel.Dock="Left"/>
-          <TextBox Text="{Binding Brush}" 
-                   Watermark="Brush"
+          <TextBox Text="{Binding ItemWidth}" 
+                   Watermark="Item width"
+                   VerticalAlignment="Center"
+                   Margin="6,0,12,0"
+                   DockPanel.Dock="Left"/>
+        </DockPanel>
+        <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
+          <Label Content="Item height:"
+                 VerticalAlignment="Center"
+                 Width="140"
+                 DockPanel.Dock="Left"/>
+          <TextBox Text="{Binding ItemHeight}" 
+                   Watermark="Item height"
+                   VerticalAlignment="Center"
+                   Margin="6,0,12,0"
+                   DockPanel.Dock="Left"/>
+        </DockPanel>
+        <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
+          <Label Content="Color:"
+                 VerticalAlignment="Center"
+                 Width="140"
+                 DockPanel.Dock="Left"/>
+          <TextBox Text="{Binding Color}" 
+                   Watermark="Color"
                    VerticalAlignment="Center"
                    Margin="6,0,12,0"/>
         </DockPanel>
@@ -172,8 +194,8 @@
                                    ItemsJustification="Center"
                                    MinColumnSpacing="6"
                                    MinRowSpacing="6"
-                                   MinItemWidth="64"
-                                   MinItemHeight="64"/>
+                                   MinItemWidth="{Binding ItemWidth}"
+                                   MinItemHeight="{Binding ItemHeight}"/>
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate DataType="vm:GlyphViewModel">

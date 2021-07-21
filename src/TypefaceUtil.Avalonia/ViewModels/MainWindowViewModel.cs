@@ -20,7 +20,9 @@ namespace TypefaceUtil.Avalonia.ViewModels
         private string? _familyName;
         private ObservableCollection<string>? _fontFamilies;
         private float _fontSize;
-        private string? _brush;
+        private string? _color;
+        private double _itemWidth;
+        private double _itemHeight;
         private TypefaceViewModel? _typeface;
 
         public bool IsLoading
@@ -53,10 +55,22 @@ namespace TypefaceUtil.Avalonia.ViewModels
             set => this.RaiseAndSetIfChanged(ref _fontSize, value);
         }
 
-        public string? Brush
+        public string? Color
         {
-            get => _brush;
-            set => this.RaiseAndSetIfChanged(ref _brush, value);
+            get => _color;
+            set => this.RaiseAndSetIfChanged(ref _color, value);
+        }
+
+        public double ItemWidth
+        {
+            get => _itemWidth;
+            set => this.RaiseAndSetIfChanged(ref _itemWidth, value);
+        }
+
+        public double ItemHeight
+        {
+            get => _itemHeight;
+            set => this.RaiseAndSetIfChanged(ref _itemHeight, value);
         }
 
         public TypefaceViewModel? Typeface
@@ -81,7 +95,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
             FamilyName = "Segoe MDL2 Assets";
 
             FontSize = 32f;
-            Brush = "#000000";
+            Color = "#000000";
+
+            ItemWidth = 64;
+            ItemHeight = 64;
 
             InputFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -128,7 +145,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
                             foreach (var glyph in Typeface.Glyphs)
                             {
-                                var glyphText = glyph.Export(format, glyph.Brush ?? "#000000", true);
+                                var glyphText = glyph.Export(format, glyph.Color ?? "#000000", true);
                                 if (!string.IsNullOrWhiteSpace(glyphText))
                                 {
                                     sb.AppendLine(glyphText);
@@ -164,7 +181,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         {
             var inputFile = InputFile;
             var fontSize = FontSize;
-            var brush = Brush ?? "#000000";
+            var color = Color ?? "#000000";
             if (string.IsNullOrEmpty(inputFile))
             {
                 return;
@@ -176,7 +193,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize, brush);
+            Process(typefaceViewModel, fontSize, color);
             Typeface = typefaceViewModel;
         }
 
@@ -184,7 +201,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         {
             var familyName = FamilyName;
             var fontSize = FontSize;
-            var brush = Brush ?? "#000000";
+            var color = Color ?? "#000000";
             if (string.IsNullOrEmpty(familyName))
             {
                 return;
@@ -196,11 +213,11 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize, brush);
+            Process(typefaceViewModel, fontSize, color);
             Typeface = typefaceViewModel;
         }
 
-        private void Process(TypefaceViewModel? typefaceViewModel, float fontSize, string brush)
+        private void Process(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
         {                    
             if (typefaceViewModel?.Typeface is null || typefaceViewModel?.CharacterMaps is null || typefaceViewModel?.Glyphs is null)
             {
@@ -234,10 +251,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
                             Paint = new SKPaint
                             {
                                 IsAntialias = true,
-                                Color = SKColor.Parse(brush),
+                                Color = SKColor.Parse(color),
                                 Style = SKPaintStyle.Fill
                             },
-                            Brush = brush,
+                            Color = color,
                             SvgPathData = svgPathData
                         };
 
