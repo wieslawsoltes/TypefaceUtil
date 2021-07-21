@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FA0D294D-294
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unicode", "unicode", "{6CBF405F-FC1E-4595-93B2-94D1D0ECC109}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtil.Avalonia", "src\TypefaceUtil.Avalonia\TypefaceUtil.Avalonia.csproj", "{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{35DC5579-5E51-458F-BFFC-65133AE83F50} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
 		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
 		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82} = {6CBF405F-FC1E-4595-93B2-94D1D0ECC109}
+		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D7D93DB-65A8-4680-ADDD-EE67EEC2C975}

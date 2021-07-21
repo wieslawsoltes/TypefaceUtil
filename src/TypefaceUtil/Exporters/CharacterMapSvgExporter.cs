@@ -39,7 +39,7 @@ namespace TypefaceUtil
                 using var outlinePath = skTextPaint.GetTextPath(utf32, x, y);
                 using var fillPath = skTextPaint.GetFillPath(outlinePath);
 
-                fillPath.Transform(SKMatrix.MakeTranslation(-fillPath.Bounds.Left, -fillPath.Bounds.Top));
+                fillPath.Transform(SKMatrix.CreateTranslation(-fillPath.Bounds.Left, -fillPath.Bounds.Top));
 
                 var bounds = fillPath.Bounds;
                 var svgPathData = fillPath.ToSvgPathData();
