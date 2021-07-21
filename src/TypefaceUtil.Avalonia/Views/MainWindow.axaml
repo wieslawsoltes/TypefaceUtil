@@ -20,9 +20,7 @@
   <Design.DataContext>
     <vm:MainWindowViewModel/>
   </Design.DataContext>
-
   <Panel Margin="{Binding #MainWindow.OffScreenMargin}">
-
     <Panel.Styles>
       <Style Selector=":is(Control).transition">
         <Setter Property="Transitions">
@@ -42,9 +40,7 @@
         <Setter Property="Opacity" Value="0"/>
       </Style>
     </Panel.Styles>
-
     <Panel>
-
       <ExperimentalAcrylicBorder DockPanel.Dock="Left" IsHitTestVisible="False">
         <ExperimentalAcrylicBorder.Material>
           <ExperimentalAcrylicMaterial BackgroundSource="Digger"
@@ -54,184 +50,181 @@
                                        MaterialOpacity="0.3" />
         </ExperimentalAcrylicBorder.Material>
       </ExperimentalAcrylicBorder>
-
-    <StackPanel MaxWidth="680" 
-                MinWidth="680"
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"
-                Margin="0,36,0,0"
-                IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNull}}">
-      <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
-        <Label Content="Font size:"
-               VerticalAlignment="Center"
-               Width="140"
-               DockPanel.Dock="Left"/>
-        <TextBox Text="{Binding FontSize}" 
-                 Watermark="Font size"
+      <StackPanel MaxWidth="680" 
+                  MinWidth="680"
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center"
+                  Margin="0,36,0,0"
+                  IsEnabled="{Binding !IsLoading}"
+                  IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNull}}">
+        <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
+          <Label Content="Font size:"
                  VerticalAlignment="Center"
-                 Margin="6,0,12,0"
+                 Width="140"
                  DockPanel.Dock="Left"/>
-      </DockPanel>
-      <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
-        <Label Content="Font size:"
-               VerticalAlignment="Center"
-               Width="140"
-               DockPanel.Dock="Left"/>
-        <TextBox Text="{Binding Brush}" 
-                 Watermark="Brush"
+          <TextBox Text="{Binding FontSize}" 
+                   Watermark="Font size"
+                   VerticalAlignment="Center"
+                   Margin="6,0,12,0"
+                   DockPanel.Dock="Left"/>
+        </DockPanel>
+        <DockPanel Margin="12,12,6,12" DockPanel.Dock="Top">
+          <Label Content="Font size:"
                  VerticalAlignment="Center"
-                 Margin="6,0,12,0"/>
-      </DockPanel>
-      <DockPanel Margin="12,6,6,12" DockPanel.Dock="Top">
-        <Label Content="Input file:"
-               VerticalAlignment="Center"
-               Width="140"
-               DockPanel.Dock="Left"/>
-        <Button Content="Load" 
-                Command="{Binding LoadInputFileCommand}"
-                MinWidth="60"
-                HorizontalContentAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="12,0,12,0"
-                DockPanel.Dock="Right"/>
-        <Button Content="..." 
-                Command="{Binding InputFileCommand}"
-                MinWidth="60"
-                HorizontalContentAlignment="Center"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Right"/>
-        <TextBox Text="{Binding InputFile}" 
-                 Watermark="Input file path"
+                 Width="140"
+                 DockPanel.Dock="Left"/>
+          <TextBox Text="{Binding Brush}" 
+                   Watermark="Brush"
+                   VerticalAlignment="Center"
+                   Margin="6,0,12,0"/>
+        </DockPanel>
+        <DockPanel Margin="12,6,6,12" DockPanel.Dock="Top">
+          <Label Content="Input file:"
                  VerticalAlignment="Center"
-                 Margin="6,0,12,0"/>
-      </DockPanel>
-      <DockPanel Margin="12,12,12,12" DockPanel.Dock="Top">
-        <Label Content="Input family name:"
-               VerticalAlignment="Center"
-               Width="140"
-               DockPanel.Dock="Left"/>
-        <Button Content="Load" 
-                Command="{Binding LoadFamilyNameCommand}"
-                MinWidth="60"
-                HorizontalContentAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="12,0,6,0"
-                DockPanel.Dock="Right"/>
-        <ComboBox Items="{Binding FontFamilies}"
-                  SelectedItem="{Binding FamilyName, Mode=TwoWay}"
-                  MinWidth="200"
+                 Width="140"
+                 DockPanel.Dock="Left"/>
+          <Button Content="Load" 
+                  Command="{Binding LoadInputFileCommand}"
+                  MinWidth="60"
                   HorizontalContentAlignment="Center"
                   VerticalAlignment="Center"
-                  Margin="12,0,0,0"
-                  MaxDropDownHeight="210"
+                  Margin="12,0,12,0"
                   DockPanel.Dock="Right"/>
-        <TextBox Text="{Binding FamilyName}" 
-                 Watermark="Input family name"
+          <Button Content="..." 
+                  Command="{Binding InputFileCommand}"
+                  MinWidth="60"
+                  HorizontalContentAlignment="Center"
+                  VerticalAlignment="Center"
+                  DockPanel.Dock="Right"/>
+          <TextBox Text="{Binding InputFile}" 
+                   Watermark="Input file path"
+                   VerticalAlignment="Center"
+                   Margin="6,0,12,0"/>
+        </DockPanel>
+        <DockPanel Margin="12,12,12,12" DockPanel.Dock="Top">
+          <Label Content="Input family name:"
                  VerticalAlignment="Center"
-                 Margin="6,0,0,0"/>
+                 Width="140"
+                 DockPanel.Dock="Left"/>
+          <Button Content="Load" 
+                  Command="{Binding LoadFamilyNameCommand}"
+                  MinWidth="60"
+                  HorizontalContentAlignment="Center"
+                  VerticalAlignment="Center"
+                  Margin="12,0,6,0"
+                  DockPanel.Dock="Right"/>
+          <ComboBox Items="{Binding FontFamilies}"
+                    SelectedItem="{Binding FamilyName, Mode=TwoWay}"
+                    MinWidth="200"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="12,0,0,0"
+                    MaxDropDownHeight="210"
+                    DockPanel.Dock="Right"/>
+          <TextBox Text="{Binding FamilyName}" 
+                   Watermark="Input family name"
+                   VerticalAlignment="Center"
+                   Margin="6,0,0,0"/>
+        </DockPanel>
+      </StackPanel>
+      <DockPanel Classes="transition"
+                 Margin="0,36,0,0"
+                 IsEnabled="{Binding !IsLoading}"
+                 IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNotNull}}">
+        <DockPanel DockPanel.Dock="Top">
+          <Button Command="{Binding CloseCommand}"
+                  Background="Transparent"
+                  HorizontalAlignment="Right"
+                  HorizontalContentAlignment="Center"
+                  Margin="12,12,36,12"
+                  DockPanel.Dock="Right">
+            <PathIcon Width="15.703125" Height="15.703125" Opacity="0.6" Foreground="#000000" Data="M8.5625 7.85156L15.7031 15L15 15.7031L7.85156 8.5625L0.703125 15.7031L0 15L7.14063 7.85156L0 0.703125L0.703125 0L7.85156 7.14063L15 0L15.7031 0.703125L8.5625 7.85156Z"/>
+          </Button>
+          <Button Background="Transparent"
+                  HorizontalAlignment="Left"
+                  HorizontalContentAlignment="Center"
+                  Margin="36,12,12,12"
+                  DockPanel.Dock="Left">
+            <Button.Flyout>
+              <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
+                <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
+                <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
+                <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
+                <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
+                <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
+                <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
+                <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
+                <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
+                <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
+                <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
+                <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
+              </MenuFlyout>
+            </Button.Flyout>
+            <PathIcon Width="14" Height="16" Opacity="0.6" Foreground="#000000" Data="M14 6.28906L14 16L4 16L4 13L0 13L0 0L6.71094 0L9.71094 3L10.7109 3L14 6.28906ZM11 6L12.2891 6L11 4.71094L11 6ZM4 3L8.28906 3L6.28906 1L1 1L1 12L4 12L4 3ZM13 7L10 7L10 4L5 4L5 15L13 15L13 7Z"/>
+          </Button>
+        </DockPanel>
+        <Panel Margin="36,0,36,36">
+          <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                        VerticalScrollBarVisibility="Auto">
+            <ItemsRepeater Items="{Binding Typeface.Glyphs, FallbackValue={x:Null}}">
+              <ItemsRepeater.Layout>
+                <UniformGridLayout Orientation="Horizontal"
+                                   ItemsJustification="Center"
+                                   MinColumnSpacing="6"
+                                   MinRowSpacing="6"
+                                   MinItemWidth="64"
+                                   MinItemHeight="64"/>
+              </ItemsRepeater.Layout>
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate DataType="vm:GlyphViewModel">
+                  <Button Background="Transparent"
+                          BorderBrush="Black" 
+                          BorderThickness="1"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch">
+                    <Button.ContextMenu>
+                      <ContextMenu>
+                        <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
+                        <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
+                        <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
+                        <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
+                        <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
+                        <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
+                        <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
+                        <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
+                        <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
+                        <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
+                        <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
+                      </ContextMenu>
+                    </Button.ContextMenu>
+                    <Button.Flyout>
+                      <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
+                        <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
+                        <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
+                        <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
+                        <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
+                        <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
+                        <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
+                        <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
+                        <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
+                        <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
+                        <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
+                        <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
+                      </MenuFlyout>
+                    </Button.Flyout>
+                    <controls:SKPathControl Path="{Binding Path}"
+                                            Paint="{Binding Paint}"
+                                            Stretch="None"
+                                            StretchDirection="Both"/>
+                  </Button>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </ScrollViewer>
+        </Panel>
       </DockPanel>
-    </StackPanel>
-
-    <DockPanel Classes="transition"
-               Margin="0,36,0,0"
-               IsVisible="{Binding Typeface, Converter={x:Static ObjectConverters.IsNotNull}}">
-      <DockPanel DockPanel.Dock="Top">
-        <Button Command="{Binding CloseCommand}"
-                Background="Transparent"
-                HorizontalAlignment="Right"
-                HorizontalContentAlignment="Center"
-                Margin="12,12,36,12"
-                DockPanel.Dock="Right">
-          <PathIcon Width="15.703125" Height="15.703125" Opacity="0.6" Foreground="#000000" Data="M8.5625 7.85156L15.7031 15L15 15.7031L7.85156 8.5625L0.703125 15.7031L0 15L7.14063 7.85156L0 0.703125L0.703125 0L7.85156 7.14063L15 0L15.7031 0.703125L8.5625 7.85156Z"/>
-        </Button>
-        <Button Background="Transparent"
-                HorizontalAlignment="Left"
-                HorizontalContentAlignment="Center"
-                Margin="36,12,12,12"
-                DockPanel.Dock="Left">
-          <Button.Flyout>
-            <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
-              <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlStreamGeometry" />
-              <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlPathIcon" />
-              <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlPath" />
-              <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlCanvas" />
-              <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlGeometryDrawing" />
-              <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlDrawingGroup" />
-              <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlDrawingImage" />
-              <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAllAsCommand}" CommandParameter="XamlImage" />
-              <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAllAsCommand}" CommandParameter="SvgPathData" />
-              <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAllAsCommand}" CommandParameter="SvgPath" />
-              <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAllAsCommand}" CommandParameter="Svg" />
-            </MenuFlyout>
-          </Button.Flyout>
-          <PathIcon Width="14" Height="16" Opacity="0.6" Foreground="#000000" Data="M14 6.28906L14 16L4 16L4 13L0 13L0 0L6.71094 0L9.71094 3L10.7109 3L14 6.28906ZM11 6L12.2891 6L11 4.71094L11 6ZM4 3L8.28906 3L6.28906 1L1 1L1 12L4 12L4 3ZM13 7L10 7L10 4L5 4L5 15L13 15L13 7Z"/>
-        </Button>
-      </DockPanel>
-      <Panel Margin="36,0,36,36">
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
-                      VerticalScrollBarVisibility="Auto">
-          <ItemsRepeater Items="{Binding Typeface.Glyphs, FallbackValue={x:Null}}">
-            <ItemsRepeater.Layout>
-              <UniformGridLayout Orientation="Horizontal"
-                                 ItemsJustification="Center"
-                                 MinColumnSpacing="6"
-                                 MinRowSpacing="6"
-                                 MinItemWidth="64"
-                                 MinItemHeight="64"/>
-            </ItemsRepeater.Layout>
-            <ItemsRepeater.ItemTemplate>
-              <DataTemplate DataType="vm:GlyphViewModel">
-                <Button Background="Transparent"
-                        BorderBrush="Black" 
-                        BorderThickness="1"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
-                  <Button.ContextMenu>
-                    <ContextMenu>
-                      <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
-                      <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
-                      <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
-                      <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
-                      <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
-                      <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
-                      <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
-                      <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
-                      <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
-                      <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
-                      <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
-                    </ContextMenu>
-                  </Button.ContextMenu>
-                  <Button.Flyout>
-                    <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
-                      <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
-                      <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
-                      <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
-                      <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
-                      <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
-                      <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
-                      <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
-                      <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
-                      <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
-                      <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
-                      <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
-                    </MenuFlyout>
-                  </Button.Flyout>
-                  <controls:SKPathControl Path="{Binding Path}"
-                                          Paint="{Binding Paint}"
-                                          Stretch="None"
-                                          StretchDirection="Both"/>
-                </Button>
-              </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-          </ItemsRepeater>
-        </ScrollViewer>
-      </Panel>
-    </DockPanel>
-
     </Panel>
-
   </Panel>
-  
 </Window>
