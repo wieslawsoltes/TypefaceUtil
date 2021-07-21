@@ -3,7 +3,7 @@
         xmlns:vm="using:TypefaceUtil.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:avalonia="clr-namespace:TypefaceUtil.Avalonia"
+        xmlns:controls="clr-namespace:TypefaceUtil.Avalonia.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
         UseLayoutRounding="True"
@@ -106,7 +106,7 @@
                             CommandParameter="Svg" />
                 </MenuFlyout>
               </Button.Flyout>
-              <avalonia:SKPathControl Path="{Binding Path}"
+              <controls:SKPathControl Path="{Binding Path}"
                                       Paint="{Binding Paint}"
                                       Stretch="None"
                                       StretchDirection="Both"/>

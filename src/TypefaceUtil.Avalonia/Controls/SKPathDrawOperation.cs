@@ -3,7 +3,7 @@ using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 
-namespace TypefaceUtil.Avalonia
+namespace TypefaceUtil.Avalonia.Controls
 {
     public class SKPathDrawOperation : ICustomDrawOperation
     {

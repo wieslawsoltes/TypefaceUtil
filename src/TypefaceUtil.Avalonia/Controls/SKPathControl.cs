@@ -1,11 +1,10 @@
 using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Metadata;
 
-namespace TypefaceUtil.Avalonia
+namespace TypefaceUtil.Avalonia.Controls
 {
     /// <summary>
     /// SKPath control.
