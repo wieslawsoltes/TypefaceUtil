@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TypefaceUtil.Avalonia
+namespace TypefaceUtil.Avalonia.Views
 {
     public class SandBoxView : UserControl
     {
