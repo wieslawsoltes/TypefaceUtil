@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -65,6 +66,8 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
         public ICommand CloseCommand { get; }
 
+        public ICommand CopyAllAsCommand { get; }
+
         public MainWindowViewModel()
         {
             FontFamilies = new ObservableCollection<string>(SetGetFontFamilies());
@@ -100,6 +103,40 @@ namespace TypefaceUtil.Avalonia.ViewModels
             CloseCommand = ReactiveCommand.Create(() =>
             {
                 Typeface = null;
+            });
+
+            CopyAllAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
+            {
+                if (Typeface?.Glyphs is { })
+                {
+                    try
+                    {
+                        var allText = await Task.Run(() =>
+                        {
+                            var sb = new StringBuilder();
+
+                            foreach (var glyph in Typeface.Glyphs)
+                            {
+                                var glyphText = glyph.Export(format, glyph.Brush ?? "#000000", true);
+                                if (!string.IsNullOrWhiteSpace(glyphText))
+                                {
+                                    sb.AppendLine(glyphText);
+                                }
+                            }
+
+                            return sb.ToString();
+                        });
+ 
+                        if (!string.IsNullOrWhiteSpace(allText))
+                        {
+                            await Application.Current.Clipboard.SetTextAsync(allText);
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
             });
         }
 
