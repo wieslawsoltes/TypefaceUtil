@@ -153,10 +153,11 @@ namespace TypefaceUtil.Avalonia.ViewModels
                         var charCode = kvp.Key;
                         var glyphIndex = kvp.Value;
                         var skPath = skFont.GetGlyphPath(glyphIndex);
-                        var svgPathData = skPath.ToSvgPathData();
 
                         var skTranslationMatrix = SKMatrix.CreateTranslation(-skPath.Bounds.Left, -skPath.Bounds.Top);
                         skPath.Transform(skTranslationMatrix);
+
+                        var svgPathData = skPath.ToSvgPathData();
 
                         var glyph = new GlyphViewModel()
                         {
