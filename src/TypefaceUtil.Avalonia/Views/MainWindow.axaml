@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Avalonia.Controls.Skia;assembly=Avalonia.Controls.Skia"
+        xmlns:local="clr-namespace:TypefaceUtil.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
         x:Name="MainWindow"
@@ -110,6 +111,7 @@
                   MinWidth="60"
                   HorizontalContentAlignment="Center"
                   VerticalAlignment="Center"
+                  ToolTip.Tip="Load typeface from input file."
                   Margin="12,0,12,0"
                   DockPanel.Dock="Right"/>
           <Button Content="..." 
@@ -117,6 +119,7 @@
                   MinWidth="60"
                   HorizontalContentAlignment="Center"
                   VerticalAlignment="Center"
+                  ToolTip.Tip="Browse for input files."
                   DockPanel.Dock="Right"/>
           <TextBox Text="{Binding InputFile}" 
                    Watermark="Input file path"
@@ -133,6 +136,7 @@
                   MinWidth="60"
                   HorizontalContentAlignment="Center"
                   VerticalAlignment="Center"
+                  ToolTip.Tip="Load typeface from family name."
                   Margin="12,0,6,0"
                   DockPanel.Dock="Right"/>
           <ComboBox Items="{Binding FontFamilies}"
@@ -158,6 +162,7 @@
                   Background="Transparent"
                   HorizontalAlignment="Right"
                   HorizontalContentAlignment="Center"
+                  ToolTip.Tip="Close loaded typeface."
                   Margin="12,12,36,12"
                   DockPanel.Dock="Right">
             <PathIcon Width="15.703125" Height="15.703125" Opacity="0.6" Foreground="#000000" Data="M8.5625 7.85156L15.7031 15L15 15.7031L7.85156 8.5625L0.703125 15.7031L0 15L7.14063 7.85156L0 0.703125L0.703125 0L7.85156 7.14063L15 0L15.7031 0.703125L8.5625 7.85156Z"/>
@@ -165,6 +170,7 @@
           <Button Background="Transparent"
                   HorizontalAlignment="Left"
                   HorizontalContentAlignment="Center"
+                  ToolTip.Tip="Copy All"
                   Margin="36,12,12,12"
                   DockPanel.Dock="Left">
             <Button.Flyout>
@@ -205,7 +211,13 @@
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
                           HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch">
+                          VerticalAlignment="Stretch"
+                          ToolTip.Tip="Right click for copy menu.">
+                    <!-- local:Interaction.OnClick="{Binding OnClick}" -->
+                    <local:Interaction.OnClick>
+                      <Binding Path="OnClick"/>
+                      <!-- <Binding Path="CopyAsCommand"/> -->
+                    </local:Interaction.OnClick>
                     <Button.ContextMenu>
                       <ContextMenu>
                         <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
@@ -221,6 +233,7 @@
                         <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
                       </ContextMenu>
                     </Button.ContextMenu>
+                    <!--
                     <Button.Flyout>
                       <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
                         <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
@@ -236,6 +249,7 @@
                         <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
                       </MenuFlyout>
                     </Button.Flyout>
+                    -->
                     <controls:SKPathControl Path="{Binding Path}"
                                             Paint="{Binding Paint}"
                                             Stretch="None"
