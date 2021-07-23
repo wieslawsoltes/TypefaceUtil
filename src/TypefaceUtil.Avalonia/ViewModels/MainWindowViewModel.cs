@@ -143,6 +143,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
                         {
                             var sb = new StringBuilder();
 
+                            // sb.AppendLine($"<Styles xmlns=\"https://github.com/avaloniaui\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
+                            // sb.AppendLine($"  <Style>");
+                            // sb.AppendLine($"    <Style.Resources>");
+
                             foreach (var glyph in Typeface.Glyphs)
                             {
                                 var glyphText = glyph.Export(format, glyph.Color ?? "#000000", true);
@@ -151,6 +155,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
                                     sb.AppendLine(glyphText);
                                 }
                             }
+
+                            // sb.AppendLine($"    </Style.Resources>");
+                            // sb.AppendLine($"  </Style>");
+                            // sb.AppendLine($"</Styles>");
 
                             return sb.ToString();
                         });
