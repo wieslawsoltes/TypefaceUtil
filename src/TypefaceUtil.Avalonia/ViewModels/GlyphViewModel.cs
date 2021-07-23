@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -60,6 +61,11 @@ namespace TypefaceUtil.Avalonia.ViewModels
             {
                 await CopyAs(format, _color ?? "#000000");
             });
+
+            OnClick = () =>
+            {
+                // TODO:
+            };
         }
 
         public string? Export(string format, string color, bool addXamlKey)
@@ -104,5 +110,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 }
             }
         }
+        
+        public Action OnClick { get; }
     }
 }
