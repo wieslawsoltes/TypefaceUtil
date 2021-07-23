@@ -31,20 +31,20 @@ namespace TypefaceUtil.Avalonia
                 {
                     if (oldAction is { } && onClickHandlers.ContainsKey(button))
                     {
-                        EventHandler<RoutedEventArgs> handler = onClickHandlers[button];
+                        var handler = onClickHandlers[button];
                         button.Click -= handler;
                     }
 
                     if (newAction is { })
                     {
-                        EventHandler<RoutedEventArgs> handler = (_, _) => newAction?.Invoke();
-                        button.Click += handler;
-                        onClickHandlers.Add(button, handler);
+                        void Handler(object? sender, RoutedEventArgs args) => newAction?.Invoke();
+                        button.Click += Handler;
+                        onClickHandlers.Add(button, Handler);
                     }
                 }
             });
         }
-        
+
         public static readonly AttachedProperty<Action> OnClickProperty = 
             AvaloniaProperty.RegisterAttached<Interaction, Button, Action>("OnClick");
 
