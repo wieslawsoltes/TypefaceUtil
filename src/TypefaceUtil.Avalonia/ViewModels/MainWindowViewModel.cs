@@ -24,6 +24,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
         private double _itemWidth;
         private double _itemHeight;
         private TypefaceViewModel? _typeface;
+        private GlyphViewModel? _selectedGlyph;
 
         public bool IsLoading
         {
@@ -79,6 +80,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
             set => this.RaiseAndSetIfChanged(ref _typeface, value);
         }
 
+        public GlyphViewModel? SelectedGlyph
+        {
+            get => _selectedGlyph;
+            set => this.RaiseAndSetIfChanged(ref _selectedGlyph, value);
+        }
+
         public ICommand InputFileCommand { get; }
 
         public ICommand LoadInputFileCommand { get; }
@@ -97,8 +104,8 @@ namespace TypefaceUtil.Avalonia.ViewModels
             FontSize = 32f;
             Color = "#000000";
 
-            ItemWidth = 64;
-            ItemHeight = 64;
+            ItemWidth = 96;
+            ItemHeight = 96;
 
             InputFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -113,7 +120,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                     InputFile = paths[0];
                 }
             });
-            
+
             LoadInputFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 IsLoading = true;
@@ -130,6 +137,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
             CloseCommand = ReactiveCommand.Create(() =>
             {
+                SelectedGlyph = null;
                 Typeface = null;
             });
 
@@ -251,7 +259,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
                         var svgPathData = skPath.ToSvgPathData();
 
-                        var glyph = new GlyphViewModel()
+                        var glyph = new GlyphViewModel(OpenGlyphDetail, CloseGlyphDetail)
                         {
                             CharCode = charCode,
                             GlyphIndex = glyphIndex,
@@ -270,6 +278,16 @@ namespace TypefaceUtil.Avalonia.ViewModels
                     }
                 }
             }
+        }
+
+        private void OpenGlyphDetail(GlyphViewModel glyphViewModel)
+        {
+            SelectedGlyph = glyphViewModel;
+        }
+
+        private void CloseGlyphDetail(GlyphViewModel glyphViewModel)
+        {
+            SelectedGlyph = null;
         }
 
         private static List<CharacterMap> Read(SKTypeface typeface)
