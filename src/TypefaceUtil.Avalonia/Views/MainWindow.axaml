@@ -263,6 +263,7 @@
       <Panel PointerPressed="GlyphView_OnPointerPressed"
              PointerReleased="GlyphView_OnPointerReleased"
              PointerMoved="GlyphView_OnPointerMoved"
+             Margin="36,36,36,36"
              IsEnabled="{Binding !IsLoading}"
              IsVisible="{Binding SelectedGlyph, Converter={x:Static ObjectConverters.IsNotNull}}">
         <Border Classes="transitionGlyph"
@@ -270,8 +271,7 @@
                 CornerRadius="6"
                 Background="White"
                 MaxWidth="400"
-                MaxHeight="400"
-                Margin="36,36,36,36">
+                MaxHeight="400">
           <DockPanel>
             <DockPanel DockPanel.Dock="Top" DataContext="{Binding SelectedGlyph}">
               <Button Command="{Binding CloseCommand}"
