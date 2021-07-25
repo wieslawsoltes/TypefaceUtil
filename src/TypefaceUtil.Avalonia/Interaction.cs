@@ -10,7 +10,7 @@ namespace TypefaceUtil.Avalonia
     {
         
     }
-    
+
     public class Interaction
     {
         static Interaction()
