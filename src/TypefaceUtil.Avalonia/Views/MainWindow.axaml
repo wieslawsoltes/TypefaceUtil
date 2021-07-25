@@ -260,57 +260,61 @@
         </Panel>
       </DockPanel>
       <!-- Glyph View -->
-      <Border Classes="transitionGlyph"
-              BoxShadow="4 11 30 1 #3F000000"
-              CornerRadius="6"
-              Background="White"
-              MaxWidth="400"
-              MaxHeight="400"
-              Margin="36,36,36,36"
-              IsEnabled="{Binding !IsLoading}"
-              IsVisible="{Binding SelectedGlyph, Converter={x:Static ObjectConverters.IsNotNull}}">
-        <DockPanel>
-          <DockPanel DockPanel.Dock="Top" DataContext="{Binding SelectedGlyph}">
-            <Button Command="{Binding CloseCommand}"
-                    Background="Transparent"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Margin="12,12,12,12"
-                    DockPanel.Dock="Right">
-              <PathIcon Width="15.703125" Height="15.703125" Opacity="0.6" Foreground="#000000" Data="M8.5625 7.85156L15.7031 15L15 15.7031L7.85156 8.5625L0.703125 15.7031L0 15L7.14063 7.85156L0 0.703125L0.703125 0L7.85156 7.14063L15 0L15.7031 0.703125L8.5625 7.85156Z"/>
-            </Button>
-            <Button Background="Transparent"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Margin="12,12,0,12"
-                    DockPanel.Dock="Right">
-              <Button.Flyout>
-                <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
-                  <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
-                  <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
-                  <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
-                  <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
-                  <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
-                  <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
-                  <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
-                  <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
-                  <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
-                  <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
-                  <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
-                </MenuFlyout>
-              </Button.Flyout>
-              <PathIcon Width="14" Height="16" Opacity="0.6" Foreground="#000000" Data="M14 6.28906L14 16L4 16L4 13L0 13L0 0L6.71094 0L9.71094 3L10.7109 3L14 6.28906ZM11 6L12.2891 6L11 4.71094L11 6ZM4 3L8.28906 3L6.28906 1L1 1L1 12L4 12L4 3ZM13 7L10 7L10 4L5 4L5 15L13 15L13 7Z"/>
-            </Button>
+      <Panel PointerPressed="GlyphView_OnPointerPressed"
+             PointerReleased="GlyphView_OnPointerReleased"
+             PointerMoved="GlyphView_OnPointerMoved"
+             IsEnabled="{Binding !IsLoading}"
+             IsVisible="{Binding SelectedGlyph, Converter={x:Static ObjectConverters.IsNotNull}}">
+        <Border Classes="transitionGlyph"
+                BoxShadow="4 11 30 1 #3F000000"
+                CornerRadius="6"
+                Background="White"
+                MaxWidth="400"
+                MaxHeight="400"
+                Margin="36,36,36,36">
+          <DockPanel>
+            <DockPanel DockPanel.Dock="Top" DataContext="{Binding SelectedGlyph}">
+              <Button Command="{Binding CloseCommand}"
+                      Background="Transparent"
+                      HorizontalAlignment="Right"
+                      HorizontalContentAlignment="Center"
+                      Margin="12,12,12,12"
+                      DockPanel.Dock="Right">
+                <PathIcon Width="15.703125" Height="15.703125" Opacity="0.6" Foreground="#000000" Data="M8.5625 7.85156L15.7031 15L15 15.7031L7.85156 8.5625L0.703125 15.7031L0 15L7.14063 7.85156L0 0.703125L0.703125 0L7.85156 7.14063L15 0L15.7031 0.703125L8.5625 7.85156Z"/>
+              </Button>
+              <Button Background="Transparent"
+                      HorizontalAlignment="Right"
+                      HorizontalContentAlignment="Center"
+                      Margin="12,12,0,12"
+                      DockPanel.Dock="Right">
+                <Button.Flyout>
+                  <MenuFlyout ShowMode="Standard" Placement="BottomEdgeAlignedLeft">
+                    <MenuItem Header="Copy as Xaml (StreamGeometry)" Command="{Binding CopyAsCommand}" CommandParameter="XamlStreamGeometry" />
+                    <MenuItem Header="Copy as Xaml (PathIcon)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPathIcon" />
+                    <MenuItem Header="Copy as Xaml (Path)" Command="{Binding CopyAsCommand}" CommandParameter="XamlPath" />
+                    <MenuItem Header="Copy as Xaml (Canvas)" Command="{Binding CopyAsCommand}" CommandParameter="XamlCanvas" />
+                    <MenuItem Header="Copy as Xaml (GeometryDrawing)" Command="{Binding CopyAsCommand}" CommandParameter="XamlGeometryDrawing" />
+                    <MenuItem Header="Copy as Xaml (DrawingGroup)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingGroup" />
+                    <MenuItem Header="Copy as Xaml (DrawingImage)" Command="{Binding CopyAsCommand}" CommandParameter="XamlDrawingImage" />
+                    <MenuItem Header="Copy as Xaml (Image)" Command="{Binding CopyAsCommand}" CommandParameter="XamlImage" />
+                    <MenuItem Header="Copy as Svg (Path Data)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPathData" />
+                    <MenuItem Header="Copy as Svg (Path)" Command="{Binding CopyAsCommand}" CommandParameter="SvgPath" />
+                    <MenuItem Header="Copy as Svg (Svg)" Command="{Binding CopyAsCommand}" CommandParameter="Svg" />
+                  </MenuFlyout>
+                </Button.Flyout>
+                <PathIcon Width="14" Height="16" Opacity="0.6" Foreground="#000000" Data="M14 6.28906L14 16L4 16L4 13L0 13L0 0L6.71094 0L9.71094 3L10.7109 3L14 6.28906ZM11 6L12.2891 6L11 4.71094L11 6ZM4 3L8.28906 3L6.28906 1L1 1L1 12L4 12L4 3ZM13 7L10 7L10 4L5 4L5 15L13 15L13 7Z"/>
+              </Button>
+            </DockPanel>
+            <DockPanel DataContext="{Binding SelectedGlyph}">
+              <controls:SKPathControl Path="{Binding Path}"
+                                      Paint="{Binding Paint}"
+                                      Stretch="Uniform"
+                                      StretchDirection="Both"
+                                      Margin="36, 12, 36,36"/>
+            </DockPanel>
           </DockPanel>
-          <DockPanel DataContext="{Binding SelectedGlyph}">
-            <controls:SKPathControl Path="{Binding Path}"
-                                    Paint="{Binding Paint}"
-                                    Stretch="Uniform"
-                                    StretchDirection="Both"
-                                    Margin="36, 12, 36,36"/>
-          </DockPanel>
-        </DockPanel>
-      </Border>
+        </Border>
+      </Panel>
     </Panel>
   </Panel>
 </Window>
