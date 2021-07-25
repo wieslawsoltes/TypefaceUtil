@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -54,12 +55,20 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
         public ICommand CopyAsCommand { get; }
 
-        public GlyphViewModel()
+        public ICommand OpenCommand { get; }
+
+        public ICommand CloseCommand { get; }
+
+        public GlyphViewModel(Action<GlyphViewModel> onOpen, Action<GlyphViewModel> onClose)
         {
             CopyAsCommand = ReactiveCommand.CreateFromTask<string>(async (format) =>
             {
                 await CopyAs(format, _color ?? "#000000");
             });
+
+            OpenCommand = ReactiveCommand.Create(() => onOpen.Invoke(this));
+
+            CloseCommand = ReactiveCommand.Create(() => onClose.Invoke(this));
         }
 
         public string? Export(string format, string color, bool addXamlKey)
