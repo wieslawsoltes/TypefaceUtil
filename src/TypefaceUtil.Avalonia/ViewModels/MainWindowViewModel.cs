@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -209,7 +210,14 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize, color);
+            if (typefaceViewModel.Glyphs is { })
+            {
+                foreach (var glyph in Process(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
+                {
+                    typefaceViewModel.Glyphs.Add(glyph);
+                }
+            }
+            
             Typeface = typefaceViewModel;
         }
 
@@ -229,15 +237,22 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 return;
             }
 
-            Process(typefaceViewModel, fontSize, color);
+            if (typefaceViewModel.Glyphs is { })
+            {
+                foreach (var glyph in Process(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
+                {
+                    typefaceViewModel.Glyphs.Add(glyph);
+                }
+            }
+
             Typeface = typefaceViewModel;
         }
 
-        private void Process(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
+        private IEnumerable<GlyphViewModel> Process(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
         {                    
             if (typefaceViewModel?.Typeface is null || typefaceViewModel?.CharacterMaps is null || typefaceViewModel?.Glyphs is null)
             {
-                return;
+                yield break;
             }
 
             var skFont = typefaceViewModel.Typeface.ToFont(fontSize, 1f, 0f);
@@ -274,7 +289,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
                             SvgPathData = svgPathData
                         };
 
-                        typefaceViewModel.Glyphs.Add(glyph);
+                        yield return glyph;
                     }
                 }
             }
