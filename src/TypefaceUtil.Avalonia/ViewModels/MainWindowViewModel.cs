@@ -212,7 +212,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
             if (typefaceViewModel.Glyphs is { })
             {
-                foreach (var glyph in Process(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
+                foreach (var glyph in LoadGlyphs(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
                 {
                     typefaceViewModel.Glyphs.Add(glyph);
                 }
@@ -239,7 +239,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
 
             if (typefaceViewModel.Glyphs is { })
             {
-                foreach (var glyph in Process(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
+                foreach (var glyph in LoadGlyphs(typefaceViewModel, fontSize, color).OrderBy(x => x.GlyphIndex))
                 {
                     typefaceViewModel.Glyphs.Add(glyph);
                 }
@@ -248,7 +248,7 @@ namespace TypefaceUtil.Avalonia.ViewModels
             Typeface = typefaceViewModel;
         }
 
-        private IEnumerable<GlyphViewModel> Process(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
+        private IEnumerable<GlyphViewModel> LoadGlyphs(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
         {                    
             if (typefaceViewModel?.Typeface is null || typefaceViewModel?.CharacterMaps is null || typefaceViewModel?.Glyphs is null)
             {
