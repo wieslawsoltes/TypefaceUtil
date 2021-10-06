@@ -9,21 +9,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.2.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
-    <Authors>Wiesław Šoltés</Authors>
-    <Company>Wiesław Šoltés</Company>
-    <Copyright>Copyright © Wiesław Šoltés 2020</Copyright>
-    <PackageProjectUrl>https://github.com/wieslawsoltes/TypefaceUtil</PackageProjectUrl>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Description>An OpenType typeface utilities.</Description>
     <PackageId>TypefaceUtil</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>opentype;ttf;fonts;cmap;unicode;skiasharp;text;converter;png;svg;xaml;avaloniaui;avalonia;typeface;codepoint</PackageTags>
   </PropertyGroup>
 
+  <Import Project="..\..\build\Base.props" />
+  <Import Project="..\..\build\SourceLink.props" />
+  <Import Project="..\..\build\SignAssembly.props" />
+  <Import Project="..\..\build\ReferenceAssemblies.props" />
+  <Import Project="..\..\build\SkiaSharp.props" />
+  <Import Project="..\..\build\SkiaSharp.Linux.props" />
+  <Import Project="..\..\build\System.CommandLine.props" />
+  
   <!--
   <PropertyGroup>
     <PublishTrimmed>True</PublishTrimmed>
@@ -48,12 +47,6 @@
   <Target Name="CopyClrCompressionDll" AfterTargets="Publish" Condition="'$(CoreRT)' == 'True'">
     <Copy SourceFiles="$(IlcPath)\framework\clrcompression.dll" DestinationFolder="$(PublishDir)" />
   </Target>
-
-  <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20303.1" />
-    <PackageReference Include="SkiaSharp" Version="2.88.0-preview.120" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0-preview.120" />
-  </ItemGroup>
 
   <ItemGroup Condition="'$(CoreRT)' == 'True'">
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />

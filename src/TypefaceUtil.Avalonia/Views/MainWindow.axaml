@@ -15,7 +15,7 @@
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="PreferSystemChrome"
         UseLayoutRounding="True"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Icon.ico"
         Title="TypefaceUtil">
   <Design.DataContext>
     <vm:MainWindowViewModel/>

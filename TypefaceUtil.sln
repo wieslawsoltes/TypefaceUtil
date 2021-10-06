@@ -7,13 +7,65 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil", "src\Typefac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil.OpenType", "src\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj", "{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeDataGenerator", "unicode\UnicodeDataGenerator.csproj", "{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FA0D294D-2942-4349-AC60-BB837AA95DAB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unicode", "unicode", "{6CBF405F-FC1E-4595-93B2-94D1D0ECC109}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtil.Avalonia", "src\TypefaceUtil.Avalonia\TypefaceUtil.Avalonia.csproj", "{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnicodeDataGenerator", "src\UnicodeDataGenerator\UnicodeDataGenerator.csproj", "{DF30A956-2615-4B4A-A129-981DE567629F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}"
+ProjectSection(SolutionItems) = preProject
+	build\TypefaceUtil.public.snk = build\TypefaceUtil.public.snk
+	.editorconfig = .editorconfig
+	.nuke = .nuke
+	build.ps1 = build.ps1
+	build.sh = build.sh
+	global.json = global.json
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{24BDDCC3-B076-4684-94AF-8CBDDD2A8EBA}"
+ProjectSection(SolutionItems) = preProject
+	LICENSE.TXT = LICENSE.TXT
+	README.md = README.md
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C2F75A5F-9D68-48E1-AAD5-094542747228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtil.OpenType.UnitTests", "tests\TypefaceUtil.OpenType.UnitTests\TypefaceUtil.OpenType.UnitTests.csproj", "{80ADDBA5-A00F-4545-8642-951143DA2340}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{FFC56A7E-7F00-4EAD-827A-6242E9855688}"
+ProjectSection(SolutionItems) = preProject
+	.gitattributes = .gitattributes
+	.gitignore = .gitignore
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{429210F9-1870-4169-B2E1-FD834DB8BE86}"
+ProjectSection(SolutionItems) = preProject
+	nuget.config = nuget.config
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{57F2A3FD-99C6-4E6A-9813-B9B5F0FBC11D}"
+ProjectSection(SolutionItems) = preProject
+	build\Avalonia.Controls.Skia.props = build\Avalonia.Controls.Skia.props
+	build\Avalonia.Desktop.props = build\Avalonia.Desktop.props
+	build\Avalonia.Diagnostics.props = build\Avalonia.Diagnostics.props
+	build\Avalonia.props = build\Avalonia.props
+	build\Avalonia.ReactiveUI.props = build\Avalonia.ReactiveUI.props
+	build\Avalonia.Skia.props = build\Avalonia.Skia.props
+	build\Avalonia.Xaml.Behaviors.props = build\Avalonia.Xaml.Behaviors.props
+	build\Base.props = build\Base.props
+	build\ReferenceAssemblies.props = build\ReferenceAssemblies.props
+	build\SignAssembly.props = build\SignAssembly.props
+	build\SkiaSharp.Linux.props = build\SkiaSharp.Linux.props
+	build\SkiaSharp.props = build\SkiaSharp.props
+	build\SourceLink.props = build\SourceLink.props
+	build\Svg.Skia.props = build\Svg.Skia.props
+	build\System.CommandLine.props = build\System.CommandLine.props
+	build\System.Text.Json.props = build\System.Text.Json.props
+	build\XUnit.props = build\XUnit.props
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_build.csproj", "{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +81,22 @@ Global
 		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF30A956-2615-4B4A-A129-981DE567629F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF30A956-2615-4B4A-A129-981DE567629F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF30A956-2615-4B4A-A129-981DE567629F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF30A956-2615-4B4A-A129-981DE567629F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80ADDBA5-A00F-4545-8642-951143DA2340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80ADDBA5-A00F-4545-8642-951143DA2340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80ADDBA5-A00F-4545-8642-951143DA2340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80ADDBA5-A00F-4545-8642-951143DA2340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,8 +104,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{35DC5579-5E51-458F-BFFC-65133AE83F50} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
 		{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
-		{FB936A0D-7B38-4B6D-9DC4-31D819BEDD82} = {6CBF405F-FC1E-4595-93B2-94D1D0ECC109}
 		{DDCA69DA-405C-4A3B-AF4F-A969FE107D23} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
+		{DF30A956-2615-4B4A-A129-981DE567629F} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
+		{80ADDBA5-A00F-4545-8642-951143DA2340} = {C2F75A5F-9D68-48E1-AAD5-094542747228}
+		{FFC56A7E-7F00-4EAD-827A-6242E9855688} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
+		{429210F9-1870-4169-B2E1-FD834DB8BE86} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
+		{57F2A3FD-99C6-4E6A-9813-B9B5F0FBC11D} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
+		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D7D93DB-65A8-4680-ADDD-EE67EEC2C975}
