@@ -1,5 +1,6 @@
 # TypefaceUtil
 
+[![Build status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status/Sources/TypefaceUtil)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=87)
 ![CI](https://github.com/wieslawsoltes/TypefaceUtil/workflows/CI/badge.svg)
 
 [![NuGet](https://img.shields.io/nuget/v/TypefaceUtil.OpenType.svg)](https://www.nuget.org/packages/TypefaceUtil.OpenType)
