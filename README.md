@@ -1,7 +1,7 @@
 # TypefaceUtil
 
-[![Build status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status/Sources/TypefaceUtil)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=87)
-![CI](https://github.com/wieslawsoltes/TypefaceUtil/workflows/CI/badge.svg)
+[![Build Status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status/wieslawsoltes.TypefaceUtil?branchName=master)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=95&branchName=master)
+[![CI](https://github.com/wieslawsoltes/TypefaceUtil/actions/workflows/build.yml/badge.svg)](https://github.com/wieslawsoltes/TypefaceUtil/actions/workflows/build.yml)
 
 [![NuGet](https://img.shields.io/nuget/v/TypefaceUtil.OpenType.svg)](https://www.nuget.org/packages/TypefaceUtil.OpenType)
 [![NuGet](https://img.shields.io/nuget/dt/TypefaceUtil.OpenType.svg)](https://www.nuget.org/packages/TypefaceUtil.OpenType)
