@@ -17,10 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{13D366ED
 ProjectSection(SolutionItems) = preProject
 	build\TypefaceUtil.public.snk = build\TypefaceUtil.public.snk
 	.editorconfig = .editorconfig
-	.nuke = .nuke
 	build.ps1 = build.ps1
 	build.sh = build.sh
 	global.json = global.json
+	azure-pipelines.yml = azure-pipelines.yml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{24BDDCC3-B076-4684-94AF-8CBDDD2A8EBA}"
