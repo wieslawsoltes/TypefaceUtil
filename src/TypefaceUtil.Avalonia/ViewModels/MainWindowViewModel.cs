@@ -115,7 +115,12 @@ namespace TypefaceUtil.Avalonia.ViewModels
                 dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"ttf"}, Name = "TTF Files"});
                 dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"otf"}, Name = "OTF Files"});
                 dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"*"}, Name = "All Files"});
-                var paths = await dlg.ShowAsync((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow);
+                var window = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+                if (window is null)
+                {
+                    return;
+                }
+                var paths = await dlg.ShowAsync(window);
                 if (paths is { Length: 1 })
                 {
                     InputFile = paths[0];
