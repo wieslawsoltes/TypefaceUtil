@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using ReactiveUI;
 
-namespace TypefaceUtil.Avalonia.ViewModels
+namespace TypefaceUtil.Avalonia.ViewModels;
+
+public class ViewModelBase : ReactiveObject
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
 }

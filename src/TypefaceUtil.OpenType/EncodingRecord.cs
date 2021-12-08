@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace TypefaceUtil.OpenType
+namespace TypefaceUtil.OpenType;
+
+internal struct EncodingRecord
 {
-    internal struct EncodingRecord
-    {
-        public UInt16 platformID;
-        public UInt16 encodingID;
-        public UInt32 offset;
-    }
+    public UInt16 platformID;
+    public UInt16 encodingID;
+    public UInt32 offset;
 }
