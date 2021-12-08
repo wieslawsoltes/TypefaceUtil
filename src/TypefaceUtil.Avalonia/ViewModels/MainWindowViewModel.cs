@@ -273,6 +273,10 @@ namespace TypefaceUtil.Avalonia.ViewModels
                         var charCode = kvp.Key;
                         var glyphIndex = kvp.Value;
                         var skPath = skFont.GetGlyphPath(glyphIndex);
+                        if (skPath is null)
+                        {
+                            continue;
+                        }
 
                         var skTranslationMatrix = SKMatrix.CreateTranslation(-skPath.Bounds.Left, -skPath.Bounds.Top);
                         skPath.Transform(skTranslationMatrix);
