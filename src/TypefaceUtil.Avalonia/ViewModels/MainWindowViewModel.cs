@@ -115,7 +115,7 @@ public class MainWindowViewModel : ViewModelBase
             dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"ttf"}, Name = "TTF Files"});
             dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"otf"}, Name = "OTF Files"});
             dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"*"}, Name = "All Files"});
-            var window = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             if (window is null)
             {
                 return;
@@ -176,10 +176,13 @@ public class MainWindowViewModel : ViewModelBase
 
                         return sb.ToString();
                     });
- 
+
                     if (!string.IsNullOrWhiteSpace(allText))
                     {
-                        await Application.Current.Clipboard.SetTextAsync(allText);
+                        if (Application.Current?.Clipboard is { } clipboard)
+                        {
+                            await clipboard.SetTextAsync(allText);
+                        }
                     }
                 }
                 catch
