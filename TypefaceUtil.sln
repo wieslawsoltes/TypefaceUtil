@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil", "src\TypefaceUtil\TypefaceUtil.csproj", "{35DC5579-5E51-458F-BFFC-65133AE83F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil.CLI", "src\TypefaceUtil.CLI\TypefaceUtil.CLI.csproj", "{35DC5579-5E51-458F-BFFC-65133AE83F50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypefaceUtil.OpenType", "src\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj", "{A97DD9DD-60D0-4D3C-847E-BAF7322BDBAE}"
 EndProject
@@ -63,6 +63,7 @@ ProjectSection(SolutionItems) = preProject
 	build\System.CommandLine.props = build\System.CommandLine.props
 	build\System.Text.Json.props = build\System.Text.Json.props
 	build\XUnit.props = build\XUnit.props
+	build\Avalonia.Web.Blazor.props = build\Avalonia.Web.Blazor.props
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_build.csproj", "{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}"
