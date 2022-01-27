@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_buil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtilAvalonia.Desktop", "src\TypefaceUtilAvalonia.Desktop\TypefaceUtilAvalonia.Desktop.csproj", "{0F1B7AE5-AE2D-4311-86E3-46910F7B3ABD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypefaceUtilAvalonia.Web", "src\TypefaceUtilAvalonia.Web\TypefaceUtilAvalonia.Web.csproj", "{B9F49AF5-FCBE-416E-8289-8D680B579854}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{0F1B7AE5-AE2D-4311-86E3-46910F7B3ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F1B7AE5-AE2D-4311-86E3-46910F7B3ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1B7AE5-AE2D-4311-86E3-46910F7B3ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F49AF5-FCBE-416E-8289-8D680B579854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F49AF5-FCBE-416E-8289-8D680B579854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F49AF5-FCBE-416E-8289-8D680B579854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F49AF5-FCBE-416E-8289-8D680B579854}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +125,7 @@ Global
 		{57F2A3FD-99C6-4E6A-9813-B9B5F0FBC11D} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
 		{A66A3423-81AE-43B9-AAA6-0FBC44BE5152} = {13D366ED-5898-462D-B5F6-BCCDBBCD2C5F}
 		{0F1B7AE5-AE2D-4311-86E3-46910F7B3ABD} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
+		{B9F49AF5-FCBE-416E-8289-8D680B579854} = {FA0D294D-2942-4349-AC60-BB837AA95DAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D7D93DB-65A8-4680-ADDD-EE67EEC2C975}
