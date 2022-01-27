@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -6,19 +6,16 @@ using Avalonia.Media;
 
 namespace TypefaceUtil.Avalonia.Views;
 
-public partial class MainWindow : Window
+public class MainView : UserControl
 {
-    private bool _isDragging = false;
+    private bool _isDragging;
     private Control? _dragControl;
     private Point _startPoint;
     private TranslateTransform? _dragTransform;
 
-    public MainWindow()
+    public MainView()
     {
         InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
     }
 
     private void InitializeComponent()
@@ -61,3 +58,4 @@ public partial class MainWindow : Window
         }
     }
 }
+

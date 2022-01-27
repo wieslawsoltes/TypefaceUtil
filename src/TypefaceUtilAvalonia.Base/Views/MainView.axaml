@@ -1,26 +1,15 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:TypefaceUtil.Avalonia.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:Avalonia.Controls.Skia;assembly=Avalonia.Controls.Skia"
-        mc:Ignorable="d" d:DesignWidth="735" d:DesignHeight="438"
-        x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
-        x:Name="MainWindow"
-        MinWidth="735"
-        MinHeight="438"
-        WindowStartupLocation="CenterScreen"
-        Background="{x:Null}"
-        TransparencyLevelHint="AcrylicBlur"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="PreferSystemChrome"
-        UseLayoutRounding="True"
-        Icon="/Assets/Icon.ico"
-        Title="TypefaceUtil">
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TypefaceUtil.Avalonia.ViewModels"
+             xmlns:controls="clr-namespace:Avalonia.Controls.Skia;assembly=Avalonia.Controls.Skia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TypefaceUtil.Avalonia.Views.MainView">
   <Design.DataContext>
     <vm:MainWindowViewModel/>
   </Design.DataContext>
-  <Panel Margin="{Binding #MainWindow.OffScreenMargin}">
+  <Panel>
     <!-- Styles -->
     <Panel.Styles>
       <!-- transition -->
@@ -317,4 +306,5 @@
       </Panel>
     </Panel>
   </Panel>
-</Window>
+</UserControl>
+

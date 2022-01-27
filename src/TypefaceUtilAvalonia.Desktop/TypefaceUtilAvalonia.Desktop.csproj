@@ -4,19 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
-    <ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>..\TypefaceUtilAvalonia.Base\Assets\Icon.ico</ApplicationIcon>
+    <RootNamespace>TypefaceUtil.Avalonia</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <Description>An OpenType typeface utilities.</Description>
-    <PackageId>TypefaceUtil.Avalonia</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>opentype;ttf;fonts;cmap;unicode;skiasharp;text;converter;png;svg;xaml;avaloniaui;avalonia;typeface;codepoint</PackageTags>
-  </PropertyGroup>
 
   <PropertyGroup>
     <PublishTrimmed>False</PublishTrimmed>
@@ -38,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj" />
+    <ProjectReference Include="..\TypefaceUtilAvalonia.Base\TypefaceUtilAvalonia.Base.csproj" />
   </ItemGroup>
 
 </Project>

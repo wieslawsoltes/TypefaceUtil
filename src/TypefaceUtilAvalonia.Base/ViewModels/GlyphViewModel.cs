@@ -105,7 +105,7 @@ public class GlyphViewModel : ViewModelBase
         {
             try
             {
-                if (Application.Current?.Clipboard is { } clipboard)
+                if (Application.Current?.Clipboard is { } clipboard && text is { })
                 {
                     await clipboard.SetTextAsync(text);
                 }

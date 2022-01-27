@@ -207,7 +207,7 @@ public class MainWindowViewModel : ViewModelBase
         var inputFile = InputFile;
         var fontSize = FontSize;
         var color = Color ?? "#000000";
-        if (string.IsNullOrEmpty(inputFile))
+        if (string.IsNullOrEmpty(inputFile) || inputFile is null)
         {
             return;
         }
@@ -234,7 +234,7 @@ public class MainWindowViewModel : ViewModelBase
         var familyName = FamilyName;
         var fontSize = FontSize;
         var color = Color ?? "#000000";
-        if (string.IsNullOrEmpty(familyName))
+        if (string.IsNullOrEmpty(familyName) || familyName is null)
         {
             return;
         }

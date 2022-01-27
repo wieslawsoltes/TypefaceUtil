@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TypefaceUtil.Avalonia</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Description>An OpenType typeface utilities.</Description>
+    <PackageId>TypefaceUtilAvalonia.Base</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>opentype;ttf;fonts;cmap;unicode;skiasharp;text;converter;png;svg;xaml;avaloniaui;avalonia;typeface;codepoint</PackageTags>
+  </PropertyGroup>
+
+  <Import Project="..\..\build\Base.props" />
+  <Import Project="..\..\build\ReferenceAssemblies.props" />
+  <Import Project="..\..\build\Avalonia.props" />
+  <Import Project="..\..\build\Avalonia.Desktop.props" />
+  <Import Project="..\..\build\Avalonia.Diagnostics.props" />
+  <Import Project="..\..\build\Avalonia.ReactiveUI.props" />
+  <Import Project="..\..\build\Avalonia.Xaml.Behaviors.props" />
+  <Import Project="..\..\build\Avalonia.Controls.Skia.props" />
+  <Import Project="..\..\build\SkiaSharp.props" />
+  <Import Project="..\..\build\SkiaSharp.Linux.props" />
+  <Import Project="..\..\build\Svg.Skia.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj" />
+  </ItemGroup>
+
+</Project>
