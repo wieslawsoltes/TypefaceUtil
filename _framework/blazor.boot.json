@@ -143,9 +143,9 @@
       "System.Threading.Timer.dll": "sha256-KlbZuujOkq4PJRrsQiI9IkEnS2S3cbByh\/mZLtQIIqo=",
       "System.Xml.ReaderWriter.dll": "sha256-o05VSEd8zpkX8LXlzCNLb8BR3iUqDWwQ89Odwn862yc=",
       "Tmds.DBus.dll": "sha256-nyV1LWmSnDnTpR2fRuiHdt\/17QzgwU76pu5F76AU+Tk=",
-      "TypefaceUtil.OpenType.dll": "sha256-AsT3FiFGJ9H4wM\/G9aV7DVpI8UmQGvH0bsM9EHvwYIs=",
-      "TypefaceUtilAvalonia.Base.dll": "sha256-vJspqoELkzVVakSvpsvGV5\/pAbKuRfBsCILN8ETwArA=",
-      "TypefaceUtilAvalonia.Web.dll": "sha256-\/+G3dJ1JWa8s16t3CFwQ2CwL0lGrOCdBLF5Ud\/Tyt60="
+      "TypefaceUtil.OpenType.dll": "sha256-ac7+g6\/2BbANNMIZQvdhuTbfZCHZW\/jW+lhWKTIclCU=",
+      "TypefaceUtilAvalonia.Base.dll": "sha256-vLbmZMQU3LFbuDz4GWmHrd+pWY5GB\/9Gmbaicb8cO+E=",
+      "TypefaceUtilAvalonia.Web.dll": "sha256-HLIN8HWYLc3rhLmV9Hf08TZevXRnyyTVUgDlQJQyJTI="
     },
     "extensions": null,
     "lazyAssembly": null,
