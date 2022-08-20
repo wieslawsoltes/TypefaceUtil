@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
 using ReactiveUI;
 using SkiaSharp;
 using TypefaceUtil.OpenType;
@@ -18,6 +19,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private bool _isLoading;
     private string? _inputFile;
+    private MemoryStream? _inputData;
     private string? _familyName;
     private ObservableCollection<string>? _fontFamilies;
     private float _fontSize;
@@ -37,6 +39,12 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _inputFile;
         set => this.RaiseAndSetIfChanged(ref _inputFile, value);
+    }
+
+    public MemoryStream? InputData
+    {
+        get => _inputData;
+        set => this.RaiseAndSetIfChanged(ref _inputData, value);
     }
 
     public string? FamilyName
@@ -110,20 +118,43 @@ public class MainWindowViewModel : ViewModelBase
 
         InputFileCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var dlg = new OpenFileDialog();
-            dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"ttf", "otf"}, Name = "Font Files"});
-            dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"ttf"}, Name = "TTF Files"});
-            dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"otf"}, Name = "OTF Files"});
-            dlg.Filters.Add(new FileDialogFilter { Extensions = new List<string> {"*"}, Name = "All Files"});
-            var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (window is null)
+            var storageProvider = StorageService.GetStorageProvider();
+            if (storageProvider is null)
             {
                 return;
             }
-            var paths = await dlg.ShowAsync(window);
-            if (paths is { Length: 1 })
+
+            var result = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                InputFile = paths[0];
+                Title = "Open drawing",
+                FileTypeFilter = GetOpenFileTypes(),
+                AllowMultiple = false
+            });
+
+            var file = result.FirstOrDefault();
+
+            if (file is not null && file.CanOpenRead)
+            {
+                try
+                {
+                    InputData?.Dispose();
+                    InputFile = "";
+
+                    InputData = await Task.Run(async () =>
+                    {
+                        await using var stream = await file.OpenReadAsync();
+                        var ms = new MemoryStream();
+                        await stream.CopyToAsync(ms);
+                        ms.Position = 0;
+                        return ms;
+                    });
+                    InputFile = file.Name;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.StackTrace);
+                }
             }
         });
 
@@ -193,6 +224,18 @@ public class MainWindowViewModel : ViewModelBase
         });
     }
 
+    private List<FilePickerFileType> GetOpenFileTypes()
+    {
+        // TODO:
+        // "ttf", "otf" : "Font Files"
+        // "ttf" : "TTF Files"
+        // "otf" : "OTF Files"
+        return new List<FilePickerFileType>
+        {
+            StorageService.All
+        };
+    }
+
     private string[] SetGetFontFamilies()
     {
         var fontFamilies = SKFontManager.Default.GetFontFamilies();
@@ -205,14 +248,15 @@ public class MainWindowViewModel : ViewModelBase
     private void LoadInputFile()
     {
         var inputFile = InputFile;
+        var inputData = InputData;
         var fontSize = FontSize;
         var color = Color ?? "#000000";
-        if (string.IsNullOrEmpty(inputFile) || inputFile is null)
+        if (string.IsNullOrEmpty(inputFile))
         {
             return;
         }
 
-        var typefaceViewModel = LoadFromFile(inputFile);
+        var typefaceViewModel = LoadFromData(inputData);
         if (typefaceViewModel?.Typeface is null)
         {
             return;
@@ -234,7 +278,7 @@ public class MainWindowViewModel : ViewModelBase
         var familyName = FamilyName;
         var fontSize = FontSize;
         var color = Color ?? "#000000";
-        if (string.IsNullOrEmpty(familyName) || familyName is null)
+        if (string.IsNullOrEmpty(familyName))
         {
             return;
         }
@@ -258,12 +302,14 @@ public class MainWindowViewModel : ViewModelBase
 
     private IEnumerable<GlyphViewModel> LoadGlyphs(TypefaceViewModel? typefaceViewModel, float fontSize, string color)
     {                    
-        if (typefaceViewModel?.Typeface is null || typefaceViewModel?.CharacterMaps is null || typefaceViewModel?.Glyphs is null)
+        if (typefaceViewModel?.Typeface is null 
+            || typefaceViewModel.CharacterMaps is null
+            || typefaceViewModel.Glyphs is null)
         {
             yield break;
         }
 
-        var skFont = typefaceViewModel.Typeface.ToFont(fontSize, 1f, 0f);
+        var skFont = typefaceViewModel.Typeface.ToFont(fontSize);
 
         foreach (var characterMap in typefaceViewModel.CharacterMaps)
         {
@@ -344,11 +390,11 @@ public class MainWindowViewModel : ViewModelBase
         return null;
     }
 
-    private TypefaceViewModel? LoadFromFile(string path)
+    private TypefaceViewModel? LoadFromData(Stream? stream)
     {
-        if (!string.IsNullOrEmpty(path))
+        if (stream is { })
         {
-            using var typeface = SKTypeface.FromFile(path);
+            using var typeface = SKTypeface.FromStream(stream);
             if (typeface != null)
             {
                 var characterMaps = Read(typeface);

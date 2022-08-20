@@ -132,6 +132,7 @@
           <TextBox Text="{Binding InputFile}" 
                    Watermark="Input file path"
                    VerticalAlignment="Center"
+                   IsReadOnly="True"
                    Margin="6,0,12,0"/>
         </DockPanel>
         <DockPanel Margin="12,12,12,12" DockPanel.Dock="Top">
