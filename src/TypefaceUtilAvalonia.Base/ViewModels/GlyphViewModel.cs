@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
 using SkiaSharp;
 
@@ -105,7 +106,7 @@ public class GlyphViewModel : ViewModelBase
         {
             try
             {
-                if (Application.Current?.Clipboard is { } clipboard && text is { })
+                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.Clipboard: { } clipboard } && text is { })
                 {
                     await clipboard.SetTextAsync(text);
                 }

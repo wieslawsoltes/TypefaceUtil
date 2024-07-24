@@ -65,6 +65,7 @@ ProjectSection(SolutionItems) = preProject
 	build\XUnit.props = build\XUnit.props
 	build\Avalonia.Themes.Fluent.props = build\Avalonia.Themes.Fluent.props
 	build\Avalonia.Web.props = build\Avalonia.Web.props
+	build\Avalonia.Controls.ItemsRepeater.props = build\Avalonia.Controls.ItemsRepeater.props
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_build.csproj", "{A66A3423-81AE-43B9-AAA6-0FBC44BE5152}"

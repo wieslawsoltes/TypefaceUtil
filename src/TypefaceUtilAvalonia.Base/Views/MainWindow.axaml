@@ -5,7 +5,7 @@
         xmlns:views="clr-namespace:TypefaceUtil.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="735" d:DesignHeight="438"
         x:Class="TypefaceUtil.Avalonia.Views.MainWindow"
-        x:Name="MainWindow"
+        x:Name="Root"
         MinWidth="735" MinHeight="438"
         WindowStartupLocation="CenterScreen"
         Background="{x:Null}"
@@ -15,5 +15,5 @@
         UseLayoutRounding="True"
         Icon="/Assets/Icon.ico"
         Title="TypefaceUtil">
-  <views:MainView Margin="{Binding #MainWindow.OffScreenMargin}"/>
+  <views:MainView Margin="{Binding #Root.OffScreenMargin}"/>
 </Window>

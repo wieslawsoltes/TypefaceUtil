@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace TypefaceUtil.Avalonia.Views;
 
-public class SandBoxView : UserControl
+public partial class SandBoxView : UserControl
 {
     public SandBoxView()
     {

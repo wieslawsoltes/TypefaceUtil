@@ -6,7 +6,7 @@ using Avalonia.Media;
 
 namespace TypefaceUtil.Avalonia.Views;
 
-public class MainView : UserControl
+public partial class MainView : UserControl
 {
     private bool _isDragging;
     private Control? _dragControl;

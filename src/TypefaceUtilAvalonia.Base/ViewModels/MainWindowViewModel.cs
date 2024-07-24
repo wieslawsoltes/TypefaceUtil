@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
 using SkiaSharp;
@@ -133,7 +134,7 @@ public class MainWindowViewModel : ViewModelBase
 
             var file = result.FirstOrDefault();
 
-            if (file is not null && file.CanOpenRead)
+            if (file is not null)
             {
                 try
                 {
@@ -210,7 +211,7 @@ public class MainWindowViewModel : ViewModelBase
 
                     if (!string.IsNullOrWhiteSpace(allText))
                     {
-                        if (Application.Current?.Clipboard is { } clipboard)
+                        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.Clipboard: { } clipboard })
                         {
                             await clipboard.SetTextAsync(allText);
                         }

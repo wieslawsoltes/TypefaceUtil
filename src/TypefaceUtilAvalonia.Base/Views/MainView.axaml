@@ -147,7 +147,7 @@
                   VerticalAlignment="Center"
                   Margin="12,0,6,0"
                   DockPanel.Dock="Right"/>
-          <ComboBox Items="{Binding FontFamilies}"
+          <ComboBox ItemsSource="{Binding FontFamilies}"
                     SelectedItem="{Binding FamilyName, Mode=TwoWay}"
                     MinWidth="200"
                     HorizontalContentAlignment="Center"
@@ -201,7 +201,7 @@
         <Panel Margin="36,0,36,36">
           <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
                         VerticalScrollBarVisibility="Auto">
-            <ItemsRepeater Items="{Binding Typeface.Glyphs, FallbackValue={x:Null}}">
+            <ItemsRepeater ItemsSource="{Binding Typeface.Glyphs, FallbackValue={x:Null}}">
               <ItemsRepeater.Layout>
                 <UniformGridLayout Orientation="Horizontal"
                                    ItemsJustification="Center"
