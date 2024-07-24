@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:TypefaceUtil.Avalonia"
              Name="TypefaceUtil"
-             RequestedThemeVariant="Dark"
+             RequestedThemeVariant="Light"
              x:Class="TypefaceUtil.Avalonia.App">
     <Application.DataTemplates>
         <local:ViewLocator/>
