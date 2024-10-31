@@ -35,4 +35,8 @@
     <ProjectReference Include="..\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+  </ItemGroup>
+
 </Project>

@@ -14,6 +14,60 @@
         ExtendClientAreaChromeHints="PreferSystemChrome"
         UseLayoutRounding="True"
         Icon="/Assets/Icon.ico"
-        Title="TypefaceUtil">
-  <views:MainView Margin="{Binding #Root.OffScreenMargin}"/>
+        Title="TypefaceUtil"
+        x:DataType="views:FontsViewModel" x:CompileBindings="True">
+  <!-- <views:MainView Margin="{Binding #Root.OffScreenMargin}"/> -->
+  
+  <DockPanel Margin="0, 36,0,0">
+    
+    <ListBox DockPanel.Dock="Left"
+             ItemsSource="{Binding Fonts}"
+             SelectedItem="{Binding SelectedFont}"
+             Width="250">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <TextBlock Text="{Binding SelectedFont.Name}" 
+               DockPanel.Dock="Top" />
+
+    <ScrollViewer>
+
+      <ContentControl Content="{Binding SelectedFont}">
+        <ContentControl.ContentTemplate>
+          <DataTemplate DataType="views:Font">
+              <ItemsRepeater ItemsSource="{Binding Glyphs}">
+                <ItemsRepeater.Layout>
+                  <UniformGridLayout Orientation="Horizontal" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel>
+                      <SKPathControl Path="{Binding Path}" 
+                             Paint="{Binding Paint}"
+                             Width="32" 
+                             Height="32"
+                             Margin="12"
+                             Stretch="None"/>
+                      <!--
+                      <Viewbox Width="32" Height="32" Stretch="Uniform" Margin="12">
+                        <Path Data="{Binding PathData}" Fill="Black" Stroke="{x:Null}" />
+                      </Viewbox>
+                      -->
+                      <!-- <TextBlock Text="{Binding Path.Bounds.Width}" /> -->
+                      <!-- <TextBlock Text="{Binding Path.Bounds.Height}" /> -->
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+          </DataTemplate>
+        </ContentControl.ContentTemplate>
+      </ContentControl>
+
+    </ScrollViewer>
+  </DockPanel>
+  
 </Window>
