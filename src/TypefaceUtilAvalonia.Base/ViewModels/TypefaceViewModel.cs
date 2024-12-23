@@ -6,27 +6,14 @@ using TypefaceUtil.OpenType;
 
 namespace TypefaceUtil.Avalonia.ViewModels;
 
-public class TypefaceViewModel : ViewModelBase
+public partial class TypefaceViewModel : ViewModelBase
 {
-    private SKTypeface? _typeface;
-    private List<CharacterMap>? _characterMaps;
-    private ObservableCollection<GlyphViewModel>? _glyphs;
-
-    public SKTypeface? Typeface
-    {
-        get => _typeface;
-        set => this.RaiseAndSetIfChanged(ref _typeface, value);
-    }
-
-    public List<CharacterMap>? CharacterMaps
-    {
-        get => _characterMaps;
-        set => this.RaiseAndSetIfChanged(ref _characterMaps, value);
-    }
-
-    public ObservableCollection<GlyphViewModel>? Glyphs
-    {
-        get => _glyphs;
-        set => this.RaiseAndSetIfChanged(ref _glyphs, value);
-    }
+    [Reactive]
+    public partial SKTypeface? Typeface { get; set; }
+    
+    [Reactive]
+    public partial List<CharacterMap>? CharacterMaps { get; set; }
+    
+    [Reactive]
+    public partial ObservableCollection<GlyphViewModel>? Glyphs { get; set; }
 }

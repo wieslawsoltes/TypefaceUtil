@@ -9,51 +9,26 @@ using SkiaSharp;
 
 namespace TypefaceUtil.Avalonia.ViewModels;
 
-public class GlyphViewModel : ViewModelBase
+public partial class GlyphViewModel : ViewModelBase
 {
-    private int _charCode;
-    private ushort _glyphIndex;
-    private SKPath? _path;
-    private SKPaint? _paint;
-    private string? _color;
-    private string? _svgPathData;
-
-    public int CharCode
-    {
-        get => _charCode;
-        set => this.RaiseAndSetIfChanged(ref _charCode, value);
-    }
-
-    public ushort GlyphIndex
-    {
-        get => _glyphIndex;
-        set => this.RaiseAndSetIfChanged(ref _glyphIndex, value);
-    }
-
-    public SKPath? Path
-    {
-        get => _path;
-        set => this.RaiseAndSetIfChanged(ref _path, value);
-    }
-
-    public SKPaint? Paint
-    {
-        get => _paint;
-        set => this.RaiseAndSetIfChanged(ref _paint, value);
-    }
-
-    public string? Color
-    {
-        get => _color;
-        set => this.RaiseAndSetIfChanged(ref _color, value);
-    }
-
-    public string? SvgPathData
-    {
-        get => _svgPathData;
-        set => this.RaiseAndSetIfChanged(ref _svgPathData, value);
-    }
-
+    [Reactive]
+    public partial int CharCode { get; set; }
+    
+    [Reactive]
+    public partial ushort GlyphIndex { get; set; }
+    
+    [Reactive]
+    public partial SKPath? Path { get; set; }
+    
+    [Reactive]
+    public partial SKPaint? Paint { get; set; }
+    
+    [Reactive]
+    public partial string? Color { get; set; }
+    
+    [Reactive]
+    public partial string? SvgPathData { get; set; }
+    
     public ICommand CopyAsCommand { get; }
 
     public ICommand OpenCommand { get; }

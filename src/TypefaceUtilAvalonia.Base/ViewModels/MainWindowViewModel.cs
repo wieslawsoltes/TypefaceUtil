@@ -16,86 +16,41 @@ using TypefaceUtil.OpenType;
 
 namespace TypefaceUtil.Avalonia.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
-    private bool _isLoading;
-    private string? _inputFile;
-    private MemoryStream? _inputData;
-    private string? _familyName;
-    private ObservableCollection<string>? _fontFamilies;
-    private float _fontSize;
-    private string? _color;
-    private double _itemWidth;
-    private double _itemHeight;
-    private TypefaceViewModel? _typeface;
-    private GlyphViewModel? _selectedGlyph;
-
-    public bool IsLoading
-    {
-        get => _isLoading;
-        set => this.RaiseAndSetIfChanged(ref _isLoading, value);
-    }
-
-    public string? InputFile
-    {
-        get => _inputFile;
-        set => this.RaiseAndSetIfChanged(ref _inputFile, value);
-    }
-
-    public MemoryStream? InputData
-    {
-        get => _inputData;
-        set => this.RaiseAndSetIfChanged(ref _inputData, value);
-    }
-
-    public string? FamilyName
-    {
-        get => _familyName;
-        set => this.RaiseAndSetIfChanged(ref _familyName, value);
-    }
-
-    public ObservableCollection<string>? FontFamilies
-    {
-        get => _fontFamilies;
-        set => this.RaiseAndSetIfChanged(ref _fontFamilies, value);
-    }
-
-    public float FontSize
-    {
-        get => _fontSize;
-        set => this.RaiseAndSetIfChanged(ref _fontSize, value);
-    }
-
-    public string? Color
-    {
-        get => _color;
-        set => this.RaiseAndSetIfChanged(ref _color, value);
-    }
-
-    public double ItemWidth
-    {
-        get => _itemWidth;
-        set => this.RaiseAndSetIfChanged(ref _itemWidth, value);
-    }
-
-    public double ItemHeight
-    {
-        get => _itemHeight;
-        set => this.RaiseAndSetIfChanged(ref _itemHeight, value);
-    }
-
-    public TypefaceViewModel? Typeface
-    {
-        get => _typeface;
-        set => this.RaiseAndSetIfChanged(ref _typeface, value);
-    }
-
-    public GlyphViewModel? SelectedGlyph
-    {
-        get => _selectedGlyph;
-        set => this.RaiseAndSetIfChanged(ref _selectedGlyph, value);
-    }
-
+    [Reactive]
+    public partial bool IsLoading { get; set; }
+    
+    [Reactive]
+    public partial string? InputFile { get; set; }
+    
+    [Reactive]
+    public partial MemoryStream? InputData { get; set; }
+    
+    [Reactive]
+    public partial string? FamilyName { get; set; }
+    
+    [Reactive]
+    public partial ObservableCollection<string>? FontFamilies { get; set; }
+    
+    [Reactive]
+    public partial float FontSize { get; set; }
+    
+    [Reactive]
+    public partial string? Color { get; set; }
+    
+    [Reactive]
+    public partial double ItemWidth { get; set; }
+    
+    [Reactive]
+    public partial double ItemHeight { get; set; }
+    
+    [Reactive]
+    public partial TypefaceViewModel? Typeface { get; set; }
+    
+    [Reactive]
+    public partial GlyphViewModel? SelectedGlyph { get; set; }
+    
     public ICommand InputFileCommand { get; }
 
     public ICommand LoadInputFileCommand { get; }

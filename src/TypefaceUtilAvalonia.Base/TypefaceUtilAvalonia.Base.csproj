@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
     <RootNamespace>TypefaceUtil.Avalonia</RootNamespace>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <UseBackingFields>true</UseBackingFields>
+  </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
@@ -33,6 +37,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TypefaceUtil.OpenType\TypefaceUtil.OpenType.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveGenerator" Version="0.9.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
