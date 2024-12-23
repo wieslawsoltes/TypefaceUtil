@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 env:
     PROJECT_PATH: src/TypefaceUtilAvalonia.Web/TypefaceUtilAvalonia.Web.csproj
-    OUTPUT_PATH: src/TypefaceUtilAvalonia.Web/bin/Release/net9.0/browser-wasm/AppBundle
+    OUTPUT_PATH: src/TypefaceUtilAvalonia.Web/bin/Release/net9.0-browser/browser-wasm/AppBundle
 on:
   push:
     branches: [ master ]
